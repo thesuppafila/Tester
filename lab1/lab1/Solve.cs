@@ -17,43 +17,7 @@ namespace lab1
             d = column;
             Answer = Get_Answer(A, d);
         }
-
-        public double[] GetAnswer(double[,] A, double[] d)
-        {
-            int n = A.GetLength(0);
-            //получение диагоналей
-            double[] a = new double[n];
-            double[] b = new double[n];
-            double[] c = new double[n];
-            double[] x = new double[n];
-            for (int i = 0; i < n; i++)
-                b[i] = A[i, i];
-            for (int i = 1; i < n; i++)
-                a[i] = A[i, i - 1];
-            for (int i = 0; i < n - 1; i++)
-                c[i] = A[i, i + 1];
-
-            double[] beta = new double[n];
-            double[] alpha = new double[n];
-
-            //коэффициенты
-            beta[0] = b[0];
-            alpha[0] = d[0] / beta[0];
-
-            for (int i = 1; i < n; i++)
-            {
-                beta[i] = b[i] - (a[i] * c[i - 1] / beta[i - 1]);
-                alpha[i] = (d[i] - a[i] * alpha[i - 1]) / beta[i];
-            }
-            x[n - 1] = alpha[n - 1];
-
-            //получение результата
-            for (int i = n - 2; i >= 0; i--)
-                x[i] = alpha[i] - (c[i] * x[i + 1] / beta[i]);
-
-            return x;
-        }
-
+        
         public double[] Get_Answer(double[,] A, double[] d)
         {
             int n = A.GetLength(0);

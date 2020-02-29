@@ -15,9 +15,35 @@ namespace lab1
         public Form1()
         {
             InitializeComponent();
+            CreateTable();
         }
 
         private void NumericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            CreateTable();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            double[,] mass = new double[(int)numericUpDown1.Value, (int)numericUpDown1.Value];
+            double[] d = new double[(int)numericUpDown1.Value];
+
+            for (int i = 0; i < mass.GetLength(0); i++)
+            {
+                d[i] = Convert.ToDouble(dataGridView1[(int)numericUpDown1.Value, i].Value);
+                for (int j = 0; j < mass.GetLength(1); j++)
+                    mass[i, j] = Convert.ToDouble(dataGridView1[j, i].Value);
+            }
+            Solve solve = new Solve(mass, d);
+            int k = 1;
+            foreach (double x in solve.Answer)
+            {
+                listBox1.Items.Add("x" + k.ToString() + " = " + x.ToString());
+                k++;
+            }
+        }
+
+        private void CreateTable()
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
@@ -42,27 +68,6 @@ namespace lab1
             }
             dataGridView1.RowHeadersVisible = false;
 
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            double[,] mass = new double[(int)numericUpDown1.Value, (int)numericUpDown1.Value];
-            double[] d = new double[(int)numericUpDown1.Value];
-
-            for (int i = 0; i < mass.GetLength(0); i++)
-            {
-                d[i] = Convert.ToDouble(dataGridView1[(int)numericUpDown1.Value, i].Value);
-                for (int j = 0; j < mass.GetLength(1); j++)
-                    mass[i, j] = Convert.ToDouble(dataGridView1[j, i].Value);
-            }
-            Solve solve = new Solve(mass, d);
-            int k = 1;
-            foreach (double x in solve.Answer)
-            {
-                listBox1.Items.Add("x" + k.ToString() + " = " + x.ToString());
-                k++;
-            }
         }
     }
 }
