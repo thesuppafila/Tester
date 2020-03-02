@@ -14,7 +14,7 @@ namespace lab1
     {
         public Form1()
         {
-            InitializeComponent();
+            InitializeComponent();            
             CreateTable();
         }
 
@@ -25,6 +25,7 @@ namespace lab1
 
         private void button1_Click(object sender, EventArgs e)
         {
+            listBox1.Items.Clear();
             double[,] mass = new double[(int)numericUpDown1.Value, (int)numericUpDown1.Value];
             double[] d = new double[(int)numericUpDown1.Value];
 
@@ -45,6 +46,8 @@ namespace lab1
 
         private void CreateTable()
         {
+
+                        
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
             for (int i = 0; i < numericUpDown1.Value + 1; i++)
@@ -67,7 +70,14 @@ namespace lab1
                 dataGridView1.Rows.Add();
             }
             dataGridView1.RowHeadersVisible = false;
-
+            for (int i = 0; i < numericUpDown1.Value; i++)
+                for (int j = 0; j < numericUpDown1.Value; j++)
+                    if (i != j && j != i + 1 && j != i - 1)
+                    {
+                        dataGridView1[j, i].Value = 0;
+                        dataGridView1[j, i].ReadOnly = true;
+                    }
+            dataGridView1.AllowUserToResizeRows = false;
         }
     }
 }
