@@ -15,25 +15,8 @@ using System.Windows.Shapes;
 
 namespace lab3
 {
-    public class Pair
-    {
-        public double X { get; set; }
-        public double Y { get; set; }
+    public delegate double FuncDelegate(double x);
 
-        public Pair(double _x)
-        {
-            X = _x;
-            Y = f(X);
-        }
-
-        public double f(double x)
-        {
-            return Math.Round(Math.Sin(0.47 * x + 0.2) + Math.Pow(x, 2), 2);
-        }
-    }
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         double minX;
@@ -42,14 +25,13 @@ namespace lab3
         double minY;
         double maxY;
 
-        public double f(double x)
-        {
-            return Math.Round(Math.Sin(0.47 * x + 0.2) + Math.Pow(x, 2), 2);
-        }
+        FuncDelegate func;
 
         public MainWindow()
         {
             InitializeComponent();
+            comboBox1.SelectedIndex = 0;
+
             DrawingGroup group = new DrawingGroup();
 
             GeometryDrawing drw = new GeometryDrawing();
@@ -68,112 +50,75 @@ namespace lab3
 
         private void GetValuesButton_Click(object sender, RoutedEventArgs e)
         {
-
-            GetLinear();
-            GetRaw();
-            //return;*/
-            stirlingGraph.Points.Clear();
-            double a = double.Parse(aValue.Text);
-            minX = a;
-            minY = f(minX);
-            double b = double.Parse(bValue.Text);
-            maxX = b;
-            maxY = f(maxX);
+            minX = double.Parse(aValue.Text);
+            maxX = double.Parse(bValue.Text); ;
             int n = int.Parse(nValue.Text);
-            double step = (b - a) / n;
+            double step = (maxX - minX) / n;
             List<Pair> pairs = new List<Pair>();
             double[] x = new double[n];
             double[] fx = new double[n];
             for (int i = 0; i < n; i++)
             {
-                var p = new Pair(a + step * i);
+                var p = new Pair(minX + step * i, func);
                 pairs.Add(p);
                 x[i] = p.X;
                 fx[i] = p.Y;
             }
             dataGrid1.ItemsSource = pairs;
-            
+
             var pixelWidth = stirlingGraph.ActualWidth;
             var pixelHeight = stirlingGraph.ActualHeight;
             PointCollection points = new PointCollection((int)pixelWidth + 1);
-            for (int pixelX = 0; pixelX < pixelWidth; pixelX++)
-            {
-                var x1 = MapFromPixel(pixelX, pixelWidth, a, b);
-                var y = Stirling(x, fx, x1, n);
-                var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
-                points.Add(new Point(pixelX, pixelY));
-            }
-            stirlingGraph.Points = points;
+
+            rawGraph.Points = GetPoints(1);
+            linearGraph.Points = GetPoints(pixelWidth / n);
+            stirlingGraph.Points = GetPointsStirling(pairs);
+            neutonGraph.Points = GetPointsNeuton(pairs);
         }
 
-        void GetLinear()
+        PointCollection GetPoints(double step)
         {
-            double a = double.Parse(aValue.Text);
-            minX = a;
-            minY = f(minX);
-            double b = double.Parse(bValue.Text);
-            maxX = b;
-            maxY = f(maxX);
-            int n = int.Parse(nValue.Text);
-            double step = (b - a) / n;
-            List<Pair> pairs = new List<Pair>();
-            double[] x = new double[n];
-            double[] fx = new double[n];
-            for (int i = 0; i < n; i++)
-            {
-                var p = new Pair(a + step * i);
-                pairs.Add(p);
-                x[i] = p.X;
-                fx[i] = p.Y;
-            }
-            dataGrid1.ItemsSource = pairs;
-
             var pixelWidth = linearGraph.ActualWidth;
             var pixelHeight = linearGraph.ActualHeight;
             PointCollection points = new PointCollection((int)pixelWidth + 1);
-            for (double pixelX = 0; pixelX < pixelWidth; pixelX += pixelWidth / n)
+            for (double pixelX = 0; pixelX < pixelWidth; pixelX += step)
             {
-                var x1 = MapFromPixel(pixelX, pixelWidth, a, b);
-                var y = f(x1);
+                var x1 = MapFromPixel(pixelX, pixelWidth, minX, maxX);
+                var y = func(x1);
                 var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
                 points.Add(new Point(pixelX, pixelY));
             }
-            linearGraph.Points = points;
+            return points;
         }
 
-        void GetRaw()
+        PointCollection GetPointsStirling(List<Pair> pairs)
         {
-            double a = double.Parse(aValue.Text);
-            minX = a;
-            minY = f(minX);
-            double b = double.Parse(bValue.Text);
-            maxX = b;
-            maxY = f(maxX);
-            int n = int.Parse(nValue.Text);
-            double step = (b - a) / n;
-            List<Pair> pairs = new List<Pair>();
-            double[] x = new double[n];
-            double[] fx = new double[n];
-            for (int i = 0; i < n; i++)
-            {
-                var p = new Pair(a + step * i);
-                pairs.Add(p);
-                x[i] = p.X;
-                fx[i] = p.Y;
-            }
-            dataGrid1.ItemsSource = pairs;
-
-            var pixelWidth = rawGraph.ActualWidth;
-            var pixelHeight = rawGraph.ActualHeight;
+            var pixelWidth = linearGraph.ActualWidth;
+            var pixelHeight = linearGraph.ActualHeight;
             PointCollection points = new PointCollection((int)pixelWidth + 1);
-            for (double pixelX = 0; pixelX < pixelWidth; pixelX++)
+            for (int pixelX = 0; pixelX < pixelWidth; pixelX++)
             {
-                var x1 = MapFromPixel(pixelX, pixelWidth, a, b);
-                var y = f(x1);
+                var x1 = MapFromPixel(pixelX, pixelWidth, minX, maxX);
+                var y = Stirling(pairs.Select(x => x.X).ToArray(), pairs.Select(x => x.Y).ToArray(), x1);
                 var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
                 points.Add(new Point(pixelX, pixelY));
             }
-            rawGraph.Points = points;
+            return points;
+        }
+
+        PointCollection GetPointsNeuton(List<Pair> pairs)
+        {
+            var pixelWidth = linearGraph.ActualWidth;
+            var pixelHeight = linearGraph.ActualHeight;
+            PointCollection points = new PointCollection((int)pixelWidth + 1);
+            for (int pixelX = 0; pixelX < pixelWidth; pixelX++)
+            {
+                var x1 = MapFromPixel(pixelX, pixelWidth, minX, maxX);
+                var y = Stirling(pairs.Select(x => x.X).ToArray(), pairs.Select(x => x.Y).ToArray(), x1); //Заменить на Ньютона
+                var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
+                points.Add(new Point(pixelX, pixelY));
+            }
+            return points;
         }
 
         double MapFromPixel(double pixelV, double pixelMax, double minV, double maxV) =>
@@ -182,18 +127,17 @@ namespace lab3
         double MapToPixel(double v, double minV, double maxV, double pixelMax) =>
             (v - minV) / (maxV - minV) * pixelMax;
 
-        static double Stirling(double[] x, double[] fx, double x1, int n)
+        static double Stirling(double[] x, double[] fx, double x1)
         {
             double h, a, u, y1 = 0, d = 1, temp1 = 1, temp2 = 1, k = 1, l = 1;
+            int n = x.Length;
             double[,] delta = new double[n, n];
             int i, j, s;
             h = x[1] - x[0];
             s = (int)Math.Floor((double)(n / 2));
-            a = x[s]; 
+            a = x[s];
             u = (x1 - a) / h;
 
-            // Готовим прямую разницу
-            // стол
             for (i = 0; i < n - 1; ++i)
             {
                 delta[i, 0] = fx[i + 1] - fx[i];
@@ -207,8 +151,6 @@ namespace lab3
                 }
             }
 
-            // Расчет f (x) с использованием Стирлинга
-            // формула
             y1 = fx[s];
             for (i = 1; i <= n - 1; ++i)
             {
@@ -238,6 +180,26 @@ namespace lab3
                 }
             }
             return y1;
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            switch (comboBox.SelectedIndex)
+            {
+                case 0: functionLabel.Content = "Функция: F(x) = sin(0.47*x + 0.2) + x^2"; func = new FuncDelegate(f23); stirlingCheckBox.IsChecked = true; neutonCheckBox.IsChecked = false; minY = -1; maxY = 100; break;
+                case 1: functionLabel.Content = "Функция: F(x) = cos(x) + (x / 5)"; func = new FuncDelegate(f25); stirlingCheckBox.IsChecked = false; neutonCheckBox.IsChecked = true; minY = -5; maxY = 5; break;
+            }
+        }
+
+        public double f23(double x)
+        {
+            return Math.Sin(0.47 * x + 0.2) + Math.Pow(x, 2);
+        }
+
+        public double f25(double x)
+        {
+            return Math.Cos(x) + (x / 5);
         }
     }
 }

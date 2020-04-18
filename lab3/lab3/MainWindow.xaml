@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:lab3"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="b2v" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -14,8 +17,11 @@
 
         <StackPanel Grid.Column="0" Orientation="Vertical">
             <Label Content="Вариант" />
-            <ComboBox/>
-            <Label Content="Функция: F(x) = sin(0.47*x + 0.2) + x^2" />
+            <ComboBox x:Name="comboBox1" SelectionChanged="ComboBox_SelectionChanged">
+                <ComboBoxItem>23</ComboBoxItem>
+                <ComboBoxItem>25</ComboBoxItem>
+            </ComboBox>
+            <Label x:Name="functionLabel" Content="Функция: F(x) = sin(0.47*x + 0.2) + x^2" />
             <GroupBox Header="Параметры">
                 <StackPanel Orientation="Vertical">
                     <Label Content="a =" />
@@ -31,8 +37,23 @@
             <DataGrid x:Name="dataGrid1"/>
         </StackPanel>
 
-        <Polyline Grid.Column="1" Name="rawGraph" Stroke="Red" StrokeThickness="1"/>
-        <Polyline Grid.Column="1" Name="linearGraph" Stroke="Blue" StrokeThickness="1"/>
-        <Polyline Grid.Column="1" Name="stirlingGraph" Stroke="Green" StrokeThickness="1"/>
+        <Grid Grid.Column="1" Margin="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Polyline Grid.Row="0" Visibility="{Binding IsChecked, ElementName=rawCheckBox, Converter={StaticResource b2v}}" Name="rawGraph" Stroke="Red" StrokeThickness="1"/>
+            <Polyline Grid.Row="0" Visibility="{Binding IsChecked, ElementName=linearCheckBox, Converter={StaticResource b2v}}" Name="linearGraph" Stroke="Blue" StrokeThickness="1"/>
+            <Polyline Grid.Row="0" Visibility="{Binding IsChecked, ElementName=stirlingCheckBox, Converter={StaticResource b2v}}" Name="stirlingGraph" Stroke="Green" StrokeThickness="1"/>
+            <Polyline Grid.Row="0" Visibility="{Binding IsChecked, ElementName=neutonCheckBox, Converter={StaticResource b2v}}" Name="neutonGraph" Stroke="Black" StrokeThickness="1"/>
+
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <CheckBox x:Name="rawCheckBox" Foreground="Red" Content="Оригинальная функция" IsChecked="True" Margin="5, 0"/>
+                <CheckBox x:Name="linearCheckBox" Foreground="Blue" Content="Линейная интерполяция" IsChecked="True" Margin="5, 0"/>
+                <CheckBox x:Name="stirlingCheckBox" Foreground="Green" Content="Стирлинг" Margin="5, 0"/>
+                <CheckBox x:Name="neutonCheckBox" Foreground="Black"  Content="Ньютон" Margin="5, 0"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
