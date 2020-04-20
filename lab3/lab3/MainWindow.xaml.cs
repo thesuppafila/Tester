@@ -64,27 +64,45 @@ namespace lab3
                 x[i] = p.X;
                 fx[i] = p.Y;
             }
+            pairs.Add(new Pair(maxX, func));
             dataGrid1.ItemsSource = pairs;
 
             var pixelWidth = stirlingGraph.ActualWidth;
             var pixelHeight = stirlingGraph.ActualHeight;
             PointCollection points = new PointCollection((int)pixelWidth + 1);
 
-            rawGraph.Points = GetPoints(1);
-            linearGraph.Points = GetPoints(pixelWidth / n);
+            OxGraph.Points = new PointCollection() { new Point(0, pixelHeight - MapToPixel(0, minY, maxY, pixelHeight)), new Point(pixelWidth, pixelHeight - MapToPixel(0, minY, maxY, pixelHeight)) };
+            OyGraph.Points = new PointCollection() { new Point(MapToPixel(0, minX, maxX, pixelWidth), 0), new Point(MapToPixel(0, minX, maxX, pixelWidth), pixelHeight) };
+            rawGraph.Points = GetRawPoints(func);
+            linearGraph.Points = GetLinear(pairs);// GetPoints(pixelWidth / n);
             stirlingGraph.Points = GetPointsStirling(pairs);
             neutonGraph.Points = GetPointsNeuton(pairs);
         }
 
-        PointCollection GetPoints(double step)
+        PointCollection GetRawPoints(FuncDelegate func)
         {
             var pixelWidth = linearGraph.ActualWidth;
             var pixelHeight = linearGraph.ActualHeight;
             PointCollection points = new PointCollection((int)pixelWidth + 1);
-            for (double pixelX = 0; pixelX < pixelWidth; pixelX += step)
+            for (double pixelX = 0; pixelX < pixelWidth; pixelX++)
             {
                 var x1 = MapFromPixel(pixelX, pixelWidth, minX, maxX);
                 var y = func(x1);
+                var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
+                points.Add(new Point(pixelX, pixelY));
+            }
+            return points;
+        }
+
+        PointCollection GetLinear(List<Pair> pairs)
+        {
+            var pixelWidth = linearGraph.ActualWidth;
+            var pixelHeight = linearGraph.ActualHeight;
+            PointCollection points = new PointCollection((int)pixelWidth + 1);
+            for (double pixelX = 0; pixelX < pixelWidth; pixelX++)
+            {
+                var x1 = MapFromPixel(pixelX, pixelWidth, minX, maxX);
+                var y = Linear(pairs.Select(x => x.X).ToArray(), pairs.Select(x => x.Y).ToArray(), x1);
                 var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
                 points.Add(new Point(pixelX, pixelY));
             }
@@ -127,10 +145,26 @@ namespace lab3
         double MapToPixel(double v, double minV, double maxV, double pixelMax) =>
             (v - minV) / (maxV - minV) * pixelMax;
 
+        static double Linear(double[] x, double[] fx, double _x)
+        {
+            int x0 = 0;
+            int x1 = 0;
+            for (int i = 0; i < x.Length; i++)
+            {
+                if (x[i] > _x)
+                {
+                    x1 = i;
+                    break;
+                }
+                x0 = i;
+            }
+            return (_x - x[x0]) * (fx[x1] - fx[x0]) / (x[x1] - x[x0]) + fx[x0];
+        }
+
         static double Stirling(double[] x, double[] fx, double x1)
         {
             double h, a, u, y1 = 0, d = 1, temp1 = 1, temp2 = 1, k = 1, l = 1;
-            int n = x.Length;
+            int n = 5;// x.Length;
             double[,] delta = new double[n, n];
             int i, j, s;
             h = x[1] - x[0];
