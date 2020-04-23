@@ -71,13 +71,15 @@ namespace lab3
             var pixelHeight = stirlingGraph.ActualHeight;
             PointCollection points = new PointCollection((int)pixelWidth + 1);
 
-            OxGraph.Points = new PointCollection() { new Point(0, pixelHeight - MapToPixel(0, minY, maxY, pixelHeight)), new Point(pixelWidth, pixelHeight - MapToPixel(0, minY, maxY, pixelHeight)) };
+            OxGraph.Points = GetRawPoints((double v) => 0); //new PointCollection() { new Point(0, pixelHeight - MapToPixel(0, minY, maxY, pixelHeight)), new Point(pixelWidth, pixelHeight - MapToPixel(0, minY, maxY, pixelHeight)) };
             OyGraph.Points = new PointCollection() { new Point(MapToPixel(0, minX, maxX, pixelWidth), 0), new Point(MapToPixel(0, minX, maxX, pixelWidth), pixelHeight) };
             rawGraph.Points = GetRawPoints(func);
             linearGraph.Points = GetLinear(pairs);// GetPoints(pixelWidth / n);
             stirlingGraph.Points = GetPointsStirling(pairs);
             neutonGraph.Points = GetPointsNeuton(pairs);
         }
+
+        double osx(double x) => 0;
 
         PointCollection GetRawPoints(FuncDelegate func)
         {
