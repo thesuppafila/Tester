@@ -32,7 +32,7 @@
                     <TextBox x:Name="nValue"/>
                 </StackPanel>
             </GroupBox>
-            <Button x:Name="GetValuesButton" Content="GetValues" Click="GetValuesButton_Click"/>
+            <Button x:Name="GetValuesButton" Content="Получить значения" Click="GetValuesButton_Click"/>
             <Label Content="Таблица значений" Margin="0, 20, 0, 0"/>
             <DataGrid x:Name="dataGrid1"/>
         </StackPanel>
