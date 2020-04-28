@@ -5,38 +5,72 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab3"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="lab3" Height="450" Width="800">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="250px"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Orientation="Vertical">
-            <Label Content="Вариант" />
-            <ComboBox x:Name="comboBox1" SelectionChanged="ComboBox_SelectionChanged">
-                <ComboBoxItem>23</ComboBoxItem>
-                <ComboBoxItem>25</ComboBoxItem>
-            </ComboBox>
-            <Label x:Name="functionLabel" Content="Функция: F(x) = sin(0.47*x + 0.2) + x^2" />
-            <GroupBox Header="Параметры">
-                <StackPanel Orientation="Vertical">
-                    <Label Content="a =" />
-                    <TextBox x:Name="aValue"/>
-                    <Label Content="b =" />
-                    <TextBox x:Name="bValue"/>
-                    <Label Content="n =" />
-                    <TextBox x:Name="nValue"/>
-                </StackPanel>
-            </GroupBox>
-            <Button x:Name="GetValuesButton" Content="Получить значения" Click="GetValuesButton_Click"/>
-            <Label Content="Таблица значений" Margin="0, 20, 0, 0"/>
-            <DataGrid x:Name="dataGrid1"/>
-        </StackPanel>
-
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+                <Label Content="Вариант" />
+                <ComboBox x:Name="comboBox1" SelectionChanged="ComboBox_SelectionChanged">
+                    <ComboBoxItem>23</ComboBoxItem>
+                    <ComboBoxItem>25</ComboBoxItem>
+                </ComboBox>
+                <Label x:Name="functionLabel" Content="Функция: F(x) = sin(0.47*x + 0.2) + x^2" />
+                <GroupBox Header="Интервал по оси Y">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="2px"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="Min Y ="/>
+                        <TextBox Grid.Column="1" Grid.Row="0" x:Name="minY_TextBox" Text="{Binding MinY, Mode=TwoWay}"/>
+                        <Label Grid.Column="0" Grid.Row="2" Content="Max Y =" />
+                        <TextBox Grid.Column="1" Grid.Row="2" x:Name="maxY_TextBox" Text="{Binding MaxY, Mode=TwoWay}"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Интервал по оси X">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="2px"/>
+                            <RowDefinition/>
+                            <RowDefinition Height="2px"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0" Content="Min X ="/>
+                        <TextBox Grid.Column="1" Grid.Row="0" x:Name="minX_TextBox" Text="{Binding MinX, Mode=TwoWay}"/>
+                        <Label Grid.Column="0" Grid.Row="2" Content="Max X =" />
+                        <TextBox Grid.Column="1" Grid.Row="2" x:Name="maxX_TextBox" Text="{Binding MaxX, Mode=TwoWay}"/>
+                        <Label Grid.Column="0" Grid.Row="4" Content="N =" />
+                        <TextBox Grid.Column="1" Grid.Row="4" x:Name="n_textBox" Text="{Binding Count, Mode=TwoWay}"/>
+                    </Grid>
+                </GroupBox>
+                <Button x:Name="GetValuesButton" Content="Получить значения" Click="GetValuesButton_Click"/>
+                <Label Content="Таблица значений" Margin="0, 20, 0, 0"/>
+            </StackPanel>
+            <DataGrid Grid.Row="1" x:Name="dataGrid1" VerticalScrollBarVisibility="Visible"/>
+        </Grid> 
         <Grid Grid.Column="1" Margin="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
