@@ -24,11 +24,11 @@
             <Label x:Name="functionLabel" Content="Функция: F(x) = sin(0.47*x + 0.2) + x^2" />
             <GroupBox Header="Параметры">
                 <StackPanel Orientation="Vertical">
-                    <Label Content="a =" />
+                    <Label Content="Начало интервала =" />
                     <TextBox x:Name="aValue"/>
-                    <Label Content="b =" />
+                    <Label Content="Конец интервала" />
                     <TextBox x:Name="bValue"/>
-                    <Label Content="n =" />
+                    <Label Content="Количество точек =" />
                     <TextBox x:Name="nValue"/>
                 </StackPanel>
             </GroupBox>

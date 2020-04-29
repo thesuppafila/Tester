@@ -75,7 +75,7 @@ namespace lab3
             OyGraph.Points = new PointCollection() { new Point(MapToPixel(0, minX, maxX, pixelWidth), 0), new Point(MapToPixel(0, minX, maxX, pixelWidth), pixelHeight) };
             rawGraph.Points = GetRawPoints(func);
             linearGraph.Points = GetLinear(pairs);// GetPoints(pixelWidth / n);
-            stirlingGraph.Points = GetPointsStirling(pairs);
+            //stirlingGraph.Points = GetPointsStirling(pairs);
             neutonGraph.Points = GetPointsNeuton(pairs);
         }
 
@@ -219,11 +219,12 @@ namespace lab3
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = sender as ComboBox;
-            switch (comboBox.SelectedIndex)
+            functionLabel.Content = "Функция: F(x) = cos(x) + (x / 5)"; func = new FuncDelegate(f25); stirlingCheckBox.IsChecked = false; neutonCheckBox.IsChecked = true; minY = -5; maxY = 5;
+            /*switch (comboBox.SelectedIndex)
             {
                 case 0: functionLabel.Content = "Функция: F(x) = sin(0.47*x + 0.2) + x^2"; func = new FuncDelegate(f23); stirlingCheckBox.IsChecked = true; neutonCheckBox.IsChecked = false; minY = -1; maxY = 100; break;
                 case 1: functionLabel.Content = "Функция: F(x) = cos(x) + (x / 5)"; func = new FuncDelegate(f25); stirlingCheckBox.IsChecked = false; neutonCheckBox.IsChecked = true; minY = -5; maxY = 5; break;
-            }
+            }*/
         }
 
         public double f23(double x)
