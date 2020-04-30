@@ -19,63 +19,72 @@ namespace lab3
 
     public partial class MainWindow : Window
     {
-        double minX;
-        double maxX;
+        public static readonly DependencyProperty MinXProperty = DependencyProperty.Register("MinX", typeof(double), typeof(Window));
+        public static readonly DependencyProperty MaxXProperty = DependencyProperty.Register("MaxX", typeof(double), typeof(Window));
+        public static readonly DependencyProperty MinYProperty = DependencyProperty.Register("MinY", typeof(double), typeof(Window));
+        public static readonly DependencyProperty MaxYProperty = DependencyProperty.Register("MaxY", typeof(double), typeof(Window));
+        public static readonly DependencyProperty CountProperty = DependencyProperty.Register("Count", typeof(int), typeof(Window));
 
-        double minY;
-        double maxY;
+        private int count;
+        public int Count {
+            get { return (int)this.GetValue(CountProperty); }
+            set {
+                count = (value < 4) ? 4 : (value > 20) ? 20 : value;
+                this.SetValue(CountProperty, count);
+            }
+        }
+        public double MinX {
+            get { return (double)this.GetValue(MinXProperty); }
+            set { this.SetValue(MinXProperty, value); }
+        }
+        public double MaxX {
+            get { return (double)this.GetValue(MaxXProperty); }
+            set { this.SetValue(MaxXProperty, value); }
+        }
+
+        public double MinY {
+            get { return (double)this.GetValue(MinYProperty); }
+            set { this.SetValue(MinYProperty, value); }
+        }
+        public double MaxY {
+            get { return (double)this.GetValue(MaxYProperty); }
+            set { this.SetValue(MaxYProperty, value); }
+        }
 
         FuncDelegate func;
 
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
             comboBox1.SelectedIndex = 0;
-
-            DrawingGroup group = new DrawingGroup();
-
-            GeometryDrawing drw = new GeometryDrawing();
-            GeometryGroup gg = new GeometryGroup();
-
-            drw.Brush = Brushes.Beige;
-            drw.Pen = new Pen(Brushes.LightGray, 0.01);
-
-            RectangleGeometry myRectGeometry = new RectangleGeometry();
-            myRectGeometry.Rect = new Rect(0, 0, 1, 1);
-            gg.Children.Add(myRectGeometry);
-
-            drw.Geometry = gg;
-            group.Children.Add(drw);
+            MinX = -10;
+            MaxX = 10;
+            Count = 5;
         }
 
         private void GetValuesButton_Click(object sender, RoutedEventArgs e)
         {
-            minX = double.Parse(aValue.Text);
-            maxX = double.Parse(bValue.Text); ;
-            int n = int.Parse(nValue.Text);
-            double step = (maxX - minX) / n;
+            double step = (MaxX - MinX) / (Count + 1);
             List<Pair> pairs = new List<Pair>();
-            double[] x = new double[n];
-            double[] fx = new double[n];
-            for (int i = 0; i < n; i++)
+            pairs.Add(new Pair(MinX, func));
+            for (int i = 1; i <= Count; i++)
             {
-                var p = new Pair(minX + step * i, func);
+                var p = new Pair(MinX + step * i, func);
                 pairs.Add(p);
-                x[i] = p.X;
-                fx[i] = p.Y;
             }
-            pairs.Add(new Pair(maxX, func));
+            pairs.Add(new Pair(MaxX, func));
             dataGrid1.ItemsSource = pairs;
 
-            var pixelWidth = stirlingGraph.ActualWidth;
-            var pixelHeight = stirlingGraph.ActualHeight;
+            var pixelWidth = OxGraph.ActualWidth;
+            var pixelHeight = OxGraph.ActualHeight;
             PointCollection points = new PointCollection((int)pixelWidth + 1);
 
-            OxGraph.Points = new PointCollection() { new Point(0, pixelHeight - MapToPixel(0, minY, maxY, pixelHeight)), new Point(pixelWidth, pixelHeight - MapToPixel(0, minY, maxY, pixelHeight)) };
-            OyGraph.Points = new PointCollection() { new Point(MapToPixel(0, minX, maxX, pixelWidth), 0), new Point(MapToPixel(0, minX, maxX, pixelWidth), pixelHeight) };
+            OxGraph.Points = GetRawPoints((double v) => 0);
+            OyGraph.Points = new PointCollection() { new Point(MapToPixel(0, MinX, MaxX, pixelWidth), 0), new Point(MapToPixel(0, MinX, MaxX, pixelWidth), pixelHeight) };
             rawGraph.Points = GetRawPoints(func);
-            linearGraph.Points = GetLinear(pairs);// GetPoints(pixelWidth / n);
-            //stirlingGraph.Points = GetPointsStirling(pairs);
+            linearGraph.Points = GetLinear(pairs);
+            stirlingGraph.Points = GetPointsStirling(pairs);
             neutonGraph.Points = GetPointsNeuton(pairs);
         }
 
@@ -86,9 +95,9 @@ namespace lab3
             PointCollection points = new PointCollection((int)pixelWidth + 1);
             for (double pixelX = 0; pixelX < pixelWidth; pixelX++)
             {
-                var x1 = MapFromPixel(pixelX, pixelWidth, minX, maxX);
+                var x1 = MapFromPixel(pixelX, pixelWidth, MinX, MaxX);
                 var y = func(x1);
-                var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
+                var pixelY = pixelHeight - MapToPixel(y, MinY, MaxY, pixelHeight);
                 points.Add(new Point(pixelX, pixelY));
             }
             return points;
@@ -101,9 +110,9 @@ namespace lab3
             PointCollection points = new PointCollection((int)pixelWidth + 1);
             for (double pixelX = 0; pixelX < pixelWidth; pixelX++)
             {
-                var x1 = MapFromPixel(pixelX, pixelWidth, minX, maxX);
+                var x1 = MapFromPixel(pixelX, pixelWidth, MinX, MaxX);
                 var y = Linear(pairs.Select(x => x.X).ToArray(), pairs.Select(x => x.Y).ToArray(), x1);
-                var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
+                var pixelY = pixelHeight - MapToPixel(y, MinY, MaxY, pixelHeight);
                 points.Add(new Point(pixelX, pixelY));
             }
             return points;
@@ -116,9 +125,9 @@ namespace lab3
             PointCollection points = new PointCollection((int)pixelWidth + 1);
             for (int pixelX = 0; pixelX < pixelWidth; pixelX++)
             {
-                var x1 = MapFromPixel(pixelX, pixelWidth, minX, maxX);
+                var x1 = MapFromPixel(pixelX, pixelWidth, MinX, MaxX);
                 var y = Stirling(pairs.Select(x => x.X).ToArray(), pairs.Select(x => x.Y).ToArray(), x1);
-                var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
+                var pixelY = pixelHeight - MapToPixel(y, MinY, MaxY, pixelHeight);
                 points.Add(new Point(pixelX, pixelY));
             }
             return points;
@@ -131,19 +140,27 @@ namespace lab3
             PointCollection points = new PointCollection((int)pixelWidth + 1);
             for (int pixelX = 0; pixelX < pixelWidth; pixelX++)
             {
-                var x1 = MapFromPixel(pixelX, pixelWidth, minX, maxX);
-                var y = Newton(pairs.Select(x => x.X).ToArray(), pairs.Select(x => x.Y).ToArray(), x1); //Заменить на Ньютона
-                var pixelY = pixelHeight - MapToPixel(y, minY, maxY, pixelHeight);
+                var x1 = MapFromPixel(pixelX, pixelWidth, MinX, MaxX);
+                var y = Newton(pairs.Select(x => x.X).ToArray(), pairs.Select(x => x.Y).ToArray(), x1);
+                var pixelY = pixelHeight - MapToPixel(y, MinY, MaxY, pixelHeight);
                 points.Add(new Point(pixelX, pixelY));
             }
             return points;
         }
 
-        double MapFromPixel(double pixelV, double pixelMax, double minV, double maxV) =>
-            minV + (pixelV / pixelMax) * (maxX - minX);
+        double MapFromPixel(double pixelV, double pixelMax, double minV, double maxV) => minV + (pixelV / pixelMax) * (MaxX - MinX);
 
-        double MapToPixel(double v, double minV, double maxV, double pixelMax) =>
-            (v - minV) / (maxV - minV) * pixelMax;
+        double MapToPixel(double v, double minV, double maxV, double pixelMax) => (v - minV) / (maxV - minV) * pixelMax;
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = sender as ComboBox;
+            switch (comboBox.SelectedIndex)
+            {
+                case 0: functionLabel.Content = "Функция: F(x) = sin(0.47*x + 0.2) + x^2"; func = new FuncDelegate(f23); stirlingCheckBox.IsChecked = true; neutonCheckBox.IsChecked = false; MinY = -1; MaxY = 100; break;
+                case 1: functionLabel.Content = "Функция: F(x) = cos(x) + (x / 5)"; func = new FuncDelegate(f25); stirlingCheckBox.IsChecked = false; neutonCheckBox.IsChecked = true; MinY = -5; MaxY = 5; break;
+            }
+        }
 
         static double Linear(double[] x, double[] fx, double _x)
         {
@@ -164,7 +181,7 @@ namespace lab3
         static double Stirling(double[] x, double[] fx, double x1)
         {
             double h, a, u, y1 = 0, d = 1, temp1 = 1, temp2 = 1, k = 1, l = 1;
-            int n = 5;// x.Length;
+            int n = x.Length;
             double[,] delta = new double[n, n];
             int i, j, s;
             h = x[1] - x[0];
@@ -214,17 +231,6 @@ namespace lab3
                 }
             }
             return y1;
-        }        
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var comboBox = sender as ComboBox;
-            functionLabel.Content = "Функция: F(x) = cos(x) + (x / 5)"; func = new FuncDelegate(f25); stirlingCheckBox.IsChecked = false; neutonCheckBox.IsChecked = true; minY = -5; maxY = 5;
-            /*switch (comboBox.SelectedIndex)
-            {
-                case 0: functionLabel.Content = "Функция: F(x) = sin(0.47*x + 0.2) + x^2"; func = new FuncDelegate(f23); stirlingCheckBox.IsChecked = true; neutonCheckBox.IsChecked = false; minY = -1; maxY = 100; break;
-                case 1: functionLabel.Content = "Функция: F(x) = cos(x) + (x / 5)"; func = new FuncDelegate(f25); stirlingCheckBox.IsChecked = false; neutonCheckBox.IsChecked = true; minY = -5; maxY = 5; break;
-            }*/
         }
 
         public double f23(double x)
@@ -236,7 +242,6 @@ namespace lab3
         {
             return Math.Cos(x) + (x / 5);
         }
-
 
         public double dy(List<double> Y, List<double> X)
         {
