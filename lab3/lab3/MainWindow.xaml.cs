@@ -16,14 +16,21 @@ using System.Windows.Shapes;
 namespace lab3
 {
     public delegate double FuncDelegate(double x);
-
     public partial class MainWindow : Window
     {
         public static readonly DependencyProperty MinXProperty = DependencyProperty.Register("MinX", typeof(double), typeof(Window));
         public static readonly DependencyProperty MaxXProperty = DependencyProperty.Register("MaxX", typeof(double), typeof(Window));
         public static readonly DependencyProperty MinYProperty = DependencyProperty.Register("MinY", typeof(double), typeof(Window));
         public static readonly DependencyProperty MaxYProperty = DependencyProperty.Register("MaxY", typeof(double), typeof(Window));
-        public static readonly DependencyProperty CountProperty = DependencyProperty.Register("Count", typeof(int), typeof(Window));
+        public static readonly DependencyProperty CountProperty = DependencyProperty.Register("Count", typeof(int), typeof(Window), new FrameworkPropertyMetadata(), new ValidateValueCallback(validateValue));
+        
+        static bool validateValue(object value)
+        {
+            double currentValue = (double)value;
+            if (currentValue < 15)
+                return true;
+            return false;
+        }
 
         private int count;
         public int Count {
@@ -62,7 +69,7 @@ namespace lab3
             MaxX = 10;
             Count = 5;
         }
-
+        
         private void GetValuesButton_Click(object sender, RoutedEventArgs e)
         {
             double step = (MaxX - MinX) / (Count + 1);
@@ -84,7 +91,8 @@ namespace lab3
             OyGraph.Points = new PointCollection() { new Point(MapToPixel(0, MinX, MaxX, pixelWidth), 0), new Point(MapToPixel(0, MinX, MaxX, pixelWidth), pixelHeight) };
             rawGraph.Points = GetRawPoints(func);
             linearGraph.Points = GetLinear(pairs);
-            stirlingGraph.Points = GetPointsStirling(pairs);
+            if (pairs.Count % 2 != 0)
+                stirlingGraph.Points = GetPointsStirling(pairs);
             neutonGraph.Points = GetPointsNeuton(pairs);
         }
 
@@ -243,93 +251,58 @@ namespace lab3
             return Math.Cos(x) + (x / 5);
         }
 
-        public double dy(List<double> Y, List<double> X)
+        public double Newton(double[] MasX, double[] MasY, double x)
         {
-            if (Y.Count > 2)
+            int n = Count;
+            double step = MasX[1] - MasX[0];
+            double[,] mas = new double[n + 2, n + 1];
+            for (int i = 0; i < 2; i++)
             {
-                List<double> Yleft = new List<double>(Y);
-                List<double> Xleft = new List<double>(X);
-                Xleft.RemoveAt(0);
-                Yleft.RemoveAt(0);
-                List<double> Yright = new List<double>(Y);
-                List<double> Xright = new List<double>(X);
-                Xright.RemoveAt(Y.Count - 1);
-                Yright.RemoveAt(Y.Count - 1);
-                return (dy(Yleft, Xleft) - dy(Yright, Xright)) / (X[X.Count - 1] - X[0]);
-            }
-            else if (Y.Count == 2)
-            {
-                return (Y[1] - Y[0]) / (X[1] - X[0]);
-            }
-            else
-            {
-                throw new Exception("Not available parameter");
-            }
-        }
-
-        public double Newton(double[] X, double[] Y, double x)
-        {
-            double res = Y[0];
-            double buf;
-            List<double> Xlist;
-            List<double> Ylist;
-            for (int i = 1; i < Y.Length; i++)
-            {
-                Xlist = new List<double>();
-                Ylist = new List<double>();
-                buf = 1;
-                for (int j = 0; j <= i; j++)
+                for (int j = 0; j < n + 1; j++)
                 {
-                    Xlist.Add(X[j]);
-                    Ylist.Add(Y[j]);
-                    if (j < i)
-                        buf *= x - X[j];
+                    if (i == 0)
+                        mas[i, j] = MasX[j];
+                    else if (i == 1)
+                        mas[i, j] = MasY[j];
                 }
-                res += dy(Ylist, Xlist) * buf;
             }
-            return res;
-        }
+            int m = n;
+            for (int i = 2; i < n + 2; i++)
+            {
+                for (int j = 0; j < m; j++)
+                {
+                    mas[i, j] = mas[i - 1, j + 1] - mas[i - 1, j];
+                }
+                m--;
+            }
 
-        public double Factorial(int arg)
-        {
-            double res = 1;
-            for (int i = 2; i <= arg; i++)
-            {
-                res *= i;
-            }
-            return res;
-        }
+            double[] dy0 = new double[n + 1];
 
-        public double dy_h(List<double> Y, List<double> X, int number, int index)
-        {
-            if (number > 1)
+            for (int i = 0; i < n + 1; i++)
             {
-                return (dy_h(Y, X, number - 1, index + 1) - dy_h(Y, X, number - 1, index));
+                dy0[i] = mas[i + 1, 0];
             }
-            else if (number == 1)
-            {
-                return (Y[index + 1] - Y[index]);
-            }
-            else
-            {
-                throw new Exception("Not available parameter");
-            }
-        }
 
-        public double GetValue(double[] X, double[] Y, double x, double h)
-        {
-            double res = Y[0];
-            double buf;
-            List<double> Xlist = new List<double>(X);
-            List<double> Ylist = new List<double>(Y);
-            double q = (x - X[0]) / h;
-            buf = 1;
-            for (int i = 1; i < Y.Length; i++)
+            double res = dy0[0];
+            double[] xn = new double[n];
+            xn[0] = x - mas[0, 0];
+
+            for (int i = 1; i < n; i++)
             {
-                buf *= (q - i + 1) / i;
-                res += dy_h(Ylist, Xlist, i, 0) * buf;
+                double ans = xn[i - 1] * (x - mas[0, i]);
+                xn[i] = ans;
+                ans = 0;
             }
-            return res;
+
+            int m1 = n + 1;
+            int fact = 1;
+            for (int i = 1; i < m1; i++)
+            {
+                fact = fact * i;
+                res = res + (dy0[i] * xn[i - 1]) / (fact * Math.Pow(step, i));
+            }
+
+            return res;           
         }
     }
 }
