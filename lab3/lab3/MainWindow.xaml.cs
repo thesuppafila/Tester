@@ -23,10 +23,10 @@ namespace lab3
         public static readonly DependencyProperty MinYProperty = DependencyProperty.Register("MinY", typeof(double), typeof(Window));
         public static readonly DependencyProperty MaxYProperty = DependencyProperty.Register("MaxY", typeof(double), typeof(Window));
         public static readonly DependencyProperty CountProperty = DependencyProperty.Register("Count", typeof(int), typeof(Window), new FrameworkPropertyMetadata(), new ValidateValueCallback(validateValue));
-        
+
         static bool validateValue(object value)
         {
-            double currentValue = (double)value;
+            double currentValue = double.Parse(value.ToString());
             if (currentValue < 15)
                 return true;
             return false;
@@ -69,7 +69,7 @@ namespace lab3
             MaxX = 10;
             Count = 5;
         }
-        
+
         private void GetValuesButton_Click(object sender, RoutedEventArgs e)
         {
             double step = (MaxX - MinX) / (Count + 1);
@@ -93,7 +93,8 @@ namespace lab3
             linearGraph.Points = GetLinear(pairs);
             if (pairs.Count % 2 != 0)
                 stirlingGraph.Points = GetPointsStirling(pairs);
-            neutonGraph.Points = GetPointsNeuton(pairs);
+            if (Count > 0)
+                neutonGraph.Points = GetPointsNeuton(pairs);
         }
 
         PointCollection GetRawPoints(FuncDelegate func)
@@ -302,7 +303,7 @@ namespace lab3
                 res = res + (dy0[i] * xn[i - 1]) / (fact * Math.Pow(step, i));
             }
 
-            return res;           
+            return res;
         }
     }
 }
