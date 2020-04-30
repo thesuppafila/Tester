@@ -18,27 +18,23 @@ namespace lab3
     public delegate double FuncDelegate(double x);
     public partial class MainWindow : Window
     {
-        public static readonly DependencyProperty MinXProperty = DependencyProperty.Register("MinX", typeof(double), typeof(Window));
-        public static readonly DependencyProperty MaxXProperty = DependencyProperty.Register("MaxX", typeof(double), typeof(Window));
+        public static readonly DependencyProperty MinXProperty = DependencyProperty.Register("MinX", typeof(double), typeof(Window), new PropertyMetadata((double)-10));
+        public static readonly DependencyProperty MaxXProperty = DependencyProperty.Register("MaxX", typeof(double), typeof(Window), new PropertyMetadata((double)10));
         public static readonly DependencyProperty MinYProperty = DependencyProperty.Register("MinY", typeof(double), typeof(Window));
         public static readonly DependencyProperty MaxYProperty = DependencyProperty.Register("MaxY", typeof(double), typeof(Window));
-        public static readonly DependencyProperty CountProperty = DependencyProperty.Register("Count", typeof(int), typeof(Window), new FrameworkPropertyMetadata(), new ValidateValueCallback(validateValue));
+        public static readonly DependencyProperty CountProperty = DependencyProperty.Register("Count", typeof(int), typeof(Window), new PropertyMetadata(1, null, CountCoerceValueCallback));
 
-        static bool validateValue(object value)
+        private static object CountCoerceValueCallback(DependencyObject d, object baseValue)
         {
-            double currentValue = double.Parse(value.ToString());
-            if (currentValue < 15)
-                return true;
-            return false;
+            int currentValue = int.Parse(baseValue.ToString());
+            if (currentValue < 1) currentValue = 1;
+            if (currentValue > 15) currentValue = 15;
+            return currentValue;
         }
 
-        private int count;
         public int Count {
             get { return (int)this.GetValue(CountProperty); }
-            set {
-                count = (value < 4) ? 4 : (value > 20) ? 20 : value;
-                this.SetValue(CountProperty, count);
-            }
+            set { this.SetValue(CountProperty, value); }
         }
         public double MinX {
             get { return (double)this.GetValue(MinXProperty); }
@@ -65,9 +61,9 @@ namespace lab3
             InitializeComponent();
             DataContext = this;
             comboBox1.SelectedIndex = 0;
-            MinX = -10;
-            MaxX = 10;
-            Count = 5;
+            //MinX = -10;
+            //MaxX = 10;
+            //Count = 5;
         }
 
         private void GetValuesButton_Click(object sender, RoutedEventArgs e)
