@@ -23,6 +23,8 @@ namespace lab3
         public static readonly DependencyProperty MinYProperty = DependencyProperty.Register("MinY", typeof(double), typeof(Window));
         public static readonly DependencyProperty MaxYProperty = DependencyProperty.Register("MaxY", typeof(double), typeof(Window));
         public static readonly DependencyProperty CountProperty = DependencyProperty.Register("Count", typeof(int), typeof(Window), new PropertyMetadata(1, null, CountCoerceValueCallback));
+        public static readonly DependencyProperty CurrentXProperty = DependencyProperty.Register("CurrentX", typeof(double), typeof(Window));
+        public static readonly DependencyProperty CurrentYProperty = DependencyProperty.Register("CurrentY", typeof(double), typeof(Window));
 
         private static object CountCoerceValueCallback(DependencyObject d, object baseValue)
         {
@@ -30,7 +32,7 @@ namespace lab3
             if (currentValue < 1) currentValue = 1;
             if (currentValue > 15) currentValue = 15;
             return currentValue;
-        }
+        }        
 
         public int Count {
             get { return (int)this.GetValue(CountProperty); }
@@ -54,6 +56,17 @@ namespace lab3
             set { this.SetValue(MaxYProperty, value); }
         }
 
+        public double CurrentX {
+            get { return (double)this.GetValue(CurrentXProperty); }
+            set { this.SetValue(CurrentXProperty, value); }
+        }
+
+        public double CurrentY {
+            get { return (double)this.GetValue(CurrentYProperty); }
+            set { this.SetValue(CurrentYProperty, value); }
+        }
+
+
         FuncDelegate func;
 
         public MainWindow()
@@ -64,6 +77,42 @@ namespace lab3
             //MinX = -10;
             //MaxX = 10;
             //Count = 5;
+        }
+
+        private double GetCurrentYValue(double currentX)
+        {
+            switch (comboBox1.SelectedIndex)
+            {
+                case 0:
+                    func = new FuncDelegate(f23);
+                    stirlingCheckBox.IsChecked = true;
+                    neutonCheckBox.IsChecked = false;
+                    MinY = -1;
+                    MaxY = 100;
+                    break;
+                case 1: func = new FuncDelegate(f25);
+                    stirlingCheckBox.IsChecked = false;
+                    neutonCheckBox.IsChecked = true;
+                    MinY = -5;
+                    MaxY = 5;
+                    break;
+            }
+            double step = (MaxX - MinX) / (Count + 1);
+            List<Pair> pairs = new List<Pair>();
+            pairs.Add(new Pair(MinX, func));
+            for (int i = 1; i <= Count; i++)
+            {
+                var p = new Pair(MinX + step * i, func);
+                pairs.Add(p);
+            }
+            pairs.Add(new Pair(MaxX, func));
+            var y = Newton(pairs.Select(x => x.X).ToArray(), pairs.Select(x => x.Y).ToArray(), currentX);
+            return y;
+        }
+
+        private void GetCurrentYValue_Click(object sender, RoutedEventArgs e)
+        {
+            CurrentY = GetCurrentYValue(CurrentX);
         }
 
         private void GetValuesButton_Click(object sender, RoutedEventArgs e)
