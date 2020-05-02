@@ -61,9 +61,6 @@ namespace lab3
             InitializeComponent();
             DataContext = this;
             comboBox1.SelectedIndex = 0;
-            //MinX = -10;
-            //MaxX = 10;
-            //Count = 5;
         }
 
         private void GetValuesButton_Click(object sender, RoutedEventArgs e)
@@ -81,7 +78,8 @@ namespace lab3
 
             var pixelWidth = OxGraph.ActualWidth;
             var pixelHeight = OxGraph.ActualHeight;
-            PointCollection points = new PointCollection((int)pixelWidth + 1);
+
+            DrawPoints(pairs, pixelWidth, pixelHeight);
 
             OxGraph.Points = GetRawPoints((double v) => 0);
             OyGraph.Points = new PointCollection() { new Point(MapToPixel(0, MinX, MaxX, pixelWidth), 0), new Point(MapToPixel(0, MinX, MaxX, pixelWidth), pixelHeight) };
@@ -89,8 +87,23 @@ namespace lab3
             linearGraph.Points = GetLinear(pairs);
             if (pairs.Count % 2 != 0)
                 stirlingGraph.Points = GetPointsStirling(pairs);
-            if (Count > 0)
-                neutonGraph.Points = GetPointsNeuton(pairs);
+            neutonGraph.Points = GetPointsNeuton(pairs);
+        }
+
+        void DrawPoints(IEnumerable<Pair> pairs, double pixelWidth, double pixelHeight)
+        {
+            image1.Children.Clear();
+            foreach (Pair p in pairs)
+            {
+                Ellipse el = new Ellipse();
+                el.Width = 10;
+                el.Height = 10;
+                el.Margin = new Thickness(MapToPixel(p.X, MinX, MaxX, pixelWidth) - 5, pixelHeight - MapToPixel(p.Y, MinY, MaxY, pixelHeight) - 5, 0, 0);
+                el.Fill = Brushes.Transparent;
+                el.Stroke = Brushes.Black;
+                el.StrokeThickness = 1;
+                image1.Children.Add(el);
+            }
         }
 
         PointCollection GetRawPoints(FuncDelegate func)
@@ -145,7 +158,7 @@ namespace lab3
             PointCollection points = new PointCollection((int)pixelWidth + 1);
             for (int pixelX = 0; pixelX < pixelWidth; pixelX++)
             {
-                var x1 = MapFromPixel(pixelX, pixelWidth, MinX, MaxX);
+                var x1 = MapFromPixel(pixelX, pixelWidth, MinX, MaxX);                
                 var y = Newton(pairs.Select(x => x.X).ToArray(), pairs.Select(x => x.Y).ToArray(), x1);
                 var pixelY = pixelHeight - MapToPixel(y, MinY, MaxY, pixelHeight);
                 points.Add(new Point(pixelX, pixelY));
@@ -186,8 +199,9 @@ namespace lab3
         static double Stirling(double[] x, double[] fx, double x1)
         {
             double h, a, u, y1 = 0, d = 1, temp1 = 1, temp2 = 1, k = 1, l = 1;
+            double[,] delta;
             int n = x.Length;
-            double[,] delta = new double[n, n];
+            delta = new double[n, n];
             int i, j, s;
             h = x[1] - x[0];
             s = (int)Math.Floor((double)(n / 2));
@@ -235,6 +249,7 @@ namespace lab3
                     y1 += (temp2 / (d)) * (delta[s, i - 1]);
                 }
             }
+
             return y1;
         }
 
