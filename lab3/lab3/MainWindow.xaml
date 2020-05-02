@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab3"
         mc:Ignorable="d"
-        Title="Interpolation" Height="450" Width="800">
+        Title="Interpolation" Height="608" Width="845">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />
     </Window.Resources>
@@ -66,11 +66,31 @@
                         <TextBox Grid.Column="1" Grid.Row="4" x:Name="n_textBox" Text="{Binding Count, Mode=TwoWay}"/>
                     </Grid>
                 </GroupBox>
-                <Button x:Name="GetValuesButton" Content="Получить значения" Click="GetValuesButton_Click"/>
+                <Button  x:Name="GetValuesButton" Content="Получить значения" Click="GetValuesButton_Click"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Grid.Row="0" Content="Xn = "/>
+                    <TextBox Grid.Column="1" Grid.Row="0" x:Name="currentX_TextBox" Text="{Binding CurrentX, Mode=TwoWay}" Margin="0,5,0,0"/>
+                    <Label Grid.Column="0" Grid.Row="2" Content="Yn = "/>
+                    <TextBox Grid.Column="1" Grid.Row="2" x:Name="currentY_TextBox" Text="{Binding CurrentY, Mode=TwoWay}" Margin="0,5,0,0"/>
+                </Grid>
+
+                <Button Grid.Row="1" x:Name="GetCurrentYValueButton" Content="Получить Yn" Click="GetCurrentYValue_Click" Margin="0,5,0,0"/>
+
                 <Label Content="Таблица значений" Margin="0, 20, 0, 0"/>
             </StackPanel>
             <DataGrid Grid.Row="1" x:Name="dataGrid1" VerticalScrollBarVisibility="Visible"/>
-        </Grid>
+        </Grid> 
         <Grid Grid.Column="1" Margin="2px">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
