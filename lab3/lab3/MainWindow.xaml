@@ -90,15 +90,16 @@
                 <Label Content="Таблица значений" Margin="0, 20, 0, 0"/>
             </StackPanel>
             <DataGrid Grid.Row="1" x:Name="dataGrid1" VerticalScrollBarVisibility="Visible"/>
-        </Grid>
-        <Grid Grid.Column="1" Margin="2">
+        </Grid> 
+        <Grid Grid.Column="1" Margin="2px">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
 
-            <Polyline Grid.Row="0" Name="OxGraph" Stroke="Black" StrokeThickness="1"/>
-            <Polyline Grid.Row="0" Name="OyGraph" Stroke="Black" StrokeThickness="1"/>
+            <Canvas x:Name="image1" Grid.Row="0"/>
+            <Polyline Grid.Row="0" Name="OxGraph" Stroke="Black" StrokeThickness="2"/>
+            <Polyline Grid.Row="0" Name="OyGraph" Stroke="Black" StrokeThickness="2"/>
             <Polyline Grid.Row="0" Visibility="{Binding IsChecked, ElementName=rawCheckBox, Converter={StaticResource b2v}}" Name="rawGraph" Stroke="Red" StrokeThickness="1"/>
             <Polyline Grid.Row="0" Visibility="{Binding IsChecked, ElementName=linearCheckBox, Converter={StaticResource b2v}}" Name="linearGraph" Stroke="Blue" StrokeThickness="1"/>
             <Polyline Grid.Row="0" Visibility="{Binding IsChecked, ElementName=stirlingCheckBox, Converter={StaticResource b2v}}" Name="stirlingGraph" Stroke="Green" StrokeThickness="1"/>
