@@ -49,6 +49,11 @@ namespace lab4
             set { this.SetValue(CurrentXProperty, value); }
         }
 
+        //public double CurrentStep {
+        //    get { return (double)this.GetValue(CurrentStepProperty); }
+        //    set { this.SetValue(CurrentStepProperty, value); }
+        //}
+
         public double CurrentStep {
             get { return (double)this.GetValue(CurrentStepProperty); }
             set { this.SetValue(CurrentStepProperty, value); }
@@ -66,6 +71,8 @@ namespace lab4
 
 
         FuncDelegate func;
+        FuncDelegate DyFunc;
+        FuncDelegate DdyFunc;
 
         public MainWindow()
         {
@@ -77,13 +84,27 @@ namespace lab4
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = sender as ComboBox;
-            MinX = -5;
-            MaxX = 5;
-            Count = 10;
+
             switch (comboBox.SelectedIndex)
             {
-                case 0: functionLabel.Content = "Функция: F(x) = x^2 / sqrt(x^2 + 2)"; func = new FuncDelegate(f23); break;
-                case 1: functionLabel.Content = "Функция: F(x) = sqrt(x^2 + 1) / (2*x + 2.5)"; func = new FuncDelegate(f25); break;
+                case 0:
+                    functionLabel.Content = "Функция: F(x) = x^2 / sqrt(x^2 + 2)";
+                    func = new FuncDelegate(f23);
+                    DyFunc = new FuncDelegate(realDy23);
+                    DdyFunc = new FuncDelegate(realDdy23);
+                    MinX = 0.6;
+                    MaxX = 2;
+                    Count = 10;
+                    break;
+                case 1:
+                    functionLabel.Content = "Функция: F(x) = sqrt(x^2 + 1) / (2*x + 2.5)";
+                    func = new FuncDelegate(f25);
+                    DyFunc = new FuncDelegate(realDy25);
+                    DdyFunc = new FuncDelegate(realDdy25);
+                    MinX = 0.2;
+                    MaxX = 1.11;
+                    Count = 10;
+                    break;
                 case 2: functionLabel.Content = "Функция: F(x) = 1 / (1 + x)"; func = new FuncDelegate(ftest); break;
             }
             CurrentStep = 0.001;
@@ -111,22 +132,47 @@ namespace lab4
 
         private void GetDiffValuesButton_Click(object sender, RoutedEventArgs e)
         {
+            CurrentStep = (MaxX - MinX) / Count;
             DataTable dataTable = CreateDataTable();
             diffDataGrid.DataContext = dataTable.DefaultView;
 
             firstDiffResult.Content = "Первая производная в заданной точке: " + Dy(CurrentX, CurrentStep).ToString();
             secondDiffResult.Content = "Вторая производная в заданной точке: " + Ddy(CurrentX, CurrentStep).ToString();
+            realResultFirstDiff.Content = "Реальные значение f' в заданной точке: " + DyFunc(CurrentX).ToString();
+            realResultSecondDiff.Content = "Реальные значение f'' в заданной точке: " + DdyFunc(CurrentX).ToString();
         }
+
+        public double realDy25(double x)
+        {
+            return (2.5 * x - 2) / Math.Pow((2 * x + 2.5), 2) / Math.Sqrt(Math.Pow(x, 2) + 1);
+
+        }
+
+        public double realDdy25(double x)
+        {
+            return ((2 - 2.5 * x) / Math.Pow((2 * x + 2.5), 2) * (x * (Math.Pow((2 * x + 2.5), 2) / (x * x + 1) + 8) + 10) + 2.5) / Math.Pow((2 * x + 2.5), 2) / Math.Sqrt(x * x + 1);
+        }
+
+        public double realDy23(double x)
+        {
+            return 0; //поменять на f'
+        }
+
+        public double realDdy23(double x)
+        {
+            return 0; //поменять на f''
+        }
+
 
         public DataTable CreateDataTable()
         {
             double a = MinX;
-            double step = (MaxX - MinX) / Count;
+            double step = CurrentStep;
             List<Pair> pairs = new List<Pair>();
 
-            for (int i = 0; i <= Count; i++, a += step)            
+            for (int i = 0; i <= Count; i++, a += step)
                 pairs.Add(new Pair(a, func(a)));
-            
+
 
             int k = 1;
             var dataTable = new DataTable();
@@ -146,8 +192,9 @@ namespace lab4
                 yRow[k] = pair.Y;
                 k++;
             }
+
             dataTable.Rows.Add(xRow);
-            dataTable.Rows.Add(yRow);            
+            dataTable.Rows.Add(yRow);
             return dataTable;
         }
 
@@ -163,7 +210,7 @@ namespace lab4
         public double f25(double x) => Math.Sqrt(Math.Pow(x, 2) + 1) / (2 * x + 2.5);
 
 
-        public double ftest(double x) => 1 / (1 + x);
+        public double ftest(double x) => Math.Log(x);
 
 
         static double LeftRectangle(FuncDelegate func, double n, double a, double b)

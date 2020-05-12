@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:lab4"
         mc:Ignorable="d"
-        Title="MainWindow" Height="346.951" Width="699.146">
+        Title="MainWindow" Height="422.951" Width="690.146">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="b2v" />
     </Window.Resources>
@@ -113,11 +113,14 @@
                         <Label Grid.Column="0" Grid.Row="0" Content="Текущее значение X: " HorizontalAlignment="Center"/>
                         <TextBox x:Name="CurrentXTextBox" Grid.Column="1" Grid.Row="0" Margin="4,4,4,4" Text="{Binding CurrentX, Mode=TwoWay}"/>
                         <Label Grid.Column="0" Grid.Row="1" Content="Шаг: " HorizontalAlignment="Center"/>
-                        <TextBox x:Name="CurrentStepTextBox" Grid.Column="1" Grid.Row="1" Margin="4,4,4,4" Text="{Binding CurrentStep, Mode=TwoWay}"/>
+                        <TextBox x:Name="CurrentStepTextBox" Grid.Column="1" Grid.Row="1" Margin="4,4,4,4" IsEnabled="False" Text="{Binding CurrentStep, Mode=TwoWay}"/>
                     </Grid>
                     <ListView x:Name="diffListView" Grid.Row="3" Margin="4,4,4,4">
                         <ListViewItem x:Name="firstDiffResult" Content="Первая производная в заданной точке: " Margin="5,5,5,5"/>
                         <ListViewItem x:Name="secondDiffResult" Content="Вторая производная в заданной точке: " Margin="5,5,5,5"/>
+                        <ListViewItem x:Name="realResultFirstDiff" Content="Первая производная в заданной точке: " Margin="5,5,5,5"/>
+                        <ListViewItem x:Name="realResultSecondDiff" Content="Вторая производная в заданной точке: " Margin="5,5,5,5"/>
+
                     </ListView>
                 </Grid>
             </TabItem>
