@@ -204,7 +204,7 @@ namespace lab4
         public double Ddy(double x, double step) => (func(x + step) - 2 * func(x) + func(x - step)) / Math.Pow(step, 2); //вторая производная        
 
 
-        public double f23(double x) => Math.Pow(x, 2) / Math.Sqrt(Math.Pow(x, 2) + 2);
+        public double f23(double x) => (4 * x * x - x + 7) / (7 * Math.Cos(4 * x));//Math.Pow(x, 2) / Math.Sqrt(Math.Pow(x, 2) + 2);
 
 
         public double f25(double x) => Math.Sqrt(Math.Pow(x, 2) + 1) / (2 * x + 2.5);
