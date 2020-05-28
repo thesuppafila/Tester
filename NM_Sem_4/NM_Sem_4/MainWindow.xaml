@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NM_Sem_4"
         mc:Ignorable="d"
-        Title="MainWindow" Height="471.603" Width="473.791">
+        Title="MainWindow" Height="456.603" Width="750.791">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -24,6 +24,7 @@
                 <ComboBox x:Name="comboBox1" Grid.Row="0" SelectionChanged="ComboBox_SelectionChanged" Margin="5,10,5,5">
                     <ComboBoxItem>23</ComboBoxItem>
                     <ComboBoxItem>25</ComboBoxItem>
+                    <ComboBoxItem>test</ComboBoxItem>
                 </ComboBox>
                 <GroupBox Header="Параметры" Grid.Row="1" Margin="0,10,0,0">
                     <Grid>
@@ -35,9 +36,9 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="2" Content="y0  ="/>
+                        <Label Grid.Row="2" Content="Значение y(x):"/>
                         <TextBox x:Name="yValue" Grid.Row="3" Text="{Binding Y, Mode=TwoWay}"/>
-                        <Label Grid.Row="4" Content="step = "/>
+                        <Label Grid.Row="4" Content="Значение шага:"/>
                         <TextBox x:Name="stepValue" Grid.Row="5" Text="{Binding Step, Mode=TwoWay}"/>
                     </Grid>
                 </GroupBox>
@@ -49,9 +50,9 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        <Label Grid.Row="0" Content="a = "/>
+                        <Label Grid.Row="0" Content="Начало интервала:"/>
                         <TextBox x:Name="aValue" Grid.Row="1" Text="{Binding A, Mode=TwoWay}"/>
-                        <Label Grid.Row="2" Content="b = "/>
+                        <Label Grid.Row="2" Content="Конец интервала:"/>
                         <TextBox x:Name="bValue" Grid.Row="3" Text="{Binding B, Mode=TwoWay}"/>
                     </Grid>
                 </GroupBox>
@@ -71,16 +72,8 @@
                 </GroupBox>
             </Grid>
         </StackPanel>
-        <TabControl Grid.Column="2" >
-            <TabItem Header="Эйлер">
-                <DataGrid  x:Name="EilerDataGrid" Grid.Row="1" Margin="4,4,4,4" ColumnWidth="*"/>
-            </TabItem>
-            <TabItem Header="Адамс">
-                <DataGrid  x:Name="AdamsDataGrid" Grid.Row="1" Margin="4,4,4,4" ColumnWidth="*"/>
-            </TabItem>
-            <TabItem Header="Рунге-Кутта">
-                <DataGrid  x:Name="RKDataGrid" Grid.Row="1" Margin="4,4,4,4" ColumnWidth="*"/>
-            </TabItem>
-        </TabControl>
+        <Grid Grid.Column="2">
+            <DataGrid x:Name="mainDataGrid" Grid.Row="1" Margin="4,4,4,4" ColumnWidth="*"/>
+        </Grid>
     </Grid>
 </Window>

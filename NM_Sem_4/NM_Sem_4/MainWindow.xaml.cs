@@ -73,23 +73,24 @@ namespace NM_Sem_4
                     func = new FuncDelegate(f23); break;
                 case 1:
                     func = new FuncDelegate(f25); break;
+                case 2:
+                    func = new FuncDelegate(test); break;
             }
         }
 
         private void GetResultButton_Click(object sender, RoutedEventArgs e)
         {
-            if (EilerCheckBox.IsChecked == true)
-                Eiler(A, Y);
-            if (AdamsCheckBox.IsChecked == true)
-                Adams(A, Y);
-            if (RKCheckBox.IsChecked == true)
-                RK(A, Y);
-            FillDataGrid(EilerDataGrid);
+            Eiler(A, Y);
+            Adams(A, Y);
+            RK(A, Y);
+            FillDataGrid(mainDataGrid);
         }
 
         public double f25(double x, double y) => 2 * x * y + 5 * x - y + Math.Pow(y, 2);
 
         public double f23(double x, double y) => Math.Sin(y - 2 * x) + 2 * y;
+
+        public double test(double x, double y) => x * x * Math.Pow(y, 1 / 3);
 
         public void Eiler(double x, double y) //эйлер
         {
@@ -143,7 +144,7 @@ namespace NM_Sem_4
             double Qn1 = Q[n] - Q[n - 1];
             double Qn2 = Q[n] - 2 * Q[n - 1] + Q[n - 2];
             double Qn3 = Q[n] - 3 * Q[n - 1] + 3 * Q[n - 2] - Q[n - 3];
-            return Q[3] + Qn1 / 2 + 5 * Qn2 / 12 + 3 * Qn3 / 8;
+            return Q[n] + Qn1 / 2 - Qn2 / 12 - Qn3 / 24;
         }
 
         public void RK(double x, double y) //рунге-кутт
@@ -174,9 +175,21 @@ namespace NM_Sem_4
             dt.Columns.Add("Эйлер");
             dt.Columns.Add("Адамс");
             dt.Columns.Add("Рунге-Кутта");
+
+
+
             for (int i = 0; i < xList.Count; i++)
+            {
                 dt.Rows.Add(xList[i], yListE[i], yListA[i], yListRK[i]);
+            }
             dg.ItemsSource = dt.DefaultView;
+            if (EilerCheckBox.IsChecked == false)
+                mainDataGrid.Columns[1].Visibility = Visibility.Hidden;
+            if (AdamsCheckBox.IsChecked == false)
+                mainDataGrid.Columns[2].Visibility = Visibility.Hidden;
+            if (RKCheckBox.IsChecked == false)
+                mainDataGrid.Columns[3].Visibility = Visibility.Hidden;
+
         }
     }
 }
