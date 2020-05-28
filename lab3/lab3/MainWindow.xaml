@@ -90,7 +90,7 @@
                 <Label Content="Таблица значений" Margin="0, 20, 0, 0"/>
             </StackPanel>
             <DataGrid Grid.Row="1" x:Name="dataGrid1" VerticalScrollBarVisibility="Visible"/>
-        </Grid> 
+        </Grid>
         <Grid Grid.Column="1" Margin="2px">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

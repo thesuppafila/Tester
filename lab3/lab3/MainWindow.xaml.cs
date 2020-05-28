@@ -78,22 +78,6 @@ namespace lab3
 
         private double GetCurrentYValue(double currentX)
         {
-            switch (comboBox1.SelectedIndex)
-            {
-                case 0:
-                    func = new FuncDelegate(f23);
-                    stirlingCheckBox.IsChecked = true;
-                    neutonCheckBox.IsChecked = false;
-                    MinY = -1;
-                    MaxY = 100;
-                    break;
-                case 1: func = new FuncDelegate(f25);
-                    stirlingCheckBox.IsChecked = false;
-                    neutonCheckBox.IsChecked = true;
-                    MinY = -5;
-                    MaxY = 5;
-                    break;
-            }
             double step = (MaxX - MinX) / (Count + 1);
             List<Pair> pairs = new List<Pair>();
             pairs.Add(new Pair(MinX, func));
@@ -114,6 +98,7 @@ namespace lab3
 
         private void GetValuesButton_Click(object sender, RoutedEventArgs e)
         {
+            linearCheckBox.IsChecked = true;
             double step = (MaxX - MinX) / (Count + 1);
             List<Pair> pairs = new List<Pair>();
             pairs.Add(new Pair(MinX, func));
@@ -135,7 +120,7 @@ namespace lab3
             rawGraph.Points = GetRawPoints(func);
             linearGraph.Points = GetLinear(pairs);
             if (pairs.Count % 2 != 0)
-                stirlingGraph.Points = GetPointsStirling(pairs);
+                stirlingGraph.Points = GetPointsNeuton(pairs); //GetPointsStirling(pairs);
             neutonGraph.Points = GetPointsNeuton(pairs);
         }
 
