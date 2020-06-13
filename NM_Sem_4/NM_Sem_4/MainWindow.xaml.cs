@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -65,32 +67,52 @@ namespace NM_Sem_4
                     break;
                 case 1:
                     func = new FuncDelegate(f25);
+                    A = -10;
+                    B = 1;
+                    Step = 0.001;
                     EquationLabel.Content = "y' = 2xy + 5x - y + y^2";
                     break;
                 case 2:
                     func = new FuncDelegate(test);
                     EquationLabel.Content = "y' = x^2 * y^(1/3)";
                     break;
+                case 3:
+                    func = new FuncDelegate(test1);
+                    EquationLabel.Content = "y' = y + x * Math.Pow(Math.E, x)";
+                    break;
             }
         }
 
         private void GetResultButton_Click(object sender, RoutedEventArgs e)
         {
+            Stopwatch sWatch = new Stopwatch();
+            sWatch.Start();
             Eiler(A, Y);
+            sWatch.Stop();
+            eilerTimeTextBox.Text = sWatch.ElapsedTicks.ToString();
+            sWatch.Start();
             Adams(A, Y);
+            sWatch.Stop();
+            adamsTimeTextBox.Text = sWatch.ElapsedTicks.ToString();
+            sWatch.Start();
             RK(A, Y);
+            sWatch.Stop();
+            RKTimeTextBox.Text = sWatch.ElapsedTicks.ToString();
             FillDataGrid(mainDataGrid);
         }
 
         public double f23(double x, double y) => Math.Sin(y - 2 * x) + 2 * y;
 
         public double f25(double x, double y) => 2 * x * y + 5 * x - y + Math.Pow(y, 2);
-        
+
         public double test(double x, double y) => x * x * Math.Pow(y, 1 / 3);
+
+        public double test1(double x, double y) => y + x * Math.Pow(Math.E, x);
+
 
         public void Eiler(double x, double y) //эйлер
         {
-            int n = (int)Math.Abs((B - A) / Step)+1;
+            int n = (int)Math.Abs((B - A) / Step) + 1;
             xList = new List<double>() { x };
             yListE = new List<double>() { y };
             for (int i = 1; i < n; i++)
@@ -104,7 +126,7 @@ namespace NM_Sem_4
 
         public void Adams(double x, double y) //адамс
         {
-            int n = (int)Math.Abs((B - A) / Step)+1;
+            int n = (int)Math.Abs((B - A) / Step) + 1;
             xList = new List<double>() { x };
             yListA = new List<double>() { y };
             Q = new List<double>() { Step * func(x, y) };
@@ -130,7 +152,6 @@ namespace NM_Sem_4
                 yListA.Add(y);
                 Q.Add(Step * func(x, y));
             }
-
         }
 
         public double DeltaY(int n)
@@ -143,7 +164,7 @@ namespace NM_Sem_4
 
         public void RK(double x, double y) //рунге-кутт
         {
-            int n = (int)Math.Abs((B - A) / Step)+1;
+            int n = (int)Math.Abs((B - A) / Step) + 1;
             xList = new List<double>() { x };
             yListRK = new List<double>() { y };
 
@@ -171,7 +192,7 @@ namespace NM_Sem_4
 
             for (int i = 0; i < xList.Count; i++)
             {
-                dt.Rows.Add(Math.Round(xList[i],4), Math.Round(yListE[i],4), Math.Round(yListA[i],4), Math.Round(yListRK[i],4));
+                dt.Rows.Add(Math.Round(xList[i], 6), Math.Round(yListE[i], 6), Math.Round(yListA[i], 6), Math.Round(yListRK[i], 6));
             }
             dg.ItemsSource = dt.DefaultView;
             if (EilerCheckBox.IsChecked == false)

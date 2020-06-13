@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NM_Sem_4"
         mc:Ignorable="d"
-        Title="MainWindow" Height="510.603" Width="750.791">
+        Title="РДУ" Height="510.603" Width="752.791">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="250"/>
@@ -30,12 +30,13 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
-                        
+
                         <Label Grid.Row="0" Content="Вариант:" />
                         <ComboBox x:Name="comboBox1" Grid.Row="1" SelectionChanged="ComboBox_SelectionChanged" Margin="5,5,5,5">
                             <ComboBoxItem>23</ComboBoxItem>
                             <ComboBoxItem>25</ComboBoxItem>
-                            <ComboBoxItem>test</ComboBoxItem>
+                            <ComboBoxItem>test#1</ComboBoxItem>
+                            <ComboBoxItem>test#2</ComboBoxItem>
                         </ComboBox>
                         <Label x:Name="EquationLabel" Grid.Row="2" HorizontalAlignment="Center" Content="y' = "/>
                     </Grid>
@@ -87,7 +88,31 @@
             </Grid>
         </StackPanel>
         <Grid Grid.Column="2">
-            <DataGrid x:Name="mainDataGrid" Grid.Row="1" Margin="4,4,4,4" ColumnWidth="*"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <DataGrid x:Name="mainDataGrid" Grid.Row="0" Margin="4,4,4,4" ColumnWidth="*"/>
+                <Label Grid.Row="1" Content="Время выполнения (в тактах):" HorizontalAlignment="Center"/>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="0" Content="Эйлер:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBox x:Name="eilerTimeTextBox" Grid.Column="1" Width="60" Margin="5"/>
+                    <Label Grid.Column="2" Content="Адамс:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBox x:Name="adamsTimeTextBox" Grid.Column="3" Width="60" Margin="5"/>
+                    <Label Grid.Column="4" Content="Рунге-Кутта:" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBox x:Name="RKTimeTextBox" Grid.Column="5" Width="60" Margin="5"/>
+                </Grid>       
+            </Grid>
         </Grid>
     </Grid>
 </Window>
