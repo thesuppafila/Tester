@@ -42,7 +42,7 @@ namespace lab2
 
         static double F(double x)
         {
-            return 1/Math.Tan(x) - x / 10;
+            return Math.Pow(3,x) + 2 *x - 2;
         }
     }
 }

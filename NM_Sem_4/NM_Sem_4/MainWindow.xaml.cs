@@ -105,7 +105,7 @@ namespace NM_Sem_4
 
         public double f25(double x, double y) => 2 * x * y + 5 * x - y + Math.Pow(y, 2);
 
-        public double test(double x, double y) => x * x * Math.Pow(y, 1 / 3);
+        public double test(double x, double y) => Math.Pow(x,2) + 4 * y;
 
         public double test1(double x, double y) => y + x * Math.Pow(Math.E, x);
 
@@ -117,10 +117,13 @@ namespace NM_Sem_4
             yListE = new List<double>() { y };
             for (int i = 1; i < n; i++)
             {
+                string s = y.ToString() + "+" + Step.ToString() + " * " + func(x, y).ToString();
                 y += Step * func(x, y);
                 x += Step;
                 yListE.Add(y);
                 xList.Add(x);
+                s += " = " + y.ToString();
+                view.Items.Add(s);
             }
         }
 
