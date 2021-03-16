@@ -9,7 +9,7 @@ namespace TestCreator
     class Question
     {
         private string Body;
-        private List<Answer> Answers;
+        public List<Answer> Answers;
 
         public void SetBudy(string body)
         {
