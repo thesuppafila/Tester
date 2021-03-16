@@ -10,6 +10,10 @@ namespace TestCreator
     {
         private List<Question> Questions;
 
+        public int Variant;
+
+        private string Key;
+
         public TicketCreator(List<Question> questions)
         {
             Questions = questions;
@@ -21,8 +25,27 @@ namespace TestCreator
             List<Question> ticket = new List<Question>();
 
             for (int i = 0; i < countOfQuestion; i++)
-                ticket.Add(Questions[random.Next(startIndex, endIndex)]);
+            {
+                string answersString = string.Empty;
+                Question question = Questions[random.Next(startIndex, endIndex)];
+                ticket.Add(question);
+
+                foreach (Answer ans in question.Answers)
+                    if (ans.IsRight)
+                        answersString += ans.code.ToString();
+                AddKey(i.ToString(), answersString);
+            }
             return ticket;
+        }
+
+        public void AddKey(string questionNumber, string answersCode)
+        {
+            Key += String.Format("{0}:{1}", questionNumber, answersCode);
+        }
+
+        public string GetKey()
+        {
+            return Key;
         }
     }
 }

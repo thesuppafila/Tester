@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace TestCreator
     {
         public string Body;
         public bool IsRight;
+        public string code;
 
         public Answer(string bone)
         {
@@ -20,6 +22,10 @@ namespace TestCreator
             }
             Body = bone;
         }
-
+        private void GenerateCode()
+        {
+            Random random = new Random();
+            code = random.Next(100).ToString();
+        }
     }
 }

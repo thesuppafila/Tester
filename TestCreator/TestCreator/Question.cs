@@ -10,7 +10,7 @@ namespace TestCreator
     public class Question
     {
         private string Body;
-        private List<Answer> Answers;
+        public List<Answer> Answers;
 
         public Question(string bone)
         {
