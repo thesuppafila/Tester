@@ -36,5 +36,10 @@ namespace TestCreator
                 throw new ArgumentNullException();
             Answers = answers;
         }
+
+        public override string ToString()
+        {
+            return Body;
+        }
     }
 }

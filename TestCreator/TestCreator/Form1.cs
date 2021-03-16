@@ -17,7 +17,11 @@ namespace TestCreator
         public Form1()
         {
             InitializeComponent();
-            CreateQuestionsCollection("Data\\questions.txt");
+            List<Question> lsit = CreateQuestionsCollection("Data\\questions.txt");
+            TicketCreator ticketCreator = new TicketCreator(lsit);
+            List<Question> ticket = ticketCreator.CreateTicket(10, 5, 25);
+            foreach (Question q in ticket)
+                listBox1.Items.Add(q);
         }
 
         public List<Question> CreateQuestionsCollection(string path)

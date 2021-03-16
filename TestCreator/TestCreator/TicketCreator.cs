@@ -32,7 +32,7 @@ namespace TestCreator
 
                 foreach (Answer ans in question.Answers)
                     if (ans.IsRight)
-                        answersString += ans.code.ToString();
+                        answersString += ans.Code.ToString();
                 AddKey(i.ToString(), answersString);
             }
             return ticket;
