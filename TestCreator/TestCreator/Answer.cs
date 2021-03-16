@@ -8,17 +8,18 @@ namespace TestCreator
 {
     public class Answer
     {
-        public string body;
-        public bool isRight;
+        public string Body;
+        public bool IsRight;
 
         public Answer(string bone)
         {
             if (bone[0] == '$')
             {
-                isRight = true;
+                IsRight = true;
                 bone = bone.Substring(1);
             }
-            body = bone;
+            Body = bone;
         }
+
     }
 }
