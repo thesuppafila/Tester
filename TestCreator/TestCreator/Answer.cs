@@ -8,7 +8,13 @@ namespace TestCreator
 {
     class Answer
     {
-        public string body;
-        public bool isRight;
+        public string Body;
+        public bool IsRight;
+
+        public Answer(string body, bool isRight)
+        {
+            Body = body;
+            IsRight = isRight;
+        }
     }
 }

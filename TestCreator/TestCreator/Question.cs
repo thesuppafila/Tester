@@ -13,7 +13,7 @@ namespace TestCreator
 
         public void SetBudy(string body)
         {
-            if (body != "")
+            if (body == "")
                 throw new ArgumentNullException();
             Body = body;
         }
