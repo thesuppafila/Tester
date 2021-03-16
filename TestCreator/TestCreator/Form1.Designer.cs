@@ -35,16 +35,16 @@ namespace TestCreator
             // listBox1
             // 
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(12, 12);
+            this.listBox1.Location = new System.Drawing.Point(12, 72);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(485, 290);
+            this.listBox1.Size = new System.Drawing.Size(405, 316);
             this.listBox1.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(568, 400);
             this.Controls.Add(this.listBox1);
             this.Name = "Form1";
             this.Text = "Form1";

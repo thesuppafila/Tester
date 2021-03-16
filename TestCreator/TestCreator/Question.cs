@@ -10,7 +10,7 @@ namespace TestCreator
     public class Question
     {
         private string Body;
-        public List<Answer> Answers;
+        private List<Answer> Answers;
 
         public Question(string bone)
         {
@@ -40,6 +40,15 @@ namespace TestCreator
         public override string ToString()
         {
             return Body;
+        }
+
+        public string GetTrueAnswer()
+        {
+            string trueCode = string.Empty;
+            foreach (Answer ans in Answers)
+                if (ans.IsRight)
+                    trueCode += ans.GetCode();
+            return trueCode;
         }
     }
 }

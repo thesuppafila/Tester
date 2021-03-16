@@ -10,42 +10,14 @@ namespace TestCreator
     {
         private List<Question> Questions;
 
-        public int Variant;
-
-        private string Key;
-
         public TicketCreator(List<Question> questions)
         {
             Questions = questions;
         }
 
-        public List<Question> CreateTicket(int countOfQuestion, int startIndex, int endIndex)
+        public Ticket CreateTicket(int count, int startIndex, int endIndex)
         {
-            Random random = new Random();
-            List<Question> ticket = new List<Question>();
-
-            for (int i = 0; i < countOfQuestion; i++)
-            {
-                string answersString = string.Empty;
-                Question question = Questions[random.Next(startIndex, endIndex)];
-                ticket.Add(question);
-
-                foreach (Answer ans in question.Answers)
-                    if (ans.IsRight)
-                        answersString += ans.Code.ToString();
-                AddKey(i.ToString(), answersString);
-            }
-            return ticket;
-        }
-
-        public void AddKey(string questionNumber, string answersCode)
-        {
-            Key += String.Format("{0}:{1}", questionNumber, answersCode);
-        }
-
-        public string GetKey()
-        {
-            return Key;
+            return new Ticket(Questions, count, startIndex, endIndex);
         }
     }
 }
