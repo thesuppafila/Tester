@@ -1,7 +1,7 @@
 ﻿
 namespace TestCreator
 {
-    partial class Form1
+    partial class MainWindow
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -37,7 +37,7 @@ namespace TestCreator
             this.listBox1.FormattingEnabled = true;
             this.listBox1.Location = new System.Drawing.Point(12, 72);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(405, 316);
+            this.listBox1.Size = new System.Drawing.Size(511, 225);
             this.listBox1.TabIndex = 0;
             // 
             // Form1
@@ -48,6 +48,7 @@ namespace TestCreator
             this.Controls.Add(this.listBox1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
 
         }

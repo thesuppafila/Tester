@@ -12,16 +12,13 @@ using System.Windows.Forms;
 
 namespace TestCreator
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
-        public Form1()
+        public MainWindow()
         {
             InitializeComponent();
             List<Question> list = CreateQuestionsCollection("Data\\questions.txt");
             TicketCreator ticketCreator = new TicketCreator(list);
-            Ticket ticket = ticketCreator.CreateTicket(5,15,25);
-
-            listBox1.DataSource = ticket.GetAnswerKey();
         }
 
         public List<Question> CreateQuestionsCollection(string path)
@@ -33,6 +30,11 @@ namespace TestCreator
                 questions.Add(new Question(bone.ToString()));
             }
             return questions;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
