@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TestCreator
@@ -19,12 +13,14 @@ namespace TestCreator
             InitializeComponent();
             List<Question> list = CreateQuestionsCollection("Data\\questions.txt");
             TicketCreator ticketCreator = new TicketCreator(list);
+            Ticket ticket = ticketCreator.CreateTicket(20, 0, 60);
+            ticket.SaveToFile("e:\\textFile.txt");
         }
 
         public List<Question> CreateQuestionsCollection(string path)
         {
             List<Question> questions = new List<Question>();
-            var questionBones = Regex.Matches(File.ReadAllText(path), @"(?<=\?)(.|\n)*?(?=\n\?)", RegexOptions.Multiline);
+            var questionBones = Regex.Matches(File.ReadAllText(path), @"(?<=\?)(.)*\n(\#.*\n)*", RegexOptions.Multiline);
             foreach (var bone in questionBones)
             {
                 questions.Add(new Question(bone.ToString()));

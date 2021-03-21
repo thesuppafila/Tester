@@ -27,7 +27,7 @@ namespace TestCreator
 
         public override string ToString()
         {
-            return Body;
+            return "\t" + Code + ". " + Body;
         }
 
         public string GetCode()

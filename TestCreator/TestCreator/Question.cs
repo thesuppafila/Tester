@@ -39,7 +39,7 @@ namespace TestCreator
 
         public override string ToString()
         {
-            return Body;
+            return string.Format("{0}\n{1}\n", Body, string.Join("\n", Answers));
         }
 
         public string GetTrueAnswer()
