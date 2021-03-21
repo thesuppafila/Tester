@@ -11,27 +11,23 @@ namespace TestCreator
     {
         private List<Question> Questions;
 
-        private List<string> Key = new List<string>();
+        private List<string> Key;
 
-        public Ticket(List<Question> questions, int count, int startIndex, int endIndex)
+        public void SetQuestions(List<Question> questions) 
         {
-            Random random = new Random();
-            Questions = new List<Question>();
-            List<int> usedQuestions = new List<int>();
-            int indexer = 0;
-            while (indexer < count)
-            {
-                int j = random.Next(startIndex, endIndex);
-                if (!usedQuestions.Contains(j))
-                {
-                    usedQuestions.Add(j);
+            if (questions == null)
+                throw new ArgumentNullException();
+            Questions = questions;
+        }
 
-                    Questions.Add(questions[j]);
-                    Key.Add(String.Format("{0}:{1}", (indexer + 1).ToString(), questions[j].GetTrueAnswer()));
-                    indexer++;
-                }
-                else continue;
-            }
+        public void SetKey(List<string> key)
+        {
+            Key = key;
+        }
+
+        public List<Question> GetQuestions()
+        {
+            return Questions;
         }
 
         public List<string> GetAnswerKey()
@@ -39,11 +35,6 @@ namespace TestCreator
             if (Key == null)
                 throw new ArgumentNullException();
             return Key;
-        }
-
-        public List<Question> GetQuestions()
-        {
-            return Questions;
         }
 
         public void SaveToFile(string path)

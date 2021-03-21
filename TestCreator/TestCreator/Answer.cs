@@ -12,7 +12,6 @@ namespace TestCreator
         private string Body;
         public bool IsRight;
         private string Code;
-        static Random random = new Random();
 
         public Answer(string bone)
         {
@@ -22,7 +21,7 @@ namespace TestCreator
                 bone = bone.Substring(1);
             }
             Body = bone;
-            Code = random.Next(100).ToString();
+            //Code = random.Next(100).ToString();
         }
 
         public override string ToString()
@@ -38,6 +37,11 @@ namespace TestCreator
         public string GetBody()
         {
             return Body;
+        }
+
+        public void SetCode(string code)
+        {
+            Code = code;
         }
     }
 }

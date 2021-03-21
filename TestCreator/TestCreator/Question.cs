@@ -23,6 +23,11 @@ namespace TestCreator
             }
         }
 
+        public string GetBody()
+        {
+            return Body;
+        }
+
         public void SetBudy(string body)
         {
             if (body == "")
@@ -37,6 +42,11 @@ namespace TestCreator
             Answers = answers;
         }
 
+        public List<Answer> GetAnswer()
+        {
+            return Answers;
+        }
+
         public override string ToString()
         {
             return string.Format("{0}\n{1}\n", Body, string.Join("\n", Answers));
@@ -46,7 +56,7 @@ namespace TestCreator
         {
             string trueCode = string.Empty;
             foreach (Answer ans in Answers)
-                if (ans.IsRight)
+                if (ans.IsRight && ans.GetCode() != null)
                     trueCode += ans.GetCode();
             return trueCode;
         }
