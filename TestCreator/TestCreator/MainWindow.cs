@@ -8,6 +8,10 @@ namespace TestCreator
 {
     public partial class MainWindow : Form
     {
+
+        List<Question> questionsList;
+        List<Ticket> ticketList;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -31,6 +35,55 @@ namespace TestCreator
         private void Form1_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void создатьНовыйТестToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text files(*.txt)|*.txt|All files(*.*)|*.*";
+            string fileName = string.Empty;
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileName = openFileDialog.FileName;
+                questionsList = new List<Question>();
+
+                questionsList = CreateQuestionsCollection(fileName);
+                listBox1.Items.AddRange(questionsList.ToArray());
+
+                numericUpDown2.Maximum = listBox1.Items.Count;
+                numericUpDown4.Maximum = listBox1.Items.Count;
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void numericUpDown4_ValueChanged(object sender, EventArgs e)
+        {
+            numericUpDown3.Maximum = numericUpDown4.Value;
+        }
+
+        private void createTestButton_Click(object sender, EventArgs e)
+        {
+            if (questionsList == null)
+            {
+                MessageBox.Show("Необходимо загрузить файл теста.");
+                return;
+            }
+            TicketCreator ticketCreator = new TicketCreator(questionsList);
+            ticketList = new List<Ticket>();
+            for(int i = 0; i < numericUpDown2.Value; i++)
+            {
+                ticketList.Add(ticketCreator.CreateTicket((int)numericUpDown2.Value, (int)numericUpDown3.Value, (int)numericUpDown4.Value));
+            }
         }
     }
 }
