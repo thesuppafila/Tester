@@ -21,7 +21,6 @@ namespace TestCreator
                 bone = bone.Substring(1);
             }
             Body = bone;
-            //Code = random.Next(100).ToString();
         }
 
         public override string ToString()
