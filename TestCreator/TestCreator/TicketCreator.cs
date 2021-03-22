@@ -8,13 +8,14 @@ namespace TestCreator
 {
     class TicketCreator
     {
-        static Random random = new Random();
+        static Random random;
 
         private List<Question> Questions;
 
         public TicketCreator(List<Question> questions)
         {
             Questions = questions;
+            random = new Random();
         }
 
         public Ticket CreateTicket(int count, int startIndex, int endIndex) //возвращает билет
@@ -47,7 +48,7 @@ namespace TestCreator
                 {
                     usedQuestions.Add(j);
 
-                    questions.Add(Questions[j]);
+                    questions.Add((Question)Questions[j].Clone());
                     index++;
                 }
                 else continue;

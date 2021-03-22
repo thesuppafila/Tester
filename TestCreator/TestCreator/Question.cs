@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 
 namespace TestCreator
 {
-    public class Question
+    public class Question: ICloneable
     {
         private string Body;
         private List<Answer> Answers;
+        private string bones;
 
         public Question(string bone)
         {
+            bones = bone;
             Body = Regex.Match(bone, @".*?(?=\r\n)").ToString();
             Answers = new List<Answer>();
             var answerBones = Regex.Matches(bone, @"(?<=#).*?(?=\r\n)");
@@ -59,6 +61,11 @@ namespace TestCreator
                 if (ans.IsRight && ans.GetCode() != null)
                     trueCode += ans.GetCode();
             return trueCode;
+        }
+
+        public object Clone()
+        {
+            return new Question(bones);
         }
     }
 }

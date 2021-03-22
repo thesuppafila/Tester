@@ -67,7 +67,7 @@ namespace TestCreator
             int index = 0;
 
             foreach (Ticket t in ticketList)            
-                t.SaveToFile(String.Format("{0}_{1}.txt", textBox1.Text, ++index));
+                t.SaveToFile(String.Format("{3}\\{0}_{1}.txt", textBox1.Text, ++index, textBox1.Text));
             
         }
     }
