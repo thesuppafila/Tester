@@ -101,7 +101,7 @@ namespace TestCreator
             // выбратьToolStripMenuItem
             // 
             this.выбратьToolStripMenuItem.Name = "выбратьToolStripMenuItem";
-            this.выбратьToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
+            this.выбратьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.выбратьToolStripMenuItem.Text = "Выбрать";
             // 
             // tableLayoutPanel1
@@ -174,8 +174,9 @@ namespace TestCreator
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(204, 24);
             this.button2.TabIndex = 1;
-            this.button2.Text = "button2";
+            this.button2.Text = "Проверить результаты";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label1
             // 
