@@ -6,5 +6,33 @@
         xmlns:local="clr-namespace:Tester"
         mc:Ignorable="d"
         Title="MainView" ResizeMode="NoResize" WindowState="Maximized" WindowStartupLocation="CenterScreen">
-    <Grid/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="testInfoLabel" Grid.Column="0" Content="Студент: Иванов Иван Иванович. Группа: 220281. Тип тестирования: проверочная работа." FontSize="13"/>
+            <Label x:Name="timeLeftLabel" Grid.Column="1" Content="Оставшееся время: 00:00" FontSize="13"/>
+        </Grid>
+        
+        <RichTextBox x:Name="richTextBox" Grid.Row="1">
+        </RichTextBox>
+        
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label x:Name="currentQuestionLabel" Grid.Column="0" Content="Вопрос n из N" FontSize="13"/>
+            <Button x:Name="nextQuestionButton" Grid.Column="1" Content="Следующий вопрос" FontSize="13"/>
+            <Button x:Name="beforeQuestionButton" Grid.Column="2" Content="Предудыщий вопрос" FontSize="13"/>
+        </Grid>
+    </Grid>
 </Window>
