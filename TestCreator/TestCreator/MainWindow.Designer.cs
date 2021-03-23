@@ -101,7 +101,7 @@ namespace TestCreator
             // выбратьToolStripMenuItem
             // 
             this.выбратьToolStripMenuItem.Name = "выбратьToolStripMenuItem";
-            this.выбратьToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.выбратьToolStripMenuItem.Size = new System.Drawing.Size(121, 22);
             this.выбратьToolStripMenuItem.Text = "Выбрать";
             // 
             // tableLayoutPanel1
