@@ -18,7 +18,11 @@
             <ListBox Height="300">
                 
             </ListBox>
+            <Button x:Name="createQuestionButton" Content="Добавить вопрос"/>
+            <Button x:Name="deleteSelectedQuestionButton" Content="Удалить вопрос"/>
         </StackPanel>
-        <Grid.
+        <Grid>
+            
+        </Grid>
     </Grid>
 </Window>
