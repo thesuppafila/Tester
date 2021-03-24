@@ -16,9 +16,11 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Label x:Name="testInfoLabel" Grid.Column="0" Content="Студент: Иванов Иван Иванович. Группа: 220281. Тип тестирования: проверочная работа." FontSize="13"/>
             <Label x:Name="timeLeftLabel" Grid.Column="1" Content="Оставшееся время: 00:00" FontSize="13"/>
+            <Button x:Name="endTestButton" Grid.Column="2" Content="Завершить тестирование" Click="endTestButton_Click" FontSize="13"/>
         </Grid>
         
         <RichTextBox x:Name="richTextBox" Grid.Row="1">
@@ -31,8 +33,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label x:Name="currentQuestionLabel" Grid.Column="0" Content="Вопрос n из N" FontSize="13"/>
-            <Button x:Name="nextQuestionButton" Grid.Column="1" Content="Следующий вопрос" FontSize="13"/>
-            <Button x:Name="beforeQuestionButton" Grid.Column="2" Content="Предудыщий вопрос" FontSize="13"/>
+            <Button x:Name="nextQuestionButton" Grid.Column="1" Content="Следующий вопрос" FontSize="13" Click="nextQuestionButton_Click"/>
+            <Button x:Name="beforeQuestionButton" Grid.Column="2" Content="Предудыщий вопрос" FontSize="13" Click="beforeQuestionButton_Click"/>
         </Grid>
     </Grid>
 </Window>

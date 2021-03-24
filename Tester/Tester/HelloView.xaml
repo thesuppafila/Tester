@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester"
         mc:Ignorable="d"
-        Title="HelloView" Height="290" Width="300">
+        Title="Авторизация" Height="290" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+
     <Grid>
         <StackPanel>
             <Grid>
@@ -17,13 +18,13 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Column="0" Grid.Row="0" Content="Выберите группу" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                <Label Grid.Column="0" Grid.Row="0" Content="Группа" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
                 <ComboBox x:Name="groupIdComboBox" Grid.Column="1" Grid.Row="0" />
-                <Label Grid.Column="0" Grid.Row="1" Content="Тип тестирования" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                <ComboBox x:Name="examTypeComboBox" Grid.Column="1" Grid.Row="1" />
+                <Label Grid.Column="0" Grid.Row="1" Content="Тип тестирования" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                <ComboBox x:Name="testTypeComboBox" Grid.Column="1" Grid.Row="1" />
             </Grid>
 
-            <Label Grid.Column="0" Grid.Row="1" Content="Выберите студента" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+            <Label Grid.Column="0" Grid.Row="1" Content="Студент" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
             <ListBox x:Name="studentListBox" MinHeight="150"/>
             <Grid>
                 <Grid.ColumnDefinitions>

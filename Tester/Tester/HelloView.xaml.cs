@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Tester.Model;
 
 namespace Tester
 {
@@ -22,6 +23,8 @@ namespace Tester
         public HelloView()
         {
             InitializeComponent();
+            var _enumval = Enum.GetValues(typeof(TestType)).Cast<TestType>();
+            testTypeComboBox.ItemsSource = _enumval.ToList();
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
@@ -32,6 +35,7 @@ namespace Tester
 
         private void acceptButton_Click(object sender, RoutedEventArgs e)
         {
+            Controller controller = new Controller();
             this.DialogResult = true;
             Close();
         }

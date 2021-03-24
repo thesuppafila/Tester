@@ -26,8 +26,8 @@ namespace Tester
             if (helloView.ShowDialog() == true)
             {
                 InitializeComponent();
-                this.MinWidth = System.Windows.SystemParameters.WorkArea.Width;
-                this.MinHeight = System.Windows.SystemParameters.WorkArea.Height;
+                this.MinWidth = SystemParameters.WorkArea.Width;
+                this.MinHeight = SystemParameters.WorkArea.Height;
                 this.MaxHeight = this.MinWidth;
                 this.MaxWidth = this.MinWidth;
 
@@ -35,6 +35,21 @@ namespace Tester
                 ResizeMode = ResizeMode.NoResize;
             }
             else Close();
+        }
+
+        private void nextQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void beforeQuestionButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void endTestButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

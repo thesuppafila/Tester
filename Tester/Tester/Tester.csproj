@@ -67,6 +67,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controller.cs" />
     <Compile Include="HelloView.xaml.cs">
       <DependentUpon>HelloView.xaml</DependentUpon>
     </Compile>
@@ -81,6 +82,7 @@
   <ItemGroup>
     <Compile Include="Model\Answer.cs" />
     <Compile Include="Model\Question.cs" />
+    <Compile Include="Model\TestType.cs" />
     <Compile Include="Model\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
