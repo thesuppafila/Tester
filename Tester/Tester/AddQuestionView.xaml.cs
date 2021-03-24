@@ -11,30 +11,37 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Tester.Model;
 
 namespace Tester
 {
     /// <summary>
-    /// Логика взаимодействия для HelloView.xaml
+    /// Логика взаимодействия для AddQuestionView.xaml
     /// </summary>
-    public partial class HelloView : Window
+    public partial class AddQuestionView : Window
     {
-        public HelloView()
+        public AddQuestionView()
         {
             InitializeComponent();
+        }
+
+        private void addAnswerButton_Click(object sender, RoutedEventArgs e)
+        {
+            answerListBox.Items.Add(answerTextBox.Text);
+        }
+
+        private void deleteAnswerButton_Click(object sender, RoutedEventArgs e)
+        {
+            answerListBox.Items.Remove(answerListBox.SelectedItem);
         }
 
         private void cancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
-            Close();
         }
 
-        private void acceptButton_Click(object sender, RoutedEventArgs e)
+        private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
-            Close();
         }
     }
 }

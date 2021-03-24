@@ -38,7 +38,8 @@ namespace Tester.Model
 
         public override string ToString()
         {
-            return string.Format("{0}\n{1}\n", Body, string.Join("\n", Answers));
+            return Body;
+            //return string.Format("{0}\n{1}\n", Body, string.Join("\n", Answers));
         }
 
         public object Clone()
