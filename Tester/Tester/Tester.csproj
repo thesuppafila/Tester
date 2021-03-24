@@ -55,6 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreateTestView.xaml.cs">
+      <DependentUpon>CreateTestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SelectModeView.xaml.cs">
+      <DependentUpon>SelectModeView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="CreateTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="HelloView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -78,11 +88,14 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SelectModeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Answer.cs" />
     <Compile Include="Model\Question.cs" />
-    <Compile Include="Model\TestType.cs" />
     <Compile Include="Model\Ticket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -11,31 +11,27 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Tester.Model;
 
 namespace Tester
 {
     /// <summary>
-    /// Логика взаимодействия для HelloView.xaml
+    /// Логика взаимодействия для SelectModeView.xaml
     /// </summary>
-    public partial class HelloView : Window
+    public partial class SelectModeView : Window
     {
-        public HelloView()
+        public SelectModeView()
         {
             InitializeComponent();
         }
 
-        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        private void testModeButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
-            Close();
+            this.DialogResult = true;
         }
 
-        private void acceptButton_Click(object sender, RoutedEventArgs e)
+        private void createTestModeButton_Click(object sender, RoutedEventArgs e)
         {
-            Controller controller = new Controller();
-            this.DialogResult = true;
-            Close();
+            this.DialogResult = false;
         }
     }
 }

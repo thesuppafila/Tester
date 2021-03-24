@@ -13,9 +13,6 @@ namespace Tester
 
         public string StudentName;
 
-        public TestType TestType;
-
-
         //генерация билета
         //передача представлению введенных данных
         //обработка завершения теста

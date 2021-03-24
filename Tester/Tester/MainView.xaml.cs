@@ -22,19 +22,30 @@ namespace Tester
     {
         public MainView()
         {
-            HelloView helloView = new HelloView();
-            if (helloView.ShowDialog() == true)
-            {
-                InitializeComponent();
-                this.MinWidth = SystemParameters.WorkArea.Width;
-                this.MinHeight = SystemParameters.WorkArea.Height;
-                this.MaxHeight = this.MinWidth;
-                this.MaxWidth = this.MinWidth;
 
-                WindowStyle = WindowStyle.None;
-                ResizeMode = ResizeMode.NoResize;
+            SelectModeView selectModeView = new SelectModeView();
+            if (selectModeView.ShowDialog() == true)
+            {
+                HelloView helloView = new HelloView();
+                if (helloView.ShowDialog() == true)
+                {
+                    InitializeComponent();
+                    this.MinWidth = SystemParameters.WorkArea.Width;
+                    this.MinHeight = SystemParameters.WorkArea.Height;
+                    this.MaxHeight = this.MinWidth;
+                    this.MaxWidth = this.MinWidth;
+
+                    WindowStyle = WindowStyle.None;
+                    ResizeMode = ResizeMode.NoResize;
+                }
+                else Close();
             }
-            else Close();
+            else
+            {
+                this.Hide();
+                CreateTestView createTestView = new CreateTestView();
+                createTestView.ShowDialog();
+            }
         }
 
         private void nextQuestionButton_Click(object sender, RoutedEventArgs e)

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester"
         mc:Ignorable="d"
-        Title="Авторизация" Height="290" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="Авторизация" Height="260" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
 
     <Grid>
         <StackPanel>
@@ -20,8 +20,10 @@
                 </Grid.RowDefinitions>
                 <Label Grid.Column="0" Grid.Row="0" Content="Группа" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
                 <ComboBox x:Name="groupIdComboBox" Grid.Column="1" Grid.Row="0" />
+                <!---
                 <Label Grid.Column="0" Grid.Row="1" Content="Тип тестирования" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
                 <ComboBox x:Name="testTypeComboBox" Grid.Column="1" Grid.Row="1" />
+                -->
             </Grid>
 
             <Label Grid.Column="0" Grid.Row="1" Content="Студент" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
