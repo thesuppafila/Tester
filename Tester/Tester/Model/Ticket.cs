@@ -1,22 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tester.Model
 {
-    class Ticket
+    [Serializable]
+    public class Ticket
     {
         public string Body;
 
         public List<Question> Questions;
 
-        public List<string> Key;
+        //public List<string> Key;
 
         public int Variant;
 
+        public Ticket()
+        {
+
+        }
+
+        public Ticket(string body, List<Question> questions, int variant)
+        {
+            this.Body = body;
+            this.Questions = questions;
+            this.Variant = variant;
+        }
 
         public void SaveToFile(string path)
         {

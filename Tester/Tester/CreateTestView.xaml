@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="CreateTestView" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <TabControl>
-        <TabItem Header="Вопросы">
+        <TabItem Header="Редактирование тестов">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="300"/>
@@ -22,14 +22,16 @@
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Label Content="Название" Grid.Row="0"/>
-                    <TextBox x:Name="groupNumberTextBox" Grid.Row="1"/>
+                    <TextBox x:Name="testNameTextBox" Grid.Row="1"/>
                     <Label Content="Список вопросов" Grid.Row="2"/>
                     <ListBox x:Name="questionsListBox" Grid.Row="3" SelectionChanged="questionsListBox_SelectionChanged"/>
                     <Button x:Name="addQuestionButton" Grid.Row="4" Content="Добавить вопрос" Click="addQuestionButton_Click"/>
-                    <Button x:Name="addQuestionFromFileButton" Grid.Row="5" Content="Добавить вопрос из файла" Click="addQuestionFromFileButton_Click"/>
+                    <Button x:Name="addQuestionFromFileButton" Grid.Row="5" Content="Добавить вопросы из файла" Click="addQuestionFromFileButton_Click"/>
                     <Button x:Name="deleteSelectedQuestionButton" Grid.Row="6" Content="Удалить вопрос" Click="deleteSelectedQuestionButton_Click"/>
+                    <Button x:Name="saveTestButton" Grid.Row="7" Content="Сохранить тест" Click="saveTestButton_Click"/>
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid>
@@ -38,16 +40,18 @@
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Label Content="Вопрос" Grid.Row="0"/>
                         <TextBox x:Name="questionTextBlock" Grid.Row="1"/>
                         <Label Content="Варианты ответа" Grid.Row="2"/>
                         <ListBox x:Name="answersListBox" Grid.Row="3"/>
+                        <Label x:Name="trueAnswerLabel" Grid.Row="4" Content="Привильный ответ: "/>
                     </Grid>
                 </Grid>
             </Grid>
         </TabItem>
-        <TabItem Header="Группа">
+        <TabItem Header="Редактирование групп">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="250"/>
@@ -64,7 +68,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Label Content="Номер группы" Grid.Row="0"/>
-                    <TextBox x:Name="testNameTextBox" Grid.Row="1"/>
+                    <TextBox x:Name="newGroupIdTextBox" Grid.Row="1"/>
                     <Button x:Name="addGroupButton" Grid.Row="2" Content="Добавить группу" Click="addGroupButton_Click"/>
                     <Label Content="Список групп" Grid.Row="3"/>
                     <ListBox x:Name="groupListBox" Grid.Row="4" SelectionChanged="groupListBox_SelectionChanged"/>
@@ -81,7 +85,7 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Label Content="Группа" Grid.Row="0"/>
-                        <TextBox x:Name="studentNameTextBlock" Grid.Row="1"/>
+                        <TextBox x:Name="groupIdTextBox" Grid.Row="1"/>
                         <Label Content="Список студентов" Grid.Row="2"/>
                         <ListBox x:Name="studentsListBox" Grid.Row="3"/>
                         <Grid Grid.Row="4">
@@ -91,8 +95,8 @@
                                 <ColumnDefinition Width="70"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="studentNameTextBox" Grid.Column="0" Text="ФИО студента"/>
-                            <Button x:Name="addStudentButton" Grid.Column="1" Content="Добавить"/>
-                            <Button x:Name="deleteStudentButton" Grid.Column="2" Content="Удалить"/>
+                            <Button x:Name="addStudentButton" Grid.Column="1" Content="Добавить" Click="addStudentButton_Click"/>
+                            <Button x:Name="deleteStudentButton" Grid.Column="2" Content="Удалить" Click="deleteStudentButton_Click"/>
                         </Grid>
                     </Grid>
                 </Grid>
