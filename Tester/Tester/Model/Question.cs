@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tester.Model
 {
+    [Serializable]
     public class Question: ICloneable
     {
         public string Body;
@@ -18,6 +19,13 @@ namespace Tester.Model
         public Question()
         {
             Answers = new List<Answer>();
+        }
+
+        public Question(string body, List<Answer> answers, string bones)
+        {
+            this.Body = body;
+            this.Answers = answers;
+            this.Bones = bones;
         }
 
         public Question(string bone)
@@ -43,14 +51,14 @@ namespace Tester.Model
             return Answers;
         }
 
-        public string GetTrueAnswer()
-        {
-            string trueCode = string.Empty;
-            foreach (Answer ans in Answers)
-                if (ans.Right && ans.Code != null)
-                    trueCode += ans.Code;
-            return trueCode;
-        }
+        //public string GetTrueAnswer()
+        //{
+        //    string trueCode = string.Empty;
+        //    foreach (Answer ans in Answers)
+        //        if (ans.Right && ans.Code != null)
+        //            trueCode += ans.Code;
+        //    return trueCode;
+        //}
 
         public override string ToString()
         {

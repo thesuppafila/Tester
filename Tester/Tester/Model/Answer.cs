@@ -6,15 +6,26 @@ using System.Threading.Tasks;
 
 namespace Tester.Model
 {
+    [Serializable]
     public class Answer : ICloneable
     {
         public string Body;
 
         public bool Right;
 
-        public string Code;
-
         public string Bone;
+
+        public Answer()
+        {
+
+        }
+
+        public Answer(string body, bool right, string bone)
+        {
+            this.Body = body;
+            this.Right = right;
+            this.Bone = bone;
+        }
 
         public Answer(string bone)
         {
@@ -49,7 +60,7 @@ namespace Tester.Model
 
         public override string ToString()
         {
-            return "\t" + Code + ". " + Body;
+            return "\t" + Body;
         }
     }
 }

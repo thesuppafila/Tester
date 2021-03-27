@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tester.Model
 {
+    [Serializable]
     public class Group
     {
         public string Id;
@@ -16,6 +17,12 @@ namespace Tester.Model
         public Group()
         {
             Students = new List<Student>();
+        }
+
+        public Group(string id, List<Student> students)
+        {
+            Id = id;
+            Students = students;
         }
 
         public Group(string id)

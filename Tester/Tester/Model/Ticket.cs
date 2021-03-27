@@ -9,15 +9,28 @@ using System.Threading.Tasks;
 
 namespace Tester.Model
 {
+    [Serializable]
     public class Ticket
     {
         public string Body;
 
         public List<Question> Questions;
 
-        public List<string> Key;
+        //public List<string> Key;
 
         public int Variant;
+
+        public Ticket()
+        {
+
+        }
+
+        public Ticket(string body, List<Question> questions, int variant)
+        {
+            this.Body = body;
+            this.Questions = questions;
+            this.Variant = variant;
+        }
 
         public void SaveToFile(string path)
         {

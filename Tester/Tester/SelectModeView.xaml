@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester"
         mc:Ignorable="d"
-        Title="SelectModeView" Height="250" Width="250" SizeToContent="Height">
+        Title="SelectModeView" Height="250" Width="250" SizeToContent="Height" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Tester.Model
 {
+    [Serializable]
     public class Student
     {
         public string Name;
@@ -16,8 +17,21 @@ namespace Tester.Model
 
         public int Id;
 
+        public Student()
+        {
+
+        }
+
         public Student(string name) {
             Name = name;
+        }
+
+        public Student(string name, int score, string groupId, int id)
+        {
+            Name = name;
+            Score = score;
+            GroupId = groupId;
+            Id = id;
         }
 
         public void setScore(int score)
