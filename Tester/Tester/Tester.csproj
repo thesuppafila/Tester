@@ -61,6 +61,9 @@
     <Compile Include="CreateTestView.xaml.cs">
       <DependentUpon>CreateTestView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Group.cs" />
+    <Compile Include="Model\Student.cs" />
+    <Compile Include="Model\Test.cs" />
     <Compile Include="SelectModeView.xaml.cs">
       <DependentUpon>SelectModeView.xaml</DependentUpon>
     </Compile>

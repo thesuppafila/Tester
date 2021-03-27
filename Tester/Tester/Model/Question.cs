@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace Tester.Model
 {
-    class Question: ICloneable
+    public class Question: ICloneable
     {
         public string Body;
 
         public List<Answer> Answers;
 
         public string Bones;
+
+        public Question()
+        {
+            Answers = new List<Answer>();
+        }
 
         public Question(string bone)
         {
@@ -27,11 +32,22 @@ namespace Tester.Model
             }
         }
 
+        public void AddAnswer(Answer answer)
+        {
+            if (!Answers.Contains(answer))
+                Answers.Add((Answer)answer.Clone());
+        }
+
+        public List<Answer> GetAnswers()
+        {
+            return Answers;
+        }
+
         public string GetTrueAnswer()
         {
             string trueCode = string.Empty;
             foreach (Answer ans in Answers)
-                if (ans.IsRight && ans.Code != null)
+                if (ans.Right && ans.Code != null)
                     trueCode += ans.Code;
             return trueCode;
         }
@@ -40,6 +56,13 @@ namespace Tester.Model
         {
             return Body;
             //return string.Format("{0}\n{1}\n", Body, string.Join("\n", Answers));
+        }
+
+        internal void SetBody(string body)
+        {
+            if (body == null)
+                throw new ArgumentNullException();
+            this.Body = body;
         }
 
         public object Clone()

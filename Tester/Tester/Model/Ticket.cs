@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tester.Model
 {
-    class Ticket
+    public class Ticket
     {
         public string Body;
 
@@ -16,7 +18,6 @@ namespace Tester.Model
         public List<string> Key;
 
         public int Variant;
-
 
         public void SaveToFile(string path)
         {
