@@ -67,6 +67,9 @@
     <Compile Include="SelectModeView.xaml.cs">
       <DependentUpon>SelectModeView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TestRunner\StartTestView.xaml.cs">
+      <DependentUpon>StartTestView.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddQuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -98,6 +101,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="SelectModeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestRunner\StartTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
