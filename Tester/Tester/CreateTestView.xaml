@@ -41,12 +41,14 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Label Content="Вопрос" Grid.Row="0"/>
                         <TextBox x:Name="questionTextBlock" Grid.Row="1"/>
                         <Label Content="Варианты ответа" Grid.Row="2"/>
                         <ListBox x:Name="answersListBox" Grid.Row="3"/>
-                        <Label x:Name="trueAnswerLabel" Grid.Row="4" Content="Привильный ответ: "/>
+                        <Label Grid.Row="4" Content="Ответы"/>
+                        <TextBox x:Name="trueAnswerTextBox" Grid.Row="5" IsEnabled="False"/>
                     </Grid>
                 </Grid>
             </Grid>

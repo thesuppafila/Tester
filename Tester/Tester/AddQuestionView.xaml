@@ -14,10 +14,20 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Вопрос"/>
         <TextBox x:Name="questionTextBox" Grid.Row="1"/>
-        <Label Grid.Row="2"  Content="Варианты ответа"/>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Grid.Column="0"  Content="Варианты ответа"/>
+            <CheckBox x:Name="multipleAnswerCheckBox" Grid.Column="1" Content="Множественный ответ" Margin="5" Click="multipleAnswerCheckBox_Click"/>
+        </Grid>
+
 
         <ListBox x:Name="answerListBox" Grid.Row="4" MouseDoubleClick="answerListBox_MouseDoubleClick"/>
         <Grid Grid.Row="3">
@@ -26,17 +36,18 @@
                 <ColumnDefinition Width="70"/>
                 <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="answerTextBox" Grid.Column="0"/>
+            <TextBox x:Name="newAnswerTextBox" Grid.Column="0"/>
             <Button x:Name="addAnswerButton" Grid.Column="1" Content="Добавить" Click="addAnswerButton_Click" Height="20" VerticalAlignment="Top"/>
             <Button x:Name="deleteAnswerButton" Grid.Column="2" Content="Удалить" Click="deleteAnswerButton_Click"/>
         </Grid>
-        <Grid Grid.Row="5">
+        <Label Grid.Row="5" Content="Ответ" />
+        <Grid Grid.Row="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="70"/>
                 <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
-            <Label  x:Name="answerLabel"  Grid.Column="0"/>
+            <TextBox x:Name="answerTextBox"  Grid.Column="0"/>
             <Button x:Name="cancelButton" Grid.Column="1" Content="Отмена" Click="cancelButton_Click"/>
             <Button x:Name="OKButton" Grid.Column="2" Content="ОК" Click="OKButton_Click"/>
         </Grid>

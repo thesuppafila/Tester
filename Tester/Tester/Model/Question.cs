@@ -16,6 +16,8 @@ namespace Tester.Model
 
         public string Bones;
 
+        public bool IsMultiple;
+
         public Question()
         {
             Answers = new List<Answer>();
@@ -38,6 +40,9 @@ namespace Tester.Model
             {
                 Answers.Add(new Answer(answer.ToString()));
             }
+            int countTrueAnswer = Answers.Where(a => a.Right == true).Count();
+            if (countTrueAnswer > 1)
+                IsMultiple = true;
         }
 
         public void AddAnswer(Answer answer)

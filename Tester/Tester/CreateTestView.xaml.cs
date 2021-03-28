@@ -44,7 +44,7 @@ namespace Tester
         }
 
         private void addQuestionFromFileButton_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
@@ -116,12 +116,21 @@ namespace Tester
 
         private void RefreshAnswers()
         {
+            trueAnswerTextBox.Clear();
             if (questionsListBox.SelectedItem != null)
             {
                 questionTextBlock.Text = questionsListBox.SelectedItem.ToString();
                 Question selectedQuestion = (Question)questionsListBox.SelectedItem;
                 answersListBox.ItemsSource = selectedQuestion.GetAnswers();
-                trueAnswerLabel.Content = String.Format("Правильный ответ: {0}", selectedQuestion.GetAnswers().Where(a => a.IsRight()).Single().ToString());
+                if (selectedQuestion.IsMultiple)
+                {
+                    string trueAnswer = string.Empty;
+                    foreach (Answer answer in selectedQuestion.GetAnswers())
+                        if (answer.Right)
+                            trueAnswerTextBox.Text += answer + "\n";
+                }
+                else
+                    trueAnswerTextBox.Text = selectedQuestion.GetAnswers().Where(a => a.Right == true).Single().ToString();                
                 answersListBox.Items.Refresh();
             }
             else

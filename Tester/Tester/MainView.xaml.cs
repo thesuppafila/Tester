@@ -41,8 +41,7 @@ namespace Tester
                 else Close();
             }
             else
-            {
-                this.Hide();
+            {                
                 CreateTestView createTestView = new CreateTestView();
                 createTestView.ShowDialog();
             }
