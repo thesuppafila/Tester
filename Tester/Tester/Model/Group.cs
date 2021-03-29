@@ -19,12 +19,6 @@ namespace Tester.Model
             Students = new List<Student>();
         }
 
-        public Group(string id, List<Student> students)
-        {
-            Id = id;
-            Students = students;
-        }
-
         public Group(string id)
         {
             Students = new List<Student>();

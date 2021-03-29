@@ -44,7 +44,7 @@ namespace Tester
         }
 
         private void addQuestionFromFileButton_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
@@ -130,7 +130,7 @@ namespace Tester
                             trueAnswerTextBox.Text += answer + "\n";
                 }
                 else
-                    trueAnswerTextBox.Text = selectedQuestion.GetAnswers().Where(a => a.Right == true).Single().ToString();                
+                    trueAnswerTextBox.Text = selectedQuestion.GetAnswers().Where(a => a.Right == true).Single().ToString();
                 answersListBox.Items.Refresh();
             }
             else
@@ -207,6 +207,11 @@ namespace Tester
                     }
                 }
             }
+        }
+
+        public Test GetTest()
+        {
+            return test;
         }
     }
 }

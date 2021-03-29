@@ -23,13 +23,6 @@ namespace Tester.Model
             Answers = new List<Answer>();
         }
 
-        public Question(string body, List<Answer> answers, string bones)
-        {
-            this.Body = body;
-            this.Answers = answers;
-            this.Bones = bones;
-        }
-
         public Question(string bone)
         {
             Bones = bone;
@@ -48,7 +41,7 @@ namespace Tester.Model
         public void AddAnswer(Answer answer)
         {
             if (!Answers.Contains(answer))
-                Answers.Add((Answer)answer.Clone());
+                Answers.Add(answer);
         }
 
         public List<Answer> GetAnswers()
@@ -68,7 +61,6 @@ namespace Tester.Model
         public override string ToString()
         {
             return Body;
-            //return string.Format("{0}\n{1}\n", Body, string.Join("\n", Answers));
         }
 
         internal void SetBody(string body)

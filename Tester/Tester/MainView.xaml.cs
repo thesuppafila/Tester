@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tester.Model;
 
 namespace Tester
 {
@@ -20,10 +21,12 @@ namespace Tester
     /// </summary>
     public partial class MainView : Window
     {
+        SelectModeView selectModeView;
+        Test test;
+
         public MainView()
         {
-
-            SelectModeView selectModeView = new SelectModeView();
+            selectModeView = new SelectModeView();
             if (selectModeView.ShowDialog() == true)
             {
                 HelloView helloView = new HelloView();
@@ -34,16 +37,16 @@ namespace Tester
                     this.MinHeight = SystemParameters.WorkArea.Height;
                     this.MaxHeight = this.MinWidth;
                     this.MaxWidth = this.MinWidth;
-
                     WindowStyle = WindowStyle.None;
                     ResizeMode = ResizeMode.NoResize;
                 }
                 else Close();
             }
             else
-            {                
+            {
                 CreateTestView createTestView = new CreateTestView();
-                createTestView.ShowDialog();
+                if (createTestView.ShowDialog() == true)
+                { }
             }
         }
 
@@ -59,7 +62,8 @@ namespace Tester
 
         private void endTestButton_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Visibility = Visibility.Hidden;
+            selectModeView.ShowDialog();
         }
     }
 }

@@ -48,7 +48,13 @@
                         <Label Content="Варианты ответа" Grid.Row="2"/>
                         <ListBox x:Name="answersListBox" Grid.Row="3"/>
                         <Label Grid.Row="4" Content="Ответы"/>
-                        <TextBox x:Name="trueAnswerTextBox" Grid.Row="5" IsEnabled="False"/>
+                        <Grid Grid.Row="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="trueAnswerTextBox" Grid.Column="0" IsEnabled="False"/>
+                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>

@@ -7,29 +7,22 @@ using System.Threading.Tasks;
 namespace Tester.Model
 {
     [Serializable]
-    public class Answer : ICloneable
+    public class Answer //:  ICloneable
     {
         public string Body;
 
         public bool Right;
 
-        public string Bone;
+        //public string Bone;
 
         public Answer()
         {
 
         }
 
-        public Answer(string body, bool right, string bone)
-        {
-            this.Body = body;
-            this.Right = right;
-            this.Bone = bone;
-        }
-
         public Answer(string bone)
         {
-            Bone = bone;
+            //Bone = bone;
             if (bone[0] == '$')
             {
                 Right = true;
@@ -53,10 +46,10 @@ namespace Tester.Model
             return Right;
         }
 
-        public object Clone()
-        {
-            return new Answer(this.Bone);
-        }
+        //public object Clone()
+        //{
+        //    return new Answer(this.Bone);
+        //}
 
         public override string ToString()
         {
