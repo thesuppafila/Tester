@@ -45,6 +45,12 @@ namespace Tester.Model
             QuestionsList = new ObservableCollection<Question>();
         }
 
+        public Test(string name,ObservableCollection<Question> questionsList)
+        {
+            Name = name;
+            QuestionsList = questionsList;
+        }
+
         public void AddQuestion(Question question)
         {
             QuestionsList.Add(question);

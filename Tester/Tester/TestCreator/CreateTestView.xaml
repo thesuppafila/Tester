@@ -28,7 +28,7 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Label Content="Название" Grid.Row="0"/>
-                    <TextBox x:Name="testNameTextBox" Grid.Row="1" Text="{Binding Name}"/>
+                    <TextBox x:Name="testNameTextBox" Grid.Row="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label Content="Список вопросов" Grid.Row="2"/>
                     <ListBox x:Name="questionsListBox" Grid.Row="3"
                              ItemsSource="{Binding Questions}"
@@ -40,7 +40,8 @@
                     <Button x:Name="removeSelectedQuestionButton" Grid.Row="6" Content="Удалить вопрос" 
                             Command="{Binding RemoveQuestion}"
                             CommandParameter="{Binding SelectedQuestion}"/>
-                    <Button x:Name="saveTestButton" Grid.Row="7" Content="Сохранить тест" Command="{Binding SaveTest}"/>
+                    <Button x:Name="saveTestButton" Grid.Row="7" Content="Сохранить тест" 
+                            Command="{Binding SaveTest}"/>
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid DataContext="{Binding SelectedQuestion}">

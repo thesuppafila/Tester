@@ -23,11 +23,14 @@ namespace Tester.ViewModel
         {
             get
             {
+                if (name == null)
+                    name = string.Empty;
                 return name;
             }
             set
-            {                
+            {
                 name = value;
+                currentTest.Name = name;
                 OnPropertyChanged("Name");
             }
         }
@@ -37,6 +40,8 @@ namespace Tester.ViewModel
         {
             get
             {
+                if (currentTest == null)
+                    currentTest = new Test();
                 return currentTest;
             }
             set
@@ -67,7 +72,11 @@ namespace Tester.ViewModel
             set
             {
                 if (value != null)
+                {
                     newQuestion = value;
+                    Questions.Add(newQuestion);
+                    currentTest.QuestionsList.Add(newQuestion);
+                }
                 OnPropertyChanged("NewQuestion");
             }
         }
@@ -91,16 +100,25 @@ namespace Tester.ViewModel
         {
             get
             {
+                if (questions == null)
+                    questions = new ObservableCollection<Question>();
                 return questions;
             }
             set
             {
                 questions = value;
+                currentTest.QuestionsList = questions;
                 OnPropertyChanged("Questions");
             }
         }
 
         public CreateQuestionViewModel createQuestionViewModel;
+
+        public CreateTestViewModel()
+        {
+            currentTest = new Test();
+            questions = new ObservableCollection<Question>();
+        }
 
         private RelayCommand addNewQuestion;
         public RelayCommand AddNewQuestion
@@ -115,11 +133,7 @@ namespace Tester.ViewModel
                         createQuestionView.DataContext = createQuestionViewModel; //мне не очень нравится этот подход, нарушает MVVM
                         if (createQuestionView.ShowDialog() == true)
                             if (createQuestionViewModel.IsValidQuestion())
-                                newQuestion = createQuestionViewModel.Question;
-                        if (Questions == null)
-                            Questions = new ObservableCollection<Question>();
-                        if (NewQuestion != null)
-                            Questions.Add(NewQuestion);
+                                NewQuestion = createQuestionViewModel.Question;
                     }));
             }
         }
@@ -163,15 +177,10 @@ namespace Tester.ViewModel
                 return saveTest ??
                     (saveTest = new RelayCommand(obj =>
                     {
-                        if (currentTest != null && currentTest.IsValid())
+                        if (currentTest.IsValid())
                             currentTest.SaveToFile();
                     }));
             }
-        }
-
-        public CreateTestViewModel()
-        {
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
