@@ -55,26 +55,32 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddQuestionView.xaml.cs">
+    <Compile Include="TestCreator\AddQuestionView.xaml.cs">
       <DependentUpon>AddQuestionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CreateTestView.xaml.cs">
+    <Compile Include="TestCreator\CreateTestView.xaml.cs">
       <DependentUpon>CreateTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\Student.cs" />
     <Compile Include="Model\Test.cs" />
-    <Compile Include="SelectModeView.xaml.cs">
-      <DependentUpon>SelectModeView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TestRunner\StartTestView.xaml.cs">
       <DependentUpon>StartTestView.xaml</DependentUpon>
     </Compile>
-    <Page Include="AddQuestionView.xaml">
+    <Compile Include="TestRunner\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="ViewModel\CreateTestViewModel.cs" />
+    <Compile Include="ViewModel\CreateQuestionViewModel.cs" />
+    <Compile Include="ViewModel\DialogCloser.cs" />
+    <Compile Include="ViewModel\MainViewViewModel.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
+    <Page Include="TestCreator\AddQuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CreateTestView.xaml">
+    <Page Include="TestCreator\CreateTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -82,7 +88,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainView.xaml">
+    <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -93,18 +99,15 @@
     <Compile Include="HelloView.xaml.cs">
       <DependentUpon>HelloView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="IAnswer.cs" />
-    <Compile Include="IQuestion.cs" />
-    <Compile Include="ITicket.cs" />
-    <Compile Include="MainView.xaml.cs">
+    <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SelectModeView.xaml">
+    <Page Include="TestRunner\StartTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestRunner\StartTestView.xaml">
+    <Page Include="TestRunner\TestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

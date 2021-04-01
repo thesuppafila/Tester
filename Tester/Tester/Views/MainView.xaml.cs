@@ -10,28 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Tester.Model;
+using Tester.TestRunner;
+using Tester.ViewModel;
 
 namespace Tester
 {
     /// <summary>
-    /// Логика взаимодействия для SelectModeView.xaml
+    /// Логика взаимодействия для MainView.xaml
     /// </summary>
-    public partial class SelectModeView : Window
+    public partial class MainView : Window
     {
-        public SelectModeView()
+        public MainView()
         {
             InitializeComponent();
-        }
-
-        private void testModeButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = true;
-        }
-
-        private void createTestModeButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = false;
+            this.DataContext = new MainViewViewModel();
         }
     }
 }

@@ -1,78 +1,134 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace Tester.Model
 {
     [Serializable]
-    public class Question: ICloneable
+    public class Question : ICloneable, INotifyPropertyChanged
     {
-        public string Body;
+        private string body;
+        public string Body
+        {
+            get { return body; }
+            set
+            {
+                body = value;
+                OnPropertyChanged("Body");
+            }
+        }
 
-        public List<Answer> Answers;
+        private ObservableCollection<Answer> answers;
+        public ObservableCollection<Answer> Answers
+        {
+            get { return answers; }
+            set
+            {
+                answers = value;
+                OnPropertyChanged("Answers");
+            }
+        }
 
-        public string Bones;
+        private string bones;
+        public string Bones
+        {
+            get { return bones; }
+            set
+            {
+                bones = value;
+                OnPropertyChanged("Bones");
+            }
+        }
 
-        public bool IsMultiple;
+        private bool isMultiple;
+        public bool IsMultiple
+        {
+            get { return isMultiple; }
+            set
+            {
+                isMultiple = value;
+                if (TrueAnswers != null)
+                    if (!isMultiple)
+                        TrueAnswers.Clear();
+                OnPropertyChanged("IsMultiple");
+            }
+        }
+
+        private ObservableCollection<Answer> trueAnswers;
+        public ObservableCollection<Answer> TrueAnswers
+        {
+            get
+            {
+                return trueAnswers;
+            }
+            set
+            {
+                trueAnswers = value;
+                OnPropertyChanged("TrueAnswers");
+            }
+        }
 
         public Question()
         {
-            Answers = new List<Answer>();
+            Answers = new ObservableCollection<Answer>();
         }
 
         public Question(string bone)
         {
             Bones = bone;
             Body = Regex.Match(bone, @".*?(?=\r\n)").ToString();
-            Answers = new List<Answer>();
+            Answers = new ObservableCollection<Answer>();
+            TrueAnswers = new ObservableCollection<Answer>();
             var answerBones = Regex.Matches(bone, @"(?<=#).*?(?=\r\n)");
             foreach (var answer in answerBones)
             {
-                Answers.Add(new Answer(answer.ToString()));
+                Answer ans = new Answer(answer.ToString());
+                if (ans.IsRight)
+                    TrueAnswers.Add(ans);
+                Answers.Add(ans);
             }
-            int countTrueAnswer = Answers.Where(a => a.Right == true).Count();
+            int countTrueAnswer = Answers.Where(a => a.IsRight == true).Count();
             if (countTrueAnswer > 1)
                 IsMultiple = true;
         }
-
-        public void AddAnswer(Answer answer)
-        {
-            if (!Answers.Contains(answer))
-                Answers.Add(answer);
-        }
-
-        public List<Answer> GetAnswers()
-        {
-            return Answers;
-        }
-
-        //public string GetTrueAnswer()
-        //{
-        //    string trueCode = string.Empty;
-        //    foreach (Answer ans in Answers)
-        //        if (ans.Right && ans.Code != null)
-        //            trueCode += ans.Code;
-        //    return trueCode;
-        //}
 
         public override string ToString()
         {
             return Body;
         }
 
-        internal void SetBody(string body)
-        {
-            if (body == null)
-                throw new ArgumentNullException();
-            this.Body = body;
-        }
-
         public object Clone()
         {
             return new Question(Bones);
+        }
+
+        public bool IsValid()
+        {
+            if (Body == null || Body == string.Empty)
+                return false;
+
+            if (Answers.Count == 0)
+                return false;
+
+            if (TrueAnswers.Count == 1 && !IsMultiple)
+                return true;
+
+            if (TrueAnswers.Count > 1 && IsMultiple)
+                return true;
+            return false;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

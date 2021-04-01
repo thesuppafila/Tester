@@ -4,8 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester"
+        xmlns:vm="clr-namespace:Tester.ViewModel"
+
         mc:Ignorable="d"
-        Title="CreateTestView" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+        Title="CreateTestView" Height="450" Width="800" WindowStartupLocation="CenterScreen" >
+    
     <TabControl>
         <TabItem Header="Редактирование тестов">
             <Grid>
@@ -25,16 +28,22 @@
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
                     <Label Content="Название" Grid.Row="0"/>
-                    <TextBox x:Name="testNameTextBox" Grid.Row="1"/>
+                    <TextBox x:Name="testNameTextBox" Grid.Row="1" Text="{Binding Name}"/>
                     <Label Content="Список вопросов" Grid.Row="2"/>
-                    <ListBox x:Name="questionsListBox" Grid.Row="3" SelectionChanged="questionsListBox_SelectionChanged"/>
-                    <Button x:Name="addQuestionButton" Grid.Row="4" Content="Добавить вопрос" Click="addQuestionButton_Click"/>
-                    <Button x:Name="addQuestionFromFileButton" Grid.Row="5" Content="Добавить вопросы из файла" Click="addQuestionFromFileButton_Click"/>
-                    <Button x:Name="deleteSelectedQuestionButton" Grid.Row="6" Content="Удалить вопрос" Click="deleteSelectedQuestionButton_Click"/>
-                    <Button x:Name="saveTestButton" Grid.Row="7" Content="Сохранить тест" Click="saveTestButton_Click"/>
+                    <ListBox x:Name="questionsListBox" Grid.Row="3"
+                             ItemsSource="{Binding Questions}"
+                             SelectedItem="{Binding SelectedQuestion}"/>
+                    <Button x:Name="addQuestionButton" Grid.Row="4" Content="Добавить вопрос" 
+                            Command="{Binding AddNewQuestion}"/>
+                    <Button x:Name="addQuestionFromFileButton" Grid.Row="5" Content="Добавить вопросы из файла" 
+                            Command="{Binding AddNewQuestionFromFile}" />
+                    <Button x:Name="removeSelectedQuestionButton" Grid.Row="6" Content="Удалить вопрос" 
+                            Command="{Binding RemoveQuestion}"
+                            CommandParameter="{Binding SelectedQuestion}"/>
+                    <Button x:Name="saveTestButton" Grid.Row="7" Content="Сохранить тест" Command="{Binding SaveTest}"/>
                 </Grid>
                 <Grid Grid.Column="1">
-                    <Grid>
+                    <Grid DataContext="{Binding SelectedQuestion}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="100"/>
@@ -44,16 +53,16 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Label Content="Вопрос" Grid.Row="0"/>
-                        <TextBox x:Name="questionTextBlock" Grid.Row="1"/>
+                        <TextBox x:Name="questionTextBlock" Grid.Row="1" Text="{Binding Body, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content="Варианты ответа" Grid.Row="2"/>
-                        <ListBox x:Name="answersListBox" Grid.Row="3"/>
+                        <ListBox x:Name="answersListBox" Grid.Row="3" ItemsSource="{Binding Answers}"/>
                         <Label Grid.Row="4" Content="Ответы"/>
                         <Grid Grid.Row="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="auto"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="trueAnswerTextBox" Grid.Column="0" IsEnabled="False"/>
+                            <ListBox x:Name="trueAnswersListBox" Grid.Column="0" ItemsSource="{Binding TrueAnswers, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -77,11 +86,11 @@
                     </Grid.RowDefinitions>
                     <Label Content="Номер группы" Grid.Row="0"/>
                     <TextBox x:Name="newGroupIdTextBox" Grid.Row="1"/>
-                    <Button x:Name="addGroupButton" Grid.Row="2" Content="Добавить группу" Click="addGroupButton_Click"/>
+                    <Button x:Name="addGroupButton" Grid.Row="2" Content="Добавить группу" />
                     <Label Content="Список групп" Grid.Row="3"/>
-                    <ListBox x:Name="groupListBox" Grid.Row="4" SelectionChanged="groupListBox_SelectionChanged"/>
-                    <Button x:Name="addGroupFromFileButton" Grid.Row="5" Content="Добавить группу из файла" Click="addGroupFromFileButton_Click"/>
-                    <Button x:Name="deleteGroupButton" Grid.Row="6" Content="Удалить группу" Click="deleteGroupButton_Click"/>
+                    <ListBox x:Name="groupListBox" Grid.Row="4" />
+                    <Button x:Name="addGroupFromFileButton" Grid.Row="5" Content="Добавить группу из файла" />
+                    <Button x:Name="deleteGroupButton" Grid.Row="6" Content="Удалить группу" />
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid>
@@ -103,8 +112,8 @@
                                 <ColumnDefinition Width="70"/>
                             </Grid.ColumnDefinitions>
                             <TextBox x:Name="studentNameTextBox" Grid.Column="0" Text="ФИО студента"/>
-                            <Button x:Name="addStudentButton" Grid.Column="1" Content="Добавить" Click="addStudentButton_Click"/>
-                            <Button x:Name="deleteStudentButton" Grid.Column="2" Content="Удалить" Click="deleteStudentButton_Click"/>
+                            <Button x:Name="addStudentButton" Grid.Column="1" Content="Добавить" />
+                            <Button x:Name="deleteStudentButton" Grid.Column="2" Content="Удалить" />
                         </Grid>
                     </Grid>
                 </Grid>

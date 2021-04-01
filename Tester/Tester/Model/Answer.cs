@@ -1,19 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tester.Model
 {
     [Serializable]
-    public class Answer //:  ICloneable
+    public class Answer : INotifyPropertyChanged
     {
-        public string Body;
+        private string body;
 
-        public bool Right;
+        private bool isRight;
 
-        //public string Bone;
+        public string Body
+        {
+            get { return body; }
+            set
+            {
+                body = value;
+                OnPropertyChanged("Body");
+            }
+        }
+
+        public bool IsRight
+        {
+            get { return isRight; }
+            set
+            {
+                isRight = value;
+                OnPropertyChanged("IsRight");
+            }
+        }
+
 
         public Answer()
         {
@@ -22,38 +43,23 @@ namespace Tester.Model
 
         public Answer(string bone)
         {
-            //Bone = bone;
             if (bone[0] == '$')
             {
-                Right = true;
+                IsRight = true;
                 bone = bone.Substring(1);
             }
-            Body = bone;
+            body = bone;
         }
-
-        public void SetRight()
-        {
-            this.Right = true;
-        }
-
-        public void SetUnright()
-        {
-            this.Right = false;
-        }
-
-        public bool IsRight()
-        {
-            return Right;
-        }
-
-        //public object Clone()
-        //{
-        //    return new Answer(this.Bone);
-        //}
 
         public override string ToString()
         {
-            return "\t" + Body;
+            return "\t" + body;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

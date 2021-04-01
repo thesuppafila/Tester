@@ -10,18 +10,51 @@ using System.Threading.Tasks;
 namespace Tester.Model
 {
     [Serializable]
-    public class Ticket
+    public class Ticket : INotifyPropertyChanged
     {
-        public string Body;
+        private string body;
 
-        public List<Question> Questions;
+        private List<Question> questionsList;
 
-        public int Variant;
+        private int variant;
 
-        public Ticket()
+        public string Body
         {
-
+            get { return body; }
+            set
+            {
+                body = value;
+                OnPropertyChanged("Body");
+            }
         }
+
+        public List<Question> Questions
+        {
+            get { return questionsList; }
+            set
+            {
+                questionsList = value;
+                OnPropertyChanged("QuestionsList");
+            }
+        }
+
+        public int Variant
+        {
+            get { return variant; }
+            set
+            {
+                variant = value;
+                OnPropertyChanged("Variant");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
+
 
         public void SaveToFile(string path)
         {
@@ -34,9 +67,9 @@ namespace Tester.Model
         public override string ToString()
         {
             string ticket = string.Empty;
-            for (int i = 0; i < Questions.Count(); i++)
+            for (int i = 0; i < questionsList.Count(); i++)
             {
-                ticket += string.Format("{0}. {1}\n", (i + 1).ToString(), Questions[i]);
+                ticket += string.Format("{0}. {1}\n", (i + 1).ToString(), questionsList[i]);
             }
             return ticket;
         }
