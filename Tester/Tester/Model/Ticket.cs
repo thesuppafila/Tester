@@ -12,28 +12,16 @@ namespace Tester.Model
     [Serializable]
     public class Ticket : INotifyPropertyChanged
     {
-        private string body;
-
-        private List<Question> questionsList;
+        private List<Question> questions;
 
         private int variant;
 
-        public string Body
-        {
-            get { return body; }
-            set
-            {
-                body = value;
-                OnPropertyChanged("Body");
-            }
-        }
-
         public List<Question> Questions
         {
-            get { return questionsList; }
+            get { return questions; }
             set
             {
-                questionsList = value;
+                questions = value;
                 OnPropertyChanged("QuestionsList");
             }
         }
@@ -64,12 +52,18 @@ namespace Tester.Model
             }
         }
 
+        public Ticket()
+        {
+            questions = new List<Question>();
+
+        }
+
         public override string ToString()
         {
             string ticket = string.Empty;
-            for (int i = 0; i < questionsList.Count(); i++)
+            for (int i = 0; i < questions.Count(); i++)
             {
-                ticket += string.Format("{0}. {1}\n", (i + 1).ToString(), questionsList[i]);
+                ticket += string.Format("{0}. {1}\n", (i + 1).ToString(), questions[i]);
             }
             return ticket;
         }
