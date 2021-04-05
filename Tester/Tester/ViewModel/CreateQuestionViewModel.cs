@@ -249,12 +249,10 @@ namespace Tester.ViewModel
             }
         }
 
-
         public bool IsValidQuestion()
         {
             return Question.IsValid();
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

@@ -81,10 +81,25 @@ namespace Tester.Model
                     using (FileStream fs = new FileStream(fileInfo.FullName, FileMode.OpenOrCreate))
                     {
                         Test test = (Test)formatter.Deserialize(fs);
+                        this.Name = test.Name;
                         foreach (Question q in test.QuestionsList) //почему то не работает
-                            QuestionsList.Add(q);
+                            QuestionsList.Add(q);                        
                     }
                 }
+            }
+        }
+
+        public void LoadFile()
+        {
+            XmlSerializer formatter = new XmlSerializer(typeof(Test));
+
+            using (FileStream fs = new FileStream("localBase.xml", FileMode.OpenOrCreate))
+            {
+                Test test = (Test)formatter.Deserialize(fs);
+                this.Name = test.Name;
+                foreach (Question q in test.QuestionsList) //почему то не работает
+                    QuestionsList.Add(q);
+
             }
         }
 
@@ -108,7 +123,7 @@ namespace Tester.Model
         {
             XmlSerializer formatter = new XmlSerializer(typeof(Test));
             string[] usedNames = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
-            if (!usedNames.Contains(Name))
+            if (!usedNames.Contains(AppDomain.CurrentDomain.BaseDirectory + Name + ".xml"))
                 using (FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Name + ".xml", FileMode.OpenOrCreate))
                 {
                     formatter.Serialize(fs, this);

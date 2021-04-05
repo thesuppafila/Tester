@@ -5,11 +5,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Tester.ViewModel;
 using Tester.TestRunner;
+using Tester.Model;
 
 namespace Tester.ViewModel
 {
     public class MainViewViewModel : BaseViewModel
     {
+        public Test test;
+
+        public MainViewViewModel()
+        {
+            test = new Test();
+            test.LoadFile();
+        }
+
         private RelayCommand selectTestModeCommand;
         public RelayCommand SelectTestModeCommand
         {
@@ -19,6 +28,7 @@ namespace Tester.ViewModel
                     (selectTestModeCommand = new RelayCommand(obj =>
                 {
                     StartTestView startTestView = new StartTestView();
+                    startTestView.currentTest = test;
                     startTestView.Show();
                 }));
             }

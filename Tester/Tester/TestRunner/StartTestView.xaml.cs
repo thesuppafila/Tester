@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-
+using Tester.Model;
 namespace Tester.TestRunner
 {
     /// <summary>
@@ -19,6 +19,8 @@ namespace Tester.TestRunner
     /// </summary>
     public partial class StartTestView : Window
     {
+        public Test currentTest;        
+
         public StartTestView()
         {
             InitializeComponent();
@@ -26,7 +28,8 @@ namespace Tester.TestRunner
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TestView testView = new TestView(groupTextBox.Text, nameTextBox.Text, new Model.Ticket());
+            Ticket ticket = currentTest.GetTicket(int.Parse(countTextBox.Text), int.Parse(startIndexTextBox.Text), int.Parse(endIndexTextBox.Text));
+            TestView testView = new TestView(groupTextBox.Text, nameTextBox.Text, ticket);
             testView.ShowDialog();
         }
     }
