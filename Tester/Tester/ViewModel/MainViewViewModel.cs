@@ -16,7 +16,11 @@ namespace Tester.ViewModel
         public MainViewViewModel()
         {
             test = new Test();
-            test.LoadFile();
+            try
+            {
+                test.LoadFile();
+            }
+            catch { };
         }
 
         private RelayCommand selectTestModeCommand;

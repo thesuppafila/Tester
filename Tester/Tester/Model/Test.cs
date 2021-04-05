@@ -70,7 +70,7 @@ namespace Tester.Model
                 if (fileInfo.Extension.ToLower() == ".txt")
                 {
 
-                    var questionBones = Regex.Matches(File.ReadAllText("Data\\questions.txt"), @"(?<=\?)(.)*\n(\#.*\n)*", RegexOptions.Multiline);
+                    var questionBones = Regex.Matches(File.ReadAllText(openFileDialog.FileName), @"(?<=\?)(.)*\n(\#.*\n)*", RegexOptions.Multiline);
                     foreach (var bone in questionBones)
                         QuestionsList.Add(new Question(bone.ToString()));
                 }
@@ -93,7 +93,7 @@ namespace Tester.Model
         {
             XmlSerializer formatter = new XmlSerializer(typeof(Test));
 
-            using (FileStream fs = new FileStream("localBase.xml", FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("Data\\localTest.xml", FileMode.OpenOrCreate))
             {
                 Test test = (Test)formatter.Deserialize(fs);
                 this.Name = test.Name;
