@@ -9,10 +9,10 @@
     <Grid>
         <StackPanel>
             <Label Content="Группа"/>
-            <TextBox />
+            <TextBox x:Name="groupTextBox"/>
             <Label Content="ФИО"/>
-            <TextBox />
-            <Button Content="Начать тестирование"/>
+            <TextBox x:Name="nameTextBox"/>
+            <Button Content="Начать тестирование" Click="Button_Click"/>
         </StackPanel>
     </Grid>
 </Window>

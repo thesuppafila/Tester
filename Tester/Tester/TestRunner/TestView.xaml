@@ -23,8 +23,15 @@
             <Button x:Name="endTestButton" Grid.Column="2" Content="Завершить тестирование" Click="endTestButton_Click" FontSize="13"/>
         </Grid>
 
-        <RichTextBox x:Name="richTextBox" Grid.Row="1">
-        </RichTextBox>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label x:Name="questionText" Grid.Row="0"/>
+            <StackPanel x:Name="answersPanel" Grid.Row="1"/>
+        </Grid>
 
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

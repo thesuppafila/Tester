@@ -23,5 +23,11 @@ namespace Tester.TestRunner
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TestView testView = new TestView(groupTextBox.Text, nameTextBox.Text, new Model.Ticket());
+            testView.ShowDialog();
+        }
     }
 }
