@@ -186,9 +186,16 @@ namespace Tester.ViewModel
                         if (TrueAnswers == null)
                             TrueAnswers = new ObservableCollection<Answer>();
                         if (!IsMultiple)
+                        {
+                            foreach (Answer answer in TrueAnswers)
+                                answer.IsRight = false;
                             TrueAnswers.Clear();
+                        }
                         if (SelectedAnswer != null && !TrueAnswers.Contains(SelectedAnswer))
+                        {
+                            SelectedAnswer.IsRight = true;
                             TrueAnswers.Add(SelectedAnswer);
+                        }
                     }));
             }
         }

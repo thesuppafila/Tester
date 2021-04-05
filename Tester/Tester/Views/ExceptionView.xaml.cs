@@ -11,29 +11,21 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Tester.Model;
 
-namespace Tester
+namespace Tester.Views
 {
     /// <summary>
-    /// Логика взаимодействия для HelloView.xaml
+    /// Логика взаимодействия для ExceptionView.xaml
     /// </summary>
-    public partial class HelloView : Window
+    public partial class ExceptionView : Window
     {
-        public HelloView()
+        public ExceptionView()
         {
             InitializeComponent();
         }
 
-        private void cancelButton_Click(object sender, RoutedEventArgs e)
+        private void OKButton_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
-            Close();
-        }
-
-        private void acceptButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.DialogResult = true;
             Close();
         }
     }

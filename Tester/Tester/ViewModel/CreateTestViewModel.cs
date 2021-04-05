@@ -169,13 +169,27 @@ namespace Tester.ViewModel
             }
         }
 
-        private RelayCommand saveTest;
-        public RelayCommand SaveTest
+        private RelayCommand save;
+        public RelayCommand Save
         {
             get
             {
-                return saveTest ??
-                    (saveTest = new RelayCommand(obj =>
+                return save ?? (
+                    save = new RelayCommand(obj =>
+                    {
+                        if (currentTest.IsValid())
+                            currentTest.Save();
+                    }));
+            }
+        }
+
+        private RelayCommand saveToFile;
+        public RelayCommand SaveToFile
+        {
+            get
+            {
+                return saveToFile ??
+                    (saveToFile = new RelayCommand(obj =>
                     {
                         if (currentTest.IsValid())
                             currentTest.SaveToFile();

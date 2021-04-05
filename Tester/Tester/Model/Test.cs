@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Tester.Views;
 
 namespace Tester.Model
 {
@@ -17,9 +18,6 @@ namespace Tester.Model
     public class Test : INotifyPropertyChanged
     {
         private string name;
-
-        private ObservableCollection<Question> questionsList;
-
         public string Name
         {
             get { return name; }
@@ -30,6 +28,7 @@ namespace Tester.Model
             }
         }
 
+        private ObservableCollection<Question> questionsList;
         public ObservableCollection<Question> QuestionsList
         {
             get { return questionsList; }
@@ -45,7 +44,7 @@ namespace Tester.Model
             QuestionsList = new ObservableCollection<Question>();
         }
 
-        public Test(string name,ObservableCollection<Question> questionsList)
+        public Test(string name, ObservableCollection<Question> questionsList)
         {
             Name = name;
             QuestionsList = questionsList;
@@ -60,11 +59,6 @@ namespace Tester.Model
         {
             if (QuestionsList.Contains(question))
                 QuestionsList.Remove(question);
-        }
-
-        public Ticket CreateTicket()
-        {
-            return new Ticket();
         }
 
         public void LoadFromFile()
@@ -109,6 +103,24 @@ namespace Tester.Model
             }
         }
 
+
+        public void Save()
+        {
+            XmlSerializer formatter = new XmlSerializer(typeof(Test));
+            string[] usedNames = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
+            if (!usedNames.Contains(Name))
+                using (FileStream fs = new FileStream(AppDomain.CurrentDomain.BaseDirectory + Name + ".xml", FileMode.OpenOrCreate))
+                {
+                    formatter.Serialize(fs, this);
+                }
+            else
+            {
+                ExceptionView exceptionView = new ExceptionView();
+                exceptionView.exceptionBodyTextBlock.Text = "Имя занято";
+                exceptionView.Show();
+            }
+        }
+
         public bool IsValid()
         {
             if (Name == null || Name == string.Empty)
@@ -119,10 +131,20 @@ namespace Tester.Model
             return true;
         }
 
+        public Ticket GetTicket(int countQuestion, int startIndex, int endIndex)
+        {
+            Ticket ticket = new Ticket();
+            for (int i = 0; i < countQuestion; i++)
+                ticket.Questions.Add(QuestionsList[Randomizer.Next(startIndex, endIndex)]);
+            ticket.Variant = Randomizer.Next(0, 100);
+            return ticket;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
+
     }
 }
