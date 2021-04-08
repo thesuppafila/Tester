@@ -24,42 +24,32 @@ namespace Tester.Model
             set
             {
                 name = value;
-                OnPropertyChanged("Test");
+                OnPropertyChanged("Name");
             }
         }
 
-        private ObservableCollection<Question> questionsList;
-        public ObservableCollection<Question> QuestionsList
+        private ObservableCollection<Question> questions;
+        public ObservableCollection<Question> Questions
         {
-            get { return questionsList; }
+            get { return questions; }
             set
             {
-                questionsList = value;
-                OnPropertyChanged("QuestionList");
+                questions = value;
+                OnPropertyChanged("Questions");
             }
         }
 
         public Test()
         {
-            QuestionsList = new ObservableCollection<Question>();
+            Questions = new ObservableCollection<Question>();
         }
 
         public Test(string name, ObservableCollection<Question> questionsList)
         {
             Name = name;
-            QuestionsList = questionsList;
+            Questions = questionsList;
         }
 
-        public void AddQuestion(Question question)
-        {
-            QuestionsList.Add(question);
-        }
-
-        public void RemoveQuestion(Question question)
-        {
-            if (QuestionsList.Contains(question))
-                QuestionsList.Remove(question);
-        }
 
         public void LoadFromFile()
         {
@@ -72,7 +62,7 @@ namespace Tester.Model
 
                     var questionBones = Regex.Matches(File.ReadAllText(openFileDialog.FileName), @"(?<=\?)(.)*\n(\#.*\n)*", RegexOptions.Multiline);
                     foreach (var bone in questionBones)
-                        QuestionsList.Add(new Question(bone.ToString()));
+                        Questions.Add(new Question(bone.ToString()));
                 }
                 if (fileInfo.Extension.ToLower() == ".xml")
                 {
@@ -82,8 +72,8 @@ namespace Tester.Model
                     {
                         Test test = (Test)formatter.Deserialize(fs);
                         this.Name = test.Name;
-                        foreach (Question q in test.QuestionsList) //почему то не работает
-                            QuestionsList.Add(q);                        
+                        foreach (Question q in test.Questions)
+                            Questions.Add(q);                        
                     }
                 }
             }
@@ -97,8 +87,8 @@ namespace Tester.Model
             {
                 Test test = (Test)formatter.Deserialize(fs);
                 this.Name = test.Name;
-                foreach (Question q in test.QuestionsList) //почему то не работает
-                    QuestionsList.Add(q);
+                foreach (Question q in test.Questions) //почему то не работает
+                    Questions.Add(q);
 
             }
         }
@@ -141,7 +131,7 @@ namespace Tester.Model
             if (Name == null || Name == string.Empty)
                 return false;
 
-            if (QuestionsList.Count == 0)
+            if (Questions.Count == 0)
                 return false;
             return true;
         }
@@ -150,7 +140,7 @@ namespace Tester.Model
         {
             Ticket ticket = new Ticket();
             for (int i = 0; i < countQuestion; i++)
-                ticket.Questions.Add(QuestionsList[Randomizer.Next(startIndex, endIndex)]);
+                ticket.Questions.Add(Questions[Randomizer.Next(startIndex, endIndex)]);
             ticket.Variant = Randomizer.Next(0, 100);
             return ticket;
         }

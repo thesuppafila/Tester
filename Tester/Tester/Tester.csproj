@@ -57,8 +57,8 @@
     </ApplicationDefinition>
     <Compile Include="Model\QuestionGroup.cs" />
     <Compile Include="Model\Randomizer.cs" />
-    <Compile Include="TestCreator\AddQuestionView.xaml.cs">
-      <DependentUpon>AddQuestionView.xaml</DependentUpon>
+    <Compile Include="TestCreator\CreateQuestionView.xaml.cs">
+      <DependentUpon>CreateQuestionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestCreator\CreateTestView.xaml.cs">
       <DependentUpon>CreateTestView.xaml</DependentUpon>
@@ -66,6 +66,9 @@
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\Student.cs" />
     <Compile Include="Model\Test.cs" />
+    <Compile Include="TestCreator\TestView.xaml.cs">
+      <DependentUpon>TestView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestRunner\StartTestView.xaml.cs">
       <DependentUpon>StartTestView.xaml</DependentUpon>
     </Compile>
@@ -78,11 +81,15 @@
     <Compile Include="ViewModel\DialogCloser.cs" />
     <Compile Include="ViewModel\MainViewViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
-    <Page Include="TestCreator\AddQuestionView.xaml">
+    <Page Include="TestCreator\CreateQuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TestCreator\CreateTestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TestCreator\TestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -98,6 +105,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\TestViewModel.cs" />
     <Compile Include="Views\ExceptionView.xaml.cs">
       <DependentUpon>ExceptionView.xaml</DependentUpon>
     </Compile>

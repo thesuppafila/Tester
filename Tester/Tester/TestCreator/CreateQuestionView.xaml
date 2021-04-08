@@ -6,8 +6,8 @@
         xmlns:vm="clr-namespace:Tester.ViewModel"
         xmlns:local="clr-namespace:Tester"
         mc:Ignorable="d"
-        Title="AddQuestionView" Height="450" Width="450"
-        vm:DialogCloser.DialogResult="{Binding DialogResult}">
+        Title="AddQuestionView" Height="450" Width="450">
+    <!--:DialogCloser.DialogResult="{Binding DialogResult}"-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -61,6 +61,13 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>            
+
+        </Grid>
+        <Grid Grid.Row="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <Button x:Name="cancelButton" Grid.Column="0" Content="Отмена" Command="{Binding CancelCommand}" />
             <Button x:Name="OKButton" Grid.Column="1" Content="ОК" Command="{Binding OKCommand}"/>
         </Grid>

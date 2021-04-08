@@ -18,20 +18,27 @@ namespace Tester.ViewModel
 {
     public class CreateTestViewModel : INotifyPropertyChanged
     {
-        private string name;
-        public string Name
+        public CreateTestViewModel()
+        {
+            CurrentTest = new Test();
+        }
+
+        public CreateTestViewModel(Test currentTest)
+        {
+            CurrentTest = currentTest;
+        }
+
+        private bool dialogResult;
+        public bool DialogResult
         {
             get
             {
-                if (name == null)
-                    name = string.Empty;
-                return name;
+                return dialogResult;
             }
             set
             {
-                name = value;
-                currentTest.Name = name;
-                OnPropertyChanged("Name");
+                dialogResult = value;
+                OnPropertyChanged("DialogResult");
             }
         }
 
@@ -40,14 +47,38 @@ namespace Tester.ViewModel
         {
             get
             {
-                if (currentTest == null)
-                    currentTest = new Test();
                 return currentTest;
             }
             set
             {
                 currentTest = value;
                 OnPropertyChanged("CurrentTest");
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return CurrentTest.Name;
+            }
+            set
+            {
+                CurrentTest.Name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        public ObservableCollection<Question> Questions
+        {
+            get
+            {
+                return CurrentTest.Questions;
+            }
+            set
+            {
+                CurrentTest.Questions = value;
+                OnPropertyChanged("Questions");
             }
         }
 
@@ -65,22 +96,6 @@ namespace Tester.ViewModel
             }
         }
 
-        private Question newQuestion;
-        public Question NewQuestion
-        {
-            get { return newQuestion; }
-            set
-            {
-                if (value != null)
-                {
-                    newQuestion = value;
-                    Questions.Add(newQuestion);
-                    currentTest.QuestionsList.Add(newQuestion);
-                }
-                OnPropertyChanged("NewQuestion");
-            }
-        }
-
         private Model.Group selectedGroup;
         public Model.Group SelectedGroup
         {
@@ -95,31 +110,6 @@ namespace Tester.ViewModel
             }
         }
 
-        private ObservableCollection<Question> questions;
-        public ObservableCollection<Question> Questions
-        {
-            get
-            {
-                if (questions == null)
-                    questions = new ObservableCollection<Question>();
-                return questions;
-            }
-            set
-            {
-                questions = value;
-                currentTest.QuestionsList = questions;
-                OnPropertyChanged("Questions");
-            }
-        }
-
-        public CreateQuestionViewModel createQuestionViewModel;
-
-        public CreateTestViewModel()
-        {
-            currentTest = new Test();
-            questions = new ObservableCollection<Question>();
-        }
-
         private RelayCommand addNewQuestion;
         public RelayCommand AddNewQuestion
         {
@@ -129,27 +119,24 @@ namespace Tester.ViewModel
                     (addNewQuestion = new RelayCommand(obj =>
                     {
                         CreateQuestionView createQuestionView = new CreateQuestionView();
-                        createQuestionViewModel = new CreateQuestionViewModel();
-                        createQuestionView.DataContext = createQuestionViewModel; //мне не очень нравится этот подход, нарушает MVVM
                         if (createQuestionView.ShowDialog() == true)
-                            if (createQuestionViewModel.IsValidQuestion())
-                                NewQuestion = createQuestionViewModel.Question;
+                        {
+                            CurrentTest.Questions.Add(createQuestionView.createQuestionViewModel.CurrentQuestion);
+                        }
                     }));
             }
         }
 
-        private RelayCommand addNewQuestionFromFile;
-        public RelayCommand AddNewQuestionFromFile
+        private RelayCommand loadQuestionFromFile;
+        public RelayCommand LoadQuestionFromFile
         {
             get
             {
-                return addNewQuestionFromFile ??
-                    (addNewQuestionFromFile = new RelayCommand(obj =>
+                return loadQuestionFromFile ??
+                    (loadQuestionFromFile = new RelayCommand(obj =>
                     {
-                        Test newTest = new Test();
-                        newTest.LoadFromFile();
-                        if (newTest != null)
-                            Questions = newTest.QuestionsList;
+                        CurrentTest.LoadFromFile();
+                        Name = CurrentTest.Name;
                     }));
             }
         }
@@ -162,37 +149,35 @@ namespace Tester.ViewModel
                 return removeQuestion ??
                     (removeQuestion = new RelayCommand(obj =>
                     {
-                        Question question = obj as Question;
-                        if (question != null)
-                            Questions.Remove(question);
+                        if (SelectedQuestion != null)
+                            CurrentTest.Questions.Remove(SelectedQuestion);
                     }));
             }
         }
 
-        private RelayCommand save;
-        public RelayCommand Save
+        private RelayCommand okCommand;
+        public RelayCommand OKCommand
         {
             get
             {
-                return save ?? (
-                    save = new RelayCommand(obj =>
+                return okCommand ?? (
+                    okCommand = new RelayCommand(obj =>
                     {
                         if (currentTest.IsValid())
-                            currentTest.Save();
+                            CurrentTest.SaveToFile();
                     }));
             }
         }
 
-        private RelayCommand saveToFile;
-        public RelayCommand SaveToFile
+        private RelayCommand cancelCommand;
+        public RelayCommand CancelCommand
         {
             get
             {
-                return saveToFile ??
-                    (saveToFile = new RelayCommand(obj =>
+                return cancelCommand ??
+                    (cancelCommand = new RelayCommand(obj =>
                     {
-                        if (currentTest.IsValid())
-                            currentTest.SaveToFile();
+                        dialogResult = false;
                     }));
             }
         }

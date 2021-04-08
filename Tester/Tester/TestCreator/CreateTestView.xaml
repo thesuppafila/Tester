@@ -4,124 +4,85 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester"
-        xmlns:vm="clr-namespace:Tester.ViewModel"
-
         mc:Ignorable="d"
-        Title="CreateTestView" Height="450" Width="800" WindowStartupLocation="CenterScreen" >
-    
-    <TabControl>
-        <TabItem Header="Редактирование тестов">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="300"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <Label Content="Название" Grid.Row="0"/>
-                    <TextBox x:Name="testNameTextBox" Grid.Row="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Label Content="Список вопросов" Grid.Row="2"/>
-                    <ListBox x:Name="questionsListBox" Grid.Row="3"
+        Title="Редактирование теста" Height="450" Width="800" WindowStartupLocation="CenterScreen" >
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Label Content= "Тест" Grid.Row="0" HorizontalAlignment="Center"/>
+            <TextBox x:Name="testNameTextBox" Grid.Row="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="Список вопросов" Grid.Row="2" HorizontalAlignment="Center"/>
+            <ListBox x:Name="questionsListBox" Grid.Row="3"
                              ItemsSource="{Binding Questions}"
                              SelectedItem="{Binding SelectedQuestion}"/>
-                    <Button x:Name="addQuestionButton" Grid.Row="4" Content="Добавить вопрос" 
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="addQuestionButton" Grid.Column="0" Content="Добавить" 
                             Command="{Binding AddNewQuestion}"/>
-                    <Button x:Name="addQuestionFromFileButton" Grid.Row="5" Content="Добавить вопросы из файла" 
-                            Command="{Binding AddNewQuestionFromFile}" />
-                    <Button x:Name="removeSelectedQuestionButton" Grid.Row="6" Content="Удалить вопрос" 
-                            Command="{Binding RemoveQuestion}"
-                            CommandParameter="{Binding SelectedQuestion}"/>
-                    <Button x:Name="saveButton" Grid.Row="7" Content="Сохранить" 
-                            Command="{Binding Save}"/>
-                    <Button x:Name="savetoFileButton" Grid.Row="8" Content="Сохранить как" 
-                            Command="{Binding SaveToFile}"/>
-                </Grid>
-                <Grid Grid.Column="1">
-                    <Grid DataContext="{Binding SelectedQuestion}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Вопрос" Grid.Row="0"/>
-                        <TextBox x:Name="questionTextBlock" Grid.Row="1" Text="{Binding Body, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Label Content="Варианты ответа" Grid.Row="2"/>
-                        <ListBox x:Name="answersListBox" Grid.Row="3" ItemsSource="{Binding Answers}"/>
-                        <Label Grid.Row="4" Content="Ответы"/>
-                        <Grid Grid.Row="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
-                            <ListBox x:Name="trueAnswersListBox" Grid.Column="0" ItemsSource="{Binding TrueAnswers, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
-                        </Grid>
-                    </Grid>
-                </Grid>
+            <Button x:Name="addQuestionFromFileButton" Grid.Column="1" Content="Добавить из файла" 
+                            Command="{Binding LoadQuestionFromFile}" />
+            <Button x:Name="removeSelectedQuestionButton" Grid.Column="2" Content="Удалить" 
+                            Command="{Binding RemoveQuestion}"/>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid DataContext="{Binding SelectedQuestion}" Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label Content="Вопрос" Grid.Row="0"/>
+                <TextBox x:Name="questionTextBlock" Grid.Row="1" Text="{Binding Body, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="Варианты ответа" Grid.Row="2"/>
+                <ListBox x:Name="answersListBox" Grid.Row="3" ItemsSource="{Binding Answers}"/>
+                <Label Grid.Row="4" Content="Ответы"/>
+
+                <ListBox x:Name="trueAnswersListBox" Grid.Row="5" ItemsSource="{Binding TrueAnswers, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" MinHeight="100"/>
             </Grid>
-        </TabItem>
-        <TabItem Header="Редактирование групп">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="250"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
-                    </Grid.RowDefinitions>
-                    <Label Content="Номер группы" Grid.Row="0"/>
-                    <TextBox x:Name="newGroupIdTextBox" Grid.Row="1"/>
-                    <Button x:Name="addGroupButton" Grid.Row="2" Content="Добавить группу" />
-                    <Label Content="Список групп" Grid.Row="3"/>
-                    <ListBox x:Name="groupListBox" Grid.Row="4" />
-                    <Button x:Name="addGroupFromFileButton" Grid.Row="5" Content="Добавить группу из файла" />
-                    <Button x:Name="deleteGroupButton" Grid.Row="6" Content="Удалить группу" />
-                </Grid>
-                <Grid Grid.Column="1">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="auto"/>
-                        </Grid.RowDefinitions>
-                        <Label Content="Группа" Grid.Row="0"/>
-                        <TextBox x:Name="groupIdTextBox" Grid.Row="1"/>
-                        <Label Content="Список студентов" Grid.Row="2"/>
-                        <ListBox x:Name="studentsListBox" Grid.Row="3"/>
-                        <Grid Grid.Row="4">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="70"/>
-                                <ColumnDefinition Width="70"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBox x:Name="studentNameTextBox" Grid.Column="0" Text="ФИО студента"/>
-                            <Button x:Name="addStudentButton" Grid.Column="1" Content="Добавить" />
-                            <Button x:Name="deleteStudentButton" Grid.Column="2" Content="Удалить" />
-                        </Grid>
-                    </Grid>
-                </Grid>
-            </Grid>
-        </TabItem>
-    </TabControl>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="cancelButton" Grid.Column="0" Content="Отмена" 
+                            Command="{Binding CancelCommand}" 
+                            HorizontalAlignment="Right" MinWidth="100"/>
+            <Button x:Name="saveButton" Grid.Column="1" Content="Сохранить" 
+                            Command="{Binding OKCommand}" 
+                            HorizontalAlignment="Right" MinWidth="100"/>
+        </Grid>
+    </Grid>
 </Window>

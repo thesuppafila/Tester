@@ -13,34 +13,17 @@ namespace Tester.ViewModel
 {
     public class CreateQuestionViewModel : INotifyPropertyChanged
     {
-        private bool? dialogResult;
-        public bool? DialogResult
+        private Question currentQuestion;
+        public Question CurrentQuestion
         {
             get
             {
-                return dialogResult;
+                return currentQuestion;
             }
             set
             {
-                if (value != this.dialogResult)
-                {
-                    dialogResult = value;
-                    OnPropertyChanged("DialogResult");
-                }
-            }
-        }
-
-        private Question question;
-        public Question Question
-        {
-            get
-            {
-                return question;
-            }
-            set
-            {
-                question = value;
-                OnPropertyChanged("Question");
+                currentQuestion = value;
+                OnPropertyChanged("CurrentQuestion");
             }
         }
 
@@ -86,7 +69,6 @@ namespace Tester.ViewModel
                 newAnswerBody = value;
                 OnPropertyChanged("NewAnswerBody");
             }
-
         }
 
         private Answer selectedAnswer;
@@ -223,7 +205,6 @@ namespace Tester.ViewModel
                 return cancelCommand ??
                     (cancelCommand = new RelayCommand(obj =>
                     {
-                        DialogResult = false;
                     }));
             }
         }
@@ -236,22 +217,21 @@ namespace Tester.ViewModel
                 return okCommand ??
                     (okCommand = new RelayCommand(obj =>
                     {
-                        this.Question = new Question();
+                        this.CurrentQuestion = new Question();
 
                         if (Body != string.Empty && Answers != null && TrueAnswers != null)
                         {
-                            Question.Body = Body;
-                            Question.Answers = Answers;
-                            Question.TrueAnswers = TrueAnswers;
+                            CurrentQuestion.Body = Body;
+                            CurrentQuestion.Answers = Answers;
+                            CurrentQuestion.TrueAnswers = TrueAnswers;
                         }
-                        DialogResult = true;
                     }));
             }
         }
 
         public bool IsValidQuestion()
         {
-            return Question.IsValid();
+            return CurrentQuestion.IsValid();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
