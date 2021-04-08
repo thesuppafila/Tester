@@ -13,6 +13,20 @@ namespace Tester.ViewModel
 {
     public class CreateQuestionViewModel : INotifyPropertyChanged
     {
+        private bool? dialogResult;
+        public bool? DialogResult
+        {
+            get
+            {
+                return dialogResult;
+            }
+            set
+            {
+                dialogResult = value;
+                OnPropertyChanged("DialogResult");
+            }
+        }
+
         private Question currentQuestion;
         public Question CurrentQuestion
         {
@@ -205,26 +219,21 @@ namespace Tester.ViewModel
                 return cancelCommand ??
                     (cancelCommand = new RelayCommand(obj =>
                     {
+                        DialogResult = false;
                     }));
             }
         }
 
         private RelayCommand okCommand;
-        public RelayCommand OKCommand
+        public RelayCommand OkCommand
         {
             get
             {
                 return okCommand ??
                     (okCommand = new RelayCommand(obj =>
                     {
-                        this.CurrentQuestion = new Question();
-
-                        if (Body != string.Empty && Answers != null && TrueAnswers != null)
-                        {
-                            CurrentQuestion.Body = Body;
-                            CurrentQuestion.Answers = Answers;
-                            CurrentQuestion.TrueAnswers = TrueAnswers;
-                        }
+                        if (CurrentQuestion.IsValid())
+                            DialogResult = true;
                     }));
             }
         }

@@ -23,10 +23,11 @@ namespace Tester
     {
         public CreateQuestionViewModel createQuestionViewModel;
 
-        public CreateQuestionView()
+        public CreateQuestionView(CreateQuestionViewModel createQuestionViewModel)
         {
-            InitializeComponent();
+            this.createQuestionViewModel = createQuestionViewModel;
             this.DataContext = createQuestionViewModel;
+            InitializeComponent();
         }
     }
 }

@@ -25,12 +25,13 @@ namespace Tester
     /// </summary>
     public partial class CreateTestView : Window
     {
-        public CreateTestViewModel createTestViewModel;
+        CreateTestViewModel CreateTestViewModel;
 
-        public CreateTestView()
+        public CreateTestView(CreateTestViewModel createTestViewModel)
         {
             InitializeComponent();
-            this.DataContext = new CreateTestViewModel();
+            CreateTestViewModel = createTestViewModel;
+            this.DataContext = CreateTestViewModel;
         }
     }
 }

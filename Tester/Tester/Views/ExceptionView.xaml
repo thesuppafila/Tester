@@ -11,7 +11,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="exceptionBodyTextBlock"/>
+        <TextBlock x:Name="exceptionBodyTextBlock" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Button x:Name="OKButton" Grid.Row="1" Content="OK" Click="OKButton_Click"/>
     </Grid>
 </Window>

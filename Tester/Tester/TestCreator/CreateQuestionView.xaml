@@ -6,8 +6,10 @@
         xmlns:vm="clr-namespace:Tester.ViewModel"
         xmlns:local="clr-namespace:Tester"
         mc:Ignorable="d"
-        Title="AddQuestionView" Height="450" Width="450">
-    <!--:DialogCloser.DialogResult="{Binding DialogResult}"-->
+        Title="AddQuestionView" Height="450" Width="450"
+        xmlns:xc="clr-namespace:Tester.ViewModel"
+        xc:DialogCloser.DialogResult="{Binding DialogResult}"
+        FontSize="14">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -20,16 +22,16 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Label Grid.Row="0" Content="Вопрос"/>
-        <TextBox x:Name="questionTextBox" Grid.Row="1" Text="{Binding Body, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox Grid.Row="1" Text="{Binding Body, UpdateSourceTrigger=PropertyChanged}"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0"  Content="Варианты ответа"/>
-            <CheckBox x:Name="multipleAnswerCheckBox" Grid.Column="1" IsChecked="{Binding IsMultiple, Mode=TwoWay}" Content="Множественный ответ" Margin="5" />
+            <CheckBox Grid.Column="1" IsChecked="{Binding IsMultiple, Mode=TwoWay}" Content="Множественный ответ" Margin="5" />
         </Grid>
-        <ListBox x:Name="answerListBox"  Grid.Row="4" 
+        <ListBox Grid.Row="4" 
                  ItemsSource="{Binding Answers}"
                  SelectedItem="{Binding SelectedAnswer}">
         </ListBox>
@@ -39,9 +41,9 @@
                 <ColumnDefinition Width="70"/>
                 <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
-            <TextBox x:Name="newAnswerTextBox" Grid.Column="0" Text="{Binding NewAnswerBody}" />
-            <Button x:Name="addAnswerButton" Grid.Column="1" Content="Добавить" Command="{Binding AddAnswerCommand}"/>
-            <Button x:Name="deleteAnswerButton" Grid.Column="2" Content="Удалить" Command="{Binding RemoveAnswerCommand}" />
+            <TextBox Grid.Column="0" Text="{Binding NewAnswerBody}" />
+            <Button Grid.Column="1" Content="Добавить" Command="{Binding AddAnswerCommand}"/>
+            <Button Grid.Column="2" Content="Удалить" Command="{Binding RemoveAnswerCommand}" />
         </Grid>
         <Grid Grid.Row="5">
             <Grid.ColumnDefinitions>
@@ -53,7 +55,7 @@
             <Button Grid.Column="1" Command="{Binding AddTrueAnswerCommand}" Content="Добавить"/>
             <Button Grid.Column="2" Command="{Binding RemoveTrueAnswerCommand}" Content="Удалить"/>
         </Grid>
-        <ListBox x:Name="trueAnswersListBox" Grid.Row="6" 
+        <ListBox Grid.Row="6" 
                  ItemsSource="{Binding TrueAnswers}"
                  SelectedItem="{Binding SelectedTrueAnswer}"/>
         <Grid Grid.Row="7">
@@ -68,8 +70,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="cancelButton" Grid.Column="0" Content="Отмена" Command="{Binding CancelCommand}" />
-            <Button x:Name="OKButton" Grid.Column="1" Content="ОК" Command="{Binding OKCommand}"/>
+            <Button Grid.Column="0" Content="Отмена" Command="{Binding CancelCommand}" />
+            <Button Grid.Column="1" Content="Готово" Command="{Binding OkCommand}"/>
         </Grid>
     </Grid>
 </Window>

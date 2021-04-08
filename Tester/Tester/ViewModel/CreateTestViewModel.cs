@@ -18,6 +18,8 @@ namespace Tester.ViewModel
 {
     public class CreateTestViewModel : INotifyPropertyChanged
     {
+        public CreateQuestionViewModel createQuestionViewModel = new CreateQuestionViewModel();
+
         public CreateTestViewModel()
         {
             CurrentTest = new Test();
@@ -28,8 +30,8 @@ namespace Tester.ViewModel
             CurrentTest = currentTest;
         }
 
-        private bool dialogResult;
-        public bool DialogResult
+        private bool? dialogResult;
+        public bool? DialogResult
         {
             get
             {
@@ -110,53 +112,75 @@ namespace Tester.ViewModel
             }
         }
 
-        private RelayCommand addNewQuestion;
-        public RelayCommand AddNewQuestion
+        private RelayCommand addNewQuestionCommand;
+        public RelayCommand AddNewQuestionCommand
         {
             get
             {
-                return addNewQuestion ??
-                    (addNewQuestion = new RelayCommand(obj =>
+                return addNewQuestionCommand ??
+                    (addNewQuestionCommand = new RelayCommand(obj =>
                     {
-                        CreateQuestionView createQuestionView = new CreateQuestionView();
-                        if (createQuestionView.ShowDialog() == true)
+                        CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
+                        if (createQuestionView.DialogResult == true)
                         {
-                            CurrentTest.Questions.Add(createQuestionView.createQuestionViewModel.CurrentQuestion);
+                            Questions.Add(createQuestionViewModel.CurrentQuestion);
                         }
                     }));
             }
         }
 
-        private RelayCommand loadQuestionFromFile;
-        public RelayCommand LoadQuestionFromFile
+        private RelayCommand removeQuestionCommand;
+        public RelayCommand RemoveQuestionCommand
         {
             get
             {
-                return loadQuestionFromFile ??
-                    (loadQuestionFromFile = new RelayCommand(obj =>
+                return removeQuestionCommand ??
+                    (removeQuestionCommand = new RelayCommand(obj =>
                     {
-                        CurrentTest.LoadFromFile();
-                        Name = CurrentTest.Name;
+                        if (SelectedQuestion != null)
+                            Questions.Remove(SelectedQuestion);
                     }));
             }
         }
 
-        private RelayCommand removeQuestion;
-        public RelayCommand RemoveQuestion
+        private RelayCommand editQuestionCommand;
+        public RelayCommand EditQuestionCommand
         {
             get
             {
-                return removeQuestion ??
-                    (removeQuestion = new RelayCommand(obj =>
+                return editQuestionCommand ??
+                    (editQuestionCommand = new RelayCommand(obj =>
                     {
                         if (SelectedQuestion != null)
-                            CurrentTest.Questions.Remove(SelectedQuestion);
+                        {
+                            createQuestionViewModel = new CreateQuestionViewModel { CurrentQuestion = SelectedQuestion };
+                            CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
+                            if (createQuestionView.ShowDialog() == true)
+                            {
+                                SelectedQuestion = createQuestionViewModel.CurrentQuestion;
+                            }
+                        }
+                    }));
+            }
+        }
+
+        private RelayCommand loadQuestionFromFileCommand;
+        public RelayCommand LoadQuestionFromFileCommand
+        {
+            get
+            {
+                return loadQuestionFromFileCommand ??
+                    (loadQuestionFromFileCommand = new RelayCommand(obj =>
+                    {
+                        CurrentTest.LoadFromFile();
+                        if (CurrentTest.Name != null)
+                            Name = CurrentTest.Name;
                     }));
             }
         }
 
         private RelayCommand okCommand;
-        public RelayCommand OKCommand
+        public RelayCommand OkCommand
         {
             get
             {
@@ -164,7 +188,7 @@ namespace Tester.ViewModel
                     okCommand = new RelayCommand(obj =>
                     {
                         if (currentTest.IsValid())
-                            CurrentTest.SaveToFile();
+                            DialogResult = true;
                     }));
             }
         }
@@ -177,7 +201,7 @@ namespace Tester.ViewModel
                 return cancelCommand ??
                     (cancelCommand = new RelayCommand(obj =>
                     {
-                        dialogResult = false;
+                        DialogResult = false;
                     }));
             }
         }

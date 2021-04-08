@@ -5,12 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tester.Model;
-
+using Tester.TestCreator;
 
 namespace Tester.ViewModel
 {
     class TestViewModel : BaseViewModel
     {
+        CreateTestViewModel createTestViewModel = new CreateTestViewModel();
+        CreateGroupViewModel createGroupViewModel = new CreateGroupViewModel();
+
+
         private ObservableCollection<Test> tests;
         public ObservableCollection<Test> Tests
         {
@@ -47,8 +51,12 @@ namespace Tester.ViewModel
                 return addNewTestCommand ??
                     (addNewTestCommand = new RelayCommand(obj =>
                     {
-                        CreateTestView createTestView = new CreateTestView();
-                        createTestView.ShowDialog();
+                        createTestViewModel = new CreateTestViewModel();
+                        CreateTestView createTestView = new CreateTestView(createTestViewModel);
+                        if (createTestView.ShowDialog() == true)
+                        {
+                            Tests.Add(createTestViewModel.CurrentTest);
+                        }
                     }));
             }
         }
@@ -77,10 +85,11 @@ namespace Tester.ViewModel
                     {
                         if (SelectedTest != null)
                         {
-                            CreateTestView createTestView = new CreateTestView { createTestViewModel = new CreateTestViewModel { CurrentTest = SelectedTest } };
-                            if(createTestView.ShowDialog() == true)
+                            createTestViewModel = new CreateTestViewModel { CurrentTest = SelectedTest };
+                            CreateTestView createTestView = new CreateTestView(createTestViewModel);
+                            if (createTestView.ShowDialog() == true)
                             {
-                                SelectedTest = createTestView.createTestViewModel.CurrentTest;
+                                SelectedTest = createTestViewModel.CurrentTest;
                             }
                         }
                     }));
@@ -90,6 +99,85 @@ namespace Tester.ViewModel
         public TestViewModel()
         {
             Tests = new ObservableCollection<Test>();
+
         }
+
+        private ObservableCollection<Model.Group> groups;
+        public ObservableCollection<Model.Group> Groups
+        {
+            get
+            {
+                return groups;
+            }
+            set
+            {
+                groups = value;
+                OnPropertyChanged("Groups");
+            }
+        }
+
+        private Model.Group selectedGroup;
+        public Model.Group SelectedGroup
+        {
+            get
+            {
+                return selectedGroup;
+            }
+            set
+            {
+                selectedGroup = value;
+                OnPropertyChanged("SelectedGroup");
+            }
+        }
+
+        private RelayCommand addNewGroupCommand;
+        public RelayCommand AddNewGroupCommand
+        {
+            get
+            {
+                return addNewGroupCommand ??
+                    (addNewGroupCommand = new RelayCommand(obj =>
+                    {
+                        createGroupViewModel = new CreateGroupViewModel();
+                        CreateGroupView createGroupView = new CreateGroupView(createGroupViewModel);
+                        if (createGroupView.ShowDialog() == true)
+                            Groups.Add(createGroupViewModel.CurrentGroup);
+                    }));
+            }
+        }
+
+        private RelayCommand removeGroupCommand;
+        public RelayCommand RemoveGroupCommand
+        {
+            get
+            {
+                return removeGroupCommand ??
+                    (removeGroupCommand = new RelayCommand(obj =>
+                    {
+                        if (SelectedGroup != null)
+                            Groups.Remove(SelectedGroup);
+                    }));
+            }
+        }
+
+        private RelayCommand editGroupCommand;
+        public RelayCommand EditGroupCommand
+        {
+            get
+            {
+                return editGroupCommand ??
+                    (editGroupCommand = new RelayCommand(obj =>
+                    {
+                        if (SelectedGroup != null)
+                        {
+                            createGroupViewModel = new CreateGroupViewModel { CurrentGroup = SelectedGroup };
+                            CreateGroupView createGroupView = new CreateGroupView(createGroupViewModel);
+                            if (createGroupView.ShowDialog() == true)
+                                SelectedGroup = createGroupViewModel.CurrentGroup;
+                        }
+                    }));
+            }
+        }
+
     }
 }

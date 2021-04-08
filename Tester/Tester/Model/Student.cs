@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Tester.Model
 {
     [Serializable]
-    public class Student
+    public class Student: INotifyPropertyChanged
     {
-        public string Name;
-
-        public int Score;
-
-        public string GroupId;
-
-        public int Id;
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+                OnPropertyChanged("Name");
+            }
+        }
 
         public Student()
         {
@@ -26,19 +34,10 @@ namespace Tester.Model
             Name = name;
         }
 
-        public void setScore(int score)
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
-            Score = score;
-        }
-
-        public void SetId(int id)
-        {
-            Id = id;
-        }
-
-        public override string ToString()
-        {
-            return Name;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

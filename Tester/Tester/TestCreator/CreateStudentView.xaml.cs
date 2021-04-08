@@ -10,22 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Tester.Model;
-using Tester.TestRunner;
 using Tester.ViewModel;
 
-namespace Tester
+namespace Tester.TestCreator
 {
     /// <summary>
-    /// Логика взаимодействия для MainView.xaml
+    /// Логика взаимодействия для CreateStudentView.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class CreateStudentView : Window
     {
-        public MainView()
+        public CreateStudentViewModel createStudentViewModel;
+
+        public CreateStudentView(CreateStudentViewModel createStudentViewModel)
         {
             InitializeComponent();
+            this.createStudentViewModel = createStudentViewModel;
+            DataContext = createStudentViewModel;
         }
     }
 }
