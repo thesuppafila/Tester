@@ -12,8 +12,14 @@ using System.Collections.ObjectModel;
 namespace Tester.Model
 {
     [Serializable]
-    public class Question : ICloneable, INotifyPropertyChanged
+    public class Question : ICloneable, INotifyPropertyChanged, IQuestion
     {
+        public Question()
+        {
+            Answers = new ObservableCollection<Answer>();
+            TrueAnswers = new ObservableCollection<Answer>();
+        }
+
         private string body;
         public string Body
         {
@@ -73,11 +79,6 @@ namespace Tester.Model
                 trueAnswers = value;
                 OnPropertyChanged("TrueAnswers");
             }
-        }
-
-        public Question()
-        {
-            Answers = new ObservableCollection<Answer>();
         }
 
         public Question(string bone)

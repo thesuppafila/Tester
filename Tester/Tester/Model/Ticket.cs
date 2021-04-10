@@ -12,11 +12,8 @@ namespace Tester.Model
     [Serializable]
     public class Ticket : INotifyPropertyChanged
     {
-        private List<Question> questions;
-
-        private int variant;
-
-        public List<Question> Questions
+        private List<IQuestion> questions;
+        public List<IQuestion> Questions
         {
             get { return questions; }
             set
@@ -26,6 +23,7 @@ namespace Tester.Model
             }
         }
 
+        private int variant;
         public int Variant
         {
             get { return variant; }
@@ -43,7 +41,6 @@ namespace Tester.Model
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
-
         public void SaveToFile(string path)
         {
             using (StreamWriter writer = new StreamWriter(path))
@@ -54,8 +51,7 @@ namespace Tester.Model
 
         public Ticket()
         {
-            questions = new List<Question>();
-
+            questions = new List<IQuestion>();
         }
 
         public override string ToString()

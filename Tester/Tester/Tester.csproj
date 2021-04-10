@@ -55,16 +55,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\IQuestion.cs" />
     <Compile Include="Model\QuestionGroup.cs" />
     <Compile Include="Model\Randomizer.cs" />
     <Compile Include="TestCreator\CreateGroupView.xaml.cs">
       <DependentUpon>CreateGroupView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TestCreator\CreateQuestionGroupView.xaml.cs">
+      <DependentUpon>CreateQuestionGroupView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestCreator\CreateQuestionView.xaml.cs">
       <DependentUpon>CreateQuestionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TestCreator\CreateStudentView.xaml.cs">
-      <DependentUpon>CreateStudentView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestCreator\CreateTestView.xaml.cs">
       <DependentUpon>CreateTestView.xaml</DependentUpon>
@@ -82,7 +83,7 @@
       <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\BaseViewModel.cs" />
-    <Compile Include="ViewModel\CreateStudentViewModel.cs" />
+    <Compile Include="ViewModel\CreateQuestionGroupViewModel.cs" />
     <Compile Include="ViewModel\CreateTestViewModel.cs" />
     <Compile Include="ViewModel\CreateQuestionViewModel.cs" />
     <Compile Include="ViewModel\DialogCloser.cs" />
@@ -92,11 +93,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestCreator\CreateQuestionView.xaml">
+    <Page Include="TestCreator\CreateQuestionGroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestCreator\CreateStudentView.xaml">
+    <Page Include="TestCreator\CreateQuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

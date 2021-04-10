@@ -27,8 +27,8 @@ namespace Tester.ViewModel
             }
         }
 
-        private Question currentQuestion;
-        public Question CurrentQuestion
+        private IQuestion currentQuestion;
+        public IQuestion CurrentQuestion
         {
             get
             {

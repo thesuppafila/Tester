@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
 using Tester.Model;
+using Tester.TestCreator;
 using Tester.ViewModel;
 
 namespace Tester.ViewModel
@@ -19,6 +20,7 @@ namespace Tester.ViewModel
     public class CreateTestViewModel : INotifyPropertyChanged
     {
         public CreateQuestionViewModel createQuestionViewModel = new CreateQuestionViewModel();
+        public CreateQuestionGroupViewModel createQuestionGroupViewModel = new CreateQuestionGroupViewModel();
 
         public CreateTestViewModel()
         {
@@ -71,7 +73,7 @@ namespace Tester.ViewModel
             }
         }
 
-        public ObservableCollection<Question> Questions
+        public ObservableCollection<IQuestion> Questions
         {
             get
             {
@@ -84,8 +86,8 @@ namespace Tester.ViewModel
             }
         }
 
-        private Question selectedQuestion;
-        public Question SelectedQuestion
+        private IQuestion selectedQuestion;
+        public IQuestion SelectedQuestion
         {
             get
             {
@@ -153,11 +155,24 @@ namespace Tester.ViewModel
                     {
                         if (SelectedQuestion != null)
                         {
-                            createQuestionViewModel = new CreateQuestionViewModel { CurrentQuestion = SelectedQuestion };
-                            CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
-                            if (createQuestionView.ShowDialog() == true)
+                            if (SelectedQuestion is Question)
                             {
-                                SelectedQuestion = createQuestionViewModel.CurrentQuestion;
+                                createQuestionViewModel = new CreateQuestionViewModel { CurrentQuestion = SelectedQuestion };
+                                CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
+                                if (createQuestionView.ShowDialog() == true)
+                                {
+                                    SelectedQuestion = createQuestionViewModel.CurrentQuestion;
+                                }
+                            }
+                            else if (SelectedQuestion is QuestionGroup)
+                            {
+                                createQuestionGroupViewModel = new CreateQuestionGroupViewModel { CurrentQuestion = SelectedQuestion };
+
+                                CreateQuestionGroupView createQuestionGroupView = new CreateQuestionGroupView(createQuestionGroupViewModel);
+                                if (createQuestionGroupView.ShowDialog() == true)
+                                {
+                                    SelectedQuestion = createQuestionGroupViewModel.CurrentQuestion;
+                                }
                             }
                         }
                     }));

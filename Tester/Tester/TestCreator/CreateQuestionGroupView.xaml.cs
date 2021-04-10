@@ -16,17 +16,17 @@ using Tester.ViewModel;
 namespace Tester.TestCreator
 {
     /// <summary>
-    /// Логика взаимодействия для CreateStudentView.xaml
+    /// Логика взаимодействия для CreateQuestionGroupView.xaml
     /// </summary>
-    public partial class CreateStudentView : Window
+    public partial class CreateQuestionGroupView : Window
     {
-        public CreateStudentViewModel createStudentViewModel;
+        public CreateQuestionGroupViewModel createQuestionGroupViewModel;
 
-        public CreateStudentView(CreateStudentViewModel createStudentViewModel)
+        public CreateQuestionGroupView(CreateQuestionGroupViewModel createQuestionGroupViewModel)
         {
+            this.createQuestionGroupViewModel = createQuestionGroupViewModel;
+            this.DataContext = createQuestionGroupViewModel;
             InitializeComponent();
-            this.createStudentViewModel = createStudentViewModel;
-            DataContext = createStudentViewModel;
         }
     }
 }

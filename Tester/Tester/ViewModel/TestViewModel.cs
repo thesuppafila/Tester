@@ -14,6 +14,12 @@ namespace Tester.ViewModel
         CreateTestViewModel createTestViewModel = new CreateTestViewModel();
         CreateGroupViewModel createGroupViewModel = new CreateGroupViewModel();
 
+        public TestViewModel()
+        {
+            Tests = new ObservableCollection<Test>();
+            Groups = new ObservableCollection<Group>();
+        }
+
 
         private ObservableCollection<Test> tests;
         public ObservableCollection<Test> Tests
@@ -85,7 +91,7 @@ namespace Tester.ViewModel
                     {
                         if (SelectedTest != null)
                         {
-                            createTestViewModel = new CreateTestViewModel { CurrentTest = SelectedTest };
+                            createTestViewModel = new CreateTestViewModel { CurrentTest = new Test(SelectedTest) };
                             CreateTestView createTestView = new CreateTestView(createTestViewModel);
                             if (createTestView.ShowDialog() == true)
                             {
@@ -94,12 +100,6 @@ namespace Tester.ViewModel
                         }
                     }));
             }
-        }
-
-        public TestViewModel()
-        {
-            Tests = new ObservableCollection<Test>();
-
         }
 
         private ObservableCollection<Model.Group> groups;
@@ -170,7 +170,7 @@ namespace Tester.ViewModel
                     {
                         if (SelectedGroup != null)
                         {
-                            createGroupViewModel = new CreateGroupViewModel { CurrentGroup = SelectedGroup };
+                            createGroupViewModel = new CreateGroupViewModel { CurrentGroup = new Group(SelectedGroup) };
                             CreateGroupView createGroupView = new CreateGroupView(createGroupViewModel);
                             if (createGroupView.ShowDialog() == true)
                                 SelectedGroup = createGroupViewModel.CurrentGroup;

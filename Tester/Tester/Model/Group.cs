@@ -17,6 +17,15 @@ namespace Tester.Model
     [Serializable]
     public class Group : INotifyPropertyChanged
     {
+        public Group (Group group)
+        {
+            Id = new string(group.Id.ToCharArray());
+            Students = new ObservableCollection<Student>();
+            foreach (Student student in group.Students)
+                Students.Add(new Student(student.Name));
+        }
+
+
         private string id;
         public string Id
         {
@@ -40,7 +49,7 @@ namespace Tester.Model
             }
             set
             {
-                students = value;
+                students = new ObservableCollection<Student>(value.OrderBy(i => i));
                 OnPropertyChanged("Students");
             }
         }
@@ -93,6 +102,15 @@ namespace Tester.Model
                     }
                 }
             }
+        }
+
+        public bool IsValid()
+        {
+            if (Id == null || Id == null)
+                return false;
+            if (Students.Count < 1)
+                return false;
+            return true;
         }
     }
 }

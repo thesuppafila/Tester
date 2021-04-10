@@ -11,7 +11,16 @@ namespace Tester.ViewModel
 {
     public class CreateGroupViewModel : BaseViewModel
     {
-        CreateStudentViewModel createStudentViewModel = new CreateStudentViewModel();
+        
+        public CreateGroupViewModel()
+        {
+            CurrentGroup = new Group();
+        }
+
+        public CreateGroupViewModel(Model.Group currentGroup)
+        {
+            CurrentGroup = currentGroup;
+        }
 
         private bool? dialogResult;
         public bool? DialogResult
@@ -27,16 +36,15 @@ namespace Tester.ViewModel
             }
         }
 
-        private string id;
         public string Id
         {
             get
             {
-                return id;
+                return CurrentGroup.Id;
             }
             set
             {
-                id = value;
+                CurrentGroup.Id = value;
                 OnPropertyChanged("Id");
             }
         }
@@ -69,36 +77,46 @@ namespace Tester.ViewModel
             }
         }
 
-        private Student selectedStudents;
-        public Student SelectedStudents
+        private Student selectedStudent;
+        public Student SelectedStudent
         {
             get
             {
-                return selectedStudents;
+                return selectedStudent;
             }
             set
             {
-                selectedStudents = value;
-                OnPropertyChanged("Students");
+                selectedStudent = value;
+                if (SelectedStudent != null)
+                    StudentName = selectedStudent.Name;
+                else StudentName = string.Empty;
+                OnPropertyChanged("SelectedStudent");
             }
         }
 
+        private string studentName;
+        public string StudentName
+        {
+            get
+            {
+                return studentName;
+            }
+            set
+            {
+                studentName = value;
+                OnPropertyChanged("StudentName");
+            }
+        }
 
         private RelayCommand addNewStudentCommand;
-        public RelayCommand AddNewStudentCommmand
+        public RelayCommand AddNewStudentCommand
         {
             get
             {
                 return addNewStudentCommand ??
                     (addNewStudentCommand = new RelayCommand(obj =>
                     {
-                        createStudentViewModel = new CreateStudentViewModel();
-                        CreateStudentView createStudentView = new CreateStudentView(createStudentViewModel);
-                        if (createStudentView.ShowDialog() == true)
-                        {
-                            Students.Add(createStudentViewModel.CurrentStudent);
-                        }
-
+                        Students.Add(new Student(studentName));
                     }));
             }
         }
@@ -113,6 +131,39 @@ namespace Tester.ViewModel
                     (loadStudentsFromFileCommand = new RelayCommand(obj =>
                     {
                         CurrentGroup.LoadFromFile();
+                        Students = CurrentGroup.Students;
+                    }));
+            }
+        }
+
+        private RelayCommand editStudentCommand;
+        public RelayCommand EditStudentCommand
+        {
+            get
+            {
+                return editStudentCommand ??
+                    (editStudentCommand = new RelayCommand(obj =>
+                    {
+                        if (SelectedStudent != null)
+                        {
+                            Students.Add(new Student(StudentName));
+                            Students.Remove(SelectedStudent);
+                        }
+                    }));
+            }
+        }
+
+
+        private RelayCommand removeStudentCommand;
+        public RelayCommand RemoveStudentCommand
+        {
+            get
+            {
+                return removeStudentCommand ??
+                    (removeStudentCommand = new RelayCommand(obj =>
+                    {
+                        if (SelectedStudent != null)
+                            Students.Remove(SelectedStudent);
                     }));
             }
         }
@@ -125,7 +176,8 @@ namespace Tester.ViewModel
                 return okCommand ??
                     (okCommand = new RelayCommand(obj =>
                     {
-                        DialogResult = true;
+                        if (CurrentGroup.IsValid())
+                            DialogResult = true;
                     }));
             }
         }
