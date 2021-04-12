@@ -9,11 +9,11 @@
     <Grid>
         <StackPanel>
             <Label Content="Группа"/>
-            <ComboBox />
+            <ComboBox x:Name="groupComboBox" SelectionChanged="GroupComboBox_SelectionChanged"/>
             <Label Content="ФИО"/>
-            <ComboBox />
+            <ComboBox x:Name="nameComboBox"/>
             <Label Content="Аттестация"/>
-            <ComboBox />
+            <ComboBox x:Name="testTypeComboBox"/>
             <Button Content="Начать тестирование" Click="Button_Click"/>
         </StackPanel>
     </Grid>

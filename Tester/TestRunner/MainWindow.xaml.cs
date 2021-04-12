@@ -22,19 +22,31 @@ namespace TestRunner
     /// </summary>
     public partial class MainWindow : Window
     {
+        Package package;
+
         public MainWindow()
         {
             InitializeComponent();
+            package = new Package();
+            package.Load();
+            foreach (var g in package.Groups)
+                groupComboBox.Items.Add(g.Id);
+            foreach (var t in package.Tests)
+                testTypeComboBox.Items.Add(t.Name);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Group g1 = new Group();
-            Test t1 = new Test();
-            //Ticket ticket = currentTest.GetTicket(int.Parse(countTextBox.Text), int.Parse(startIndexTextBox.Text), int.Parse(endIndexTextBox.Text));
-            t1.GetTicket();
-            //TestView testView = new TestView(groupTextBox.Text, nameTextBox.Text, ticket);
-            //testView.ShowDialog();
+            Test test = package.Tests.Where(t => t.Name == testTypeComboBox.SelectedValue.ToString()).Single();
+            TestView tView = new TestView(groupComboBox.SelectedValue.ToString(), nameComboBox.SelectedValue.ToString(), test.GetTicket());
+        }
+
+        private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var students = package.Groups.Where(g => g.Id == groupComboBox.SelectedValue.ToString()).Single().Students;
+            nameComboBox.Items.Clear();
+            foreach (var s in students)
+                nameComboBox.Items.Add(s.Name);
         }
     }
 }

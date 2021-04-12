@@ -45,7 +45,7 @@ namespace Tester.TestRunner
                 return;
 
             currentQuestionLabel.Content = "Вопрос " + (curIndex + 1) + " из " + ticket.Questions.Count();
-            curQuestion = ticket.Questions[index];
+            curQuestion = (Question)ticket.Questions[index];
             questionText.Content = curQuestion.Body;
             answersPanel.Children.Clear();
             foreach (var v in curQuestion.Answers)
@@ -92,7 +92,7 @@ namespace Tester.TestRunner
                 {
                     if (answers != null && answers.Count() > 0)
                     {
-                        var trueAns = curTicket.Questions[i].Answers.Where(x => x.IsRight = true);
+                        var trueAns = ((Question)curTicket.Questions[i]).Answers.Where(x => x.IsRight == true);
                         foreach (var v in answers)
                         {
                             if (!v.IsRight)

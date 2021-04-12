@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Tester.Model;
-using Tester.TestRunner;
 using Tester.ViewModel;
 
 namespace Tester

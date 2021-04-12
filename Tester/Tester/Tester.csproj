@@ -77,12 +77,6 @@
     <Compile Include="TestCreator\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestRunner\StartTestView.xaml.cs">
-      <DependentUpon>StartTestView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TestRunner\TestView.xaml.cs">
-      <DependentUpon>TestView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CreateQuestionGroupViewModel.cs" />
     <Compile Include="ViewModel\CreateTestViewModel.cs" />
@@ -130,14 +124,6 @@
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="TestRunner\StartTestView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TestRunner\TestView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Answer.cs" />
