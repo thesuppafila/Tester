@@ -179,5 +179,11 @@ namespace Tester.ViewModel
             }
         }
 
+        EventHandler OnTestViewClosing;
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            OnTestViewClosing.Invoke(this, e);
+        }
     }
 }
