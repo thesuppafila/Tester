@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Serialization;
 using Tester.Model;
+using Tester.TestCreator;
 using Tester.ViewModel;
 
 namespace Tester.ViewModel
@@ -19,6 +20,7 @@ namespace Tester.ViewModel
     public class CreateTestViewModel : INotifyPropertyChanged
     {
         public CreateQuestionViewModel createQuestionViewModel = new CreateQuestionViewModel();
+        public CreateQuestionGroupViewModel createQuestionGroupViewModel = new CreateQuestionGroupViewModel();
 
         public CreateTestViewModel()
         {
@@ -71,7 +73,7 @@ namespace Tester.ViewModel
             }
         }
 
-        public ObservableCollection<Question> Questions
+        public ObservableCollection<IQuestion> Questions
         {
             get
             {
@@ -84,8 +86,8 @@ namespace Tester.ViewModel
             }
         }
 
-        private Question selectedQuestion;
-        public Question SelectedQuestion
+        private IQuestion selectedQuestion;
+        public IQuestion SelectedQuestion
         {
             get
             {
@@ -93,8 +95,45 @@ namespace Tester.ViewModel
             }
             set
             {
+                if (value is Question)
+                    IsGroupQuestion = false;
+                else
+                {
+                    SelectedGroupQuestion = value;
+
+                }
                 selectedQuestion = value;
                 OnPropertyChanged("SelectedQuestion");
+            }
+        }
+
+        private IQuestion selectedGroupQuestion;
+        public IQuestion SelectedGroupQuestion
+        {
+            get
+            {
+                return selectedGroupQuestion;
+            }
+            set
+            {
+                selectedGroupQuestion = value;
+                OnPropertyChanged("SelectedGroupQuestion");
+            }
+        }
+
+        private bool isGroupQuestion;
+        public bool IsGroupQuestion
+        {
+            get
+            {
+                return isGroupQuestion;
+            }
+            set
+            {
+                if (SelectedQuestion is QuestionGroup)
+                    isGroupQuestion = true;
+                else isGroupQuestion = false;
+                OnPropertyChanged("IsGroupQuestion");
             }
         }
 
@@ -120,8 +159,9 @@ namespace Tester.ViewModel
                 return addNewQuestionCommand ??
                     (addNewQuestionCommand = new RelayCommand(obj =>
                     {
+                        createQuestionViewModel = new CreateQuestionViewModel() { CurrentQuestion = new Question() };
                         CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
-                        if (createQuestionView.DialogResult == true)
+                        if (createQuestionView.ShowDialog() == true)
                         {
                             Questions.Add(createQuestionViewModel.CurrentQuestion);
                         }
@@ -153,7 +193,7 @@ namespace Tester.ViewModel
                     {
                         if (SelectedQuestion != null)
                         {
-                            createQuestionViewModel = new CreateQuestionViewModel { CurrentQuestion = SelectedQuestion };
+                            createQuestionViewModel = new CreateQuestionViewModel { CurrentQuestion = (Question)SelectedQuestion.Clone() };
                             CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
                             if (createQuestionView.ShowDialog() == true)
                             {

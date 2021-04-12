@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Tester.Model;
 using Tester.TestCreator;
 
@@ -14,17 +15,34 @@ namespace Tester.ViewModel
         CreateTestViewModel createTestViewModel = new CreateTestViewModel();
         CreateGroupViewModel createGroupViewModel = new CreateGroupViewModel();
 
+        public TestViewModel()
+        {
+            Package = new Package();
+            Package.Load();
+        }
 
-        private ObservableCollection<Test> tests;
+        private Package package;
+        public Package Package
+        {
+            get
+            {
+                return package;
+            }
+            set
+            {
+                package = value;
+            }
+        }
+
         public ObservableCollection<Test> Tests
         {
             get
             {
-                return tests;
+                return Package.Tests;
             }
             set
             {
-                tests = value;
+                Package.Tests = value;
                 OnPropertyChanged("Tests");
             }
         }
@@ -70,7 +88,9 @@ namespace Tester.ViewModel
                     (removeTestCommand = new RelayCommand(obj =>
                     {
                         if (SelectedTest != null)
+                        {
                             Tests.Remove(SelectedTest);
+                        }
                     }));
             }
         }
@@ -85,7 +105,7 @@ namespace Tester.ViewModel
                     {
                         if (SelectedTest != null)
                         {
-                            createTestViewModel = new CreateTestViewModel { CurrentTest = SelectedTest };
+                            createTestViewModel = new CreateTestViewModel { CurrentTest = new Test(SelectedTest) };
                             CreateTestView createTestView = new CreateTestView(createTestViewModel);
                             if (createTestView.ShowDialog() == true)
                             {
@@ -96,22 +116,15 @@ namespace Tester.ViewModel
             }
         }
 
-        public TestViewModel()
-        {
-            Tests = new ObservableCollection<Test>();
-
-        }
-
-        private ObservableCollection<Model.Group> groups;
-        public ObservableCollection<Model.Group> Groups
+       public ObservableCollection<Model.Group> Groups
         {
             get
             {
-                return groups;
+                return Package.Groups;
             }
             set
             {
-                groups = value;
+                Package.Groups = value;
                 OnPropertyChanged("Groups");
             }
         }
@@ -170,7 +183,7 @@ namespace Tester.ViewModel
                     {
                         if (SelectedGroup != null)
                         {
-                            createGroupViewModel = new CreateGroupViewModel { CurrentGroup = SelectedGroup };
+                            createGroupViewModel = new CreateGroupViewModel { CurrentGroup = new Group(SelectedGroup) };
                             CreateGroupView createGroupView = new CreateGroupView(createGroupViewModel);
                             if (createGroupView.ShowDialog() == true)
                                 SelectedGroup = createGroupViewModel.CurrentGroup;
@@ -179,11 +192,19 @@ namespace Tester.ViewModel
             }
         }
 
-        EventHandler OnTestViewClosing;
-
-        private void Window_Closed(object sender, EventArgs e)
+        private RelayCommand saveCommand;
+        public RelayCommand SaveCommand
         {
-            OnTestViewClosing.Invoke(this, e);
+            get
+            {
+                return saveCommand ??
+                    (saveCommand = new RelayCommand(obj =>
+                    {
+                        Package.Tests = Tests;
+                        Package.Groups = Groups;
+                        Package.Save();
+                    }));
+            }
         }
     }
 }

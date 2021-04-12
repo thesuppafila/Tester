@@ -6,10 +6,10 @@
         xmlns:vm="clr-namespace:Tester.ViewModel"
         xmlns:local="clr-namespace:Tester"
         mc:Ignorable="d"
-        Title="AddQuestionView" Height="450" Width="450"
+        Title="Редактор вопроса" Height="450" Width="450"
         xmlns:xc="clr-namespace:Tester.ViewModel"
         xc:DialogCloser.DialogResult="{Binding DialogResult}"
-        FontSize="14">
+        FontSize="14" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

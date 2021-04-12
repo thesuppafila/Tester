@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Tester.Model
 {
     [Serializable]
-    public class Student: INotifyPropertyChanged
+    public class Student: INotifyPropertyChanged, IComparable<Student>
     {
         private string name;
         public string Name
@@ -38,6 +38,16 @@ namespace Tester.Model
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        public int CompareTo(Student other)
+        {
+            return this.Name.CompareTo(other.Name);
         }
     }
 }

@@ -12,8 +12,28 @@ using System.Collections.ObjectModel;
 namespace Tester.Model
 {
     [Serializable]
-    public class Question : ICloneable, INotifyPropertyChanged
+    public class Question : ICloneable, INotifyPropertyChanged, IQuestion
     {
+        public Question()
+        {
+            Answers = new ObservableCollection<Answer>();
+            TrueAnswers = new ObservableCollection<Answer>();
+        }
+
+        public Question(Question question)
+        {
+            Answers = new ObservableCollection<Answer>();
+            TrueAnswers = new ObservableCollection<Answer>();
+
+            Body = new string(question.Body.ToCharArray());
+
+            foreach (Answer answer in question.Answers)
+                Answers.Add(new Answer(answer));
+            foreach (Answer answer in Answers)
+                if (answer.IsRight)
+                    TrueAnswers.Add(answer);
+        }
+
         private string body;
         public string Body
         {
@@ -75,18 +95,13 @@ namespace Tester.Model
             }
         }
 
-        public Question()
+        public Question(string bones)
         {
-            Answers = new ObservableCollection<Answer>();
-        }
-
-        public Question(string bone)
-        {
-            Bones = bone;
-            Body = Regex.Match(bone, @".*?(?=\r\n)").ToString();
+            Bones = bones;
+            Body = Regex.Match(bones, @".*?(?=\r\n)").ToString();
             Answers = new ObservableCollection<Answer>();
             TrueAnswers = new ObservableCollection<Answer>();
-            var answerBones = Regex.Matches(bone, @"(?<=#).*?(?=\r\n)");
+            var answerBones = Regex.Matches(bones, @"(?<=#).*?(?=\r\n)");
             foreach (var answer in answerBones)
             {
                 Answer ans = new Answer(answer.ToString());
@@ -106,7 +121,7 @@ namespace Tester.Model
 
         public object Clone()
         {
-            return new Question(Bones);
+            return new Question(this);
         }
 
         public bool IsValid()

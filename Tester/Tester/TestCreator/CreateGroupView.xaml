@@ -5,19 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester.TestCreator"
         mc:Ignorable="d"
-        Title="CreateGroupView" Height="300" Width="800"
+        Title="Редактор группы" Height="450" Width="600"
         xmlns:xc="clr-namespace:Tester.ViewModel"
-        xc:DialogCloser.DialogResult="{Binding DialogResult}">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+        xc:DialogCloser.DialogResult="{Binding DialogResult}"
+        FontSize="14" WindowStartupLocation="CenterScreen">
+    <Grid MinWidth="400">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Column="0">
+
+        <Grid Grid.Column="0" Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -36,44 +36,53 @@
                              ItemsSource="{Binding Students}"
                              SelectedItem="{Binding SelectedStudent}"/>
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="0">
+
+        <Grid Grid.Column="0" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
-            <Button Grid.Column="0" Content="Добавить" 
-                            Command="{Binding AddNewStudentCommand}"/>
-            <Button Grid.Column="1" Content="Добавить из файла" 
-                            Command="{Binding LoadStudentsFromFileCommand}" />
         </Grid>
-        <Grid Grid.Column="1" DataContext="{Binding SelectedStudent}" Grid.Row="0">
+
+        <Grid Grid.Column="0" Grid.Row="2" Margin="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="30"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Label Content="Студент" Grid.Row="0"/>
-            <TextBox Grid.Row="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button x:Name="removeSelectedQuestionButton" Grid.Row="6" Content="Удалить" 
-                            Command="{Binding RemoveStudentCommand}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Label Grid.Row="0" Content="Студент" />
+                <Button Grid.Column="1" Content="Добавить" Margin="2"
+                            Command="{Binding AddNewStudentCommand}"/>
+                <Button Grid.Column="2" Content="Добавить из файла" Margin="2"
+                            Command="{Binding LoadStudentsFromFileCommand}" />
+                <Button Grid.Column="3" Content="Редактировать" Margin="2"
+                        Command="{Binding EditStudentCommand}" />
+                <Button Grid.Column="4" Content="Удалить" Margin="2"
+                        Command="{Binding RemoveStudentCommand}" />                
+            </Grid>            
+            
+            <TextBox Grid.Row="1" Text="{Binding StudentName, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>
         </Grid>
-        <Grid Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right">
+
+        <Grid Grid.Row="3" Margin="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="cancelButton" Grid.Column="0" Content="Отмена" 
-                            Command="{Binding CancelCommand}" 
-                            HorizontalAlignment="Right" MinWidth="100"/>
+                            Command="{Binding CancelCommand}" />
             <Button x:Name="saveButton" Grid.Column="1" Content="Сохранить" 
-                            Command="{Binding OkCommand}" 
-                            HorizontalAlignment="Right" MinWidth="100"/>
+                            Command="{Binding OkCommand}" />
+
         </Grid>
     </Grid>
-
 </Window>

@@ -30,15 +30,15 @@ namespace Tester.TestRunner
 
         public TestView(string group, string name, Ticket ticket)
         {
-            InitializeComponent();
+            InitializeComponent();/*
             curTicket = ticket;
             Name = name;
             Group = group;
             testInfoLabel.Content = "Студент: " + name + ". Группа: " + group + ". Тип тестирования: проверочная работа.";
             testResult = new Dictionary<int, List<Answer>>();
-            LoadQuestion(curTicket, 0);
+            LoadQuestion(curTicket, 0);*/
         }
-
+        /*
         private void LoadQuestion(Ticket ticket, int index)
         {
             if (index < 0 || index >= ticket.Questions.Count)
@@ -106,7 +106,7 @@ namespace Tester.TestRunner
 
             MessageBox.Show(string.Format("Группа: {0}\nФИО: {1}\nТест завершен на {2} баллов.", Group, Name, balls.ToString()));
             this.Close();
-        }
+        }*/
 
         private void CollectAnswers()
         {

@@ -20,11 +20,9 @@ namespace Tester.TestCreator
     /// </summary>
     public partial class CreateGroupView : Window
     {
-        public CreateGroupViewModel createGroupViewModel;
         public CreateGroupView(CreateGroupViewModel createGroupViewModel)
         {
             InitializeComponent();
-            this.createGroupViewModel = createGroupViewModel;
             DataContext = createGroupViewModel;
         }
     }

@@ -5,9 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester.TestCreator"
         mc:Ignorable="d"
-        Title="TestView" Height="450" Width="800"
-        FontSize="14">
-
+        Title="TestGroupCreator" Height="450" Width="800"
+        FontSize="14" WindowStartupLocation="CenterScreen">
     <Grid>
         <TabControl>
             <TabItem Header="Тест">
@@ -40,17 +39,24 @@
 
                         </Grid>
                     </Grid>
-                    <Grid DataContext="{Binding SelectedTest}" Grid.Column="1">
+
+                    <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
-                            <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
 
-                        <Label Content="Список вопросов"  Grid.Row="0" HorizontalAlignment="Center"/>
-                        <ListBox Grid.Row="1" ItemsSource="{Binding Questions}"/>
+                        <Grid DataContext="{Binding SelectedTest}" Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Список вопросов"  Grid.Row="0" HorizontalAlignment="Center"/>
+                            <ListBox Grid.Row="1" ItemsSource="{Binding Questions}"/>
+                        </Grid>
+                        <Button  Grid.Row="1" Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Width="100"/>
                     </Grid>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Группа">
@@ -79,19 +85,25 @@
                             </Grid.ColumnDefinitions>
 
                             <Button Grid.Column="0" Content="Добавить" Command="{Binding AddNewGroupCommand}"/>
-                            <Button Grid.Column="1" Content="Удалить" Command="{Binding RemoveGroupCommand}" /> 
+                            <Button Grid.Column="1" Content="Удалить" Command="{Binding RemoveGroupCommand}" />
                             <Button Grid.Column="2" Content="Редактировать" Command="{Binding EditGroupCommand}"/>
                         </Grid>
                     </Grid>
-
-                    <Grid Grid.Column="1" DataContext="{Binding SelectedGroup}">
+                    <Grid Grid.Column="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
                             <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" DataContext="{Binding SelectedGroup}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <Label Content="Список студентов" Grid.Row="0" HorizontalAlignment="Center"/>
-                        <ListBox ItemsSource="{Binding Students}" Grid.Row="1"/>
+                            <Label Content="Список студентов" Grid.Row="0" HorizontalAlignment="Center"/>
+                            <ListBox ItemsSource="{Binding Students}" Grid.Row="1"/>
+                        </Grid>
+                        <Button  Grid.Row="1" Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Width="100"/>
                     </Grid>
                 </Grid>
             </TabItem>

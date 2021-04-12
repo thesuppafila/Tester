@@ -17,6 +17,25 @@ namespace Tester.Model
     [Serializable]
     public class Test : INotifyPropertyChanged
     {
+        public Test()
+        {
+            Questions = new ObservableCollection<IQuestion>();
+        }
+
+        public Test(Test test)
+        {
+            Name = new string(test.Name.ToCharArray());
+            Questions = new ObservableCollection<IQuestion>();
+            foreach (IQuestion q in test.Questions)
+                Questions.Add((IQuestion)q.Clone());
+        }
+
+        public Test(string name, ObservableCollection<IQuestion> questionsList)
+        {
+            Name = name;
+            Questions = questionsList;
+        }
+
         private string name;
         public string Name
         {
@@ -28,28 +47,19 @@ namespace Tester.Model
             }
         }
 
-        private ObservableCollection<Question> questions;
-        public ObservableCollection<Question> Questions
+        private ObservableCollection<IQuestion> questions;
+        public ObservableCollection<IQuestion> Questions
         {
-            get { return questions; }
+            get
+            {
+                return questions;
+            }
             set
             {
                 questions = value;
                 OnPropertyChanged("Questions");
             }
         }
-
-        public Test()
-        {
-            Questions = new ObservableCollection<Question>();
-        }
-
-        public Test(string name, ObservableCollection<Question> questionsList)
-        {
-            Name = name;
-            Questions = questionsList;
-        }
-
 
         public void LoadFromFile()
         {
@@ -73,7 +83,7 @@ namespace Tester.Model
                         Test test = (Test)formatter.Deserialize(fs);
                         this.Name = test.Name;
                         foreach (Question q in test.Questions)
-                            Questions.Add(q);                        
+                            Questions.Add(q);
                     }
                 }
             }
@@ -107,7 +117,6 @@ namespace Tester.Model
                 }
             }
         }
-
 
         public void Save()
         {
@@ -151,5 +160,9 @@ namespace Tester.Model
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
