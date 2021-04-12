@@ -116,7 +116,8 @@ namespace Tester.ViewModel
                 return addNewStudentCommand ??
                     (addNewStudentCommand = new RelayCommand(obj =>
                     {
-                        Students.Add(new Student(studentName));
+                    if (StudentName != null && StudentName != string.Empty)
+                        Students.Add(new Student(StudentName));
                     }));
             }
         }

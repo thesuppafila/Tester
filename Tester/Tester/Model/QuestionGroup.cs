@@ -16,6 +16,11 @@ namespace Tester.Model
             qGroup = new ObservableCollection<Question>();
         }
 
+        public QuestionGroup(string bones)
+        {
+
+        }
+
         private string body;
         public string Body
         {
@@ -28,6 +33,17 @@ namespace Tester.Model
             {
                 body = value;
                 OnPropertyChanged("Body");
+            }
+        }
+
+        private string bones;
+        public string Bones
+        {
+            get { return bones; }
+            set
+            {
+                bones = value;
+                OnPropertyChanged("Bones");
             }
         }
 

@@ -41,6 +41,12 @@ namespace Tester.Model
 
         }
 
+        public Answer(Answer answer)
+        {
+            Body = answer.Body;
+            IsRight = answer.IsRight;
+        }
+
         public Answer(string bone)
         {
             if (bone[0] == '$')

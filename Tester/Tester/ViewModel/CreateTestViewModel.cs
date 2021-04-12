@@ -95,8 +95,45 @@ namespace Tester.ViewModel
             }
             set
             {
+                if (value is Question)
+                    IsGroupQuestion = false;
+                else
+                {
+                    SelectedGroupQuestion = value;
+
+                }
                 selectedQuestion = value;
                 OnPropertyChanged("SelectedQuestion");
+            }
+        }
+
+        private IQuestion selectedGroupQuestion;
+        public IQuestion SelectedGroupQuestion
+        {
+            get
+            {
+                return selectedGroupQuestion;
+            }
+            set
+            {
+                selectedGroupQuestion = value;
+                OnPropertyChanged("SelectedGroupQuestion");
+            }
+        }
+
+        private bool isGroupQuestion;
+        public bool IsGroupQuestion
+        {
+            get
+            {
+                return isGroupQuestion;
+            }
+            set
+            {
+                if (SelectedQuestion is QuestionGroup)
+                    isGroupQuestion = true;
+                else isGroupQuestion = false;
+                OnPropertyChanged("IsGroupQuestion");
             }
         }
 
@@ -122,8 +159,9 @@ namespace Tester.ViewModel
                 return addNewQuestionCommand ??
                     (addNewQuestionCommand = new RelayCommand(obj =>
                     {
+                        createQuestionViewModel = new CreateQuestionViewModel() { CurrentQuestion = new Question() };
                         CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
-                        if (createQuestionView.DialogResult == true)
+                        if (createQuestionView.ShowDialog() == true)
                         {
                             Questions.Add(createQuestionViewModel.CurrentQuestion);
                         }
@@ -155,24 +193,11 @@ namespace Tester.ViewModel
                     {
                         if (SelectedQuestion != null)
                         {
-                            if (SelectedQuestion is Question)
+                            createQuestionViewModel = new CreateQuestionViewModel { CurrentQuestion = (Question)SelectedQuestion.Clone() };
+                            CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
+                            if (createQuestionView.ShowDialog() == true)
                             {
-                                createQuestionViewModel = new CreateQuestionViewModel { CurrentQuestion = SelectedQuestion };
-                                CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
-                                if (createQuestionView.ShowDialog() == true)
-                                {
-                                    SelectedQuestion = createQuestionViewModel.CurrentQuestion;
-                                }
-                            }
-                            else if (SelectedQuestion is QuestionGroup)
-                            {
-                                createQuestionGroupViewModel = new CreateQuestionGroupViewModel { CurrentQuestion = SelectedQuestion };
-
-                                CreateQuestionGroupView createQuestionGroupView = new CreateQuestionGroupView(createQuestionGroupViewModel);
-                                if (createQuestionGroupView.ShowDialog() == true)
-                                {
-                                    SelectedQuestion = createQuestionGroupViewModel.CurrentQuestion;
-                                }
+                                SelectedQuestion = createQuestionViewModel.CurrentQuestion;
                             }
                         }
                     }));

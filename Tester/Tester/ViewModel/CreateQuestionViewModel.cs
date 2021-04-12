@@ -27,8 +27,8 @@ namespace Tester.ViewModel
             }
         }
 
-        private IQuestion currentQuestion;
-        public IQuestion CurrentQuestion
+        private Question currentQuestion;
+        public Question CurrentQuestion
         {
             get
             {
@@ -41,31 +41,29 @@ namespace Tester.ViewModel
             }
         }
 
-        private string body;
         public string Body
         {
             get
             {
-                return body;
+                return CurrentQuestion.Body;
             }
             set
             {
-                body = value;
+                CurrentQuestion.Body = value;
                 OnPropertyChanged("Body");
             }
         }
 
-        private bool isMultiple;
         public bool IsMultiple
         {
             get
             {
-                return isMultiple;
+                return CurrentQuestion.IsMultiple;
             }
             set
             {
-                isMultiple = value;
-                if (!isMultiple && TrueAnswers != null)
+                CurrentQuestion.IsMultiple = value;
+                if (!CurrentQuestion.IsMultiple && TrueAnswers != null)
                     TrueAnswers.Clear();
                 OnPropertyChanged("IsMultiple");
             }
@@ -113,30 +111,28 @@ namespace Tester.ViewModel
             }
         }
 
-        private ObservableCollection<Answer> answers;
         public ObservableCollection<Answer> Answers
         {
             get
             {
-                return answers;
+                return CurrentQuestion.Answers;
             }
             set
             {
-                answers = value;
+                CurrentQuestion.Answers = value;
                 OnPropertyChanged("Answers");
             }
         }
 
-        private ObservableCollection<Answer> trueAnswers;
         public ObservableCollection<Answer> TrueAnswers
         {
             get
             {
-                return trueAnswers;
+                return CurrentQuestion.TrueAnswers;
             }
             set
             {
-                trueAnswers = value;
+                CurrentQuestion.TrueAnswers = value;
                 OnPropertyChanged("TrueAnswers");
             }
         }
@@ -231,7 +227,7 @@ namespace Tester.ViewModel
             {
                 return okCommand ??
                     (okCommand = new RelayCommand(obj =>
-                    {
+                    { 
                         if (CurrentQuestion.IsValid())
                             DialogResult = true;
                     }));

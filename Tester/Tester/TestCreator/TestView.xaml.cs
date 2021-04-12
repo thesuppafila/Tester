@@ -18,9 +18,11 @@ namespace Tester.TestCreator
     /// <summary>
     /// Логика взаимодействия для TestView.xaml
     /// </summary>
+    /// 
+
+
     public partial class TestView : Window
     {
-        TestViewModel testViewModel;
 
         public TestView()
         {

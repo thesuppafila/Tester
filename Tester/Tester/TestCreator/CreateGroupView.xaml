@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester.TestCreator"
         mc:Ignorable="d"
-        Title="CreateGroupView" Height="450" Width="600"
+        Title="Редактор группы" Height="450" Width="600"
         xmlns:xc="clr-namespace:Tester.ViewModel"
         xc:DialogCloser.DialogResult="{Binding DialogResult}"
-        FontSize="14">
+        FontSize="14" WindowStartupLocation="CenterScreen">
     <Grid MinWidth="400">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Tester.Model;
 using Tester.TestCreator;
 
@@ -16,21 +17,32 @@ namespace Tester.ViewModel
 
         public TestViewModel()
         {
-            Tests = new ObservableCollection<Test>();
-            Groups = new ObservableCollection<Group>();
+            Package = new Package();
+            Package.Load();
         }
 
+        private Package package;
+        public Package Package
+        {
+            get
+            {
+                return package;
+            }
+            set
+            {
+                package = value;
+            }
+        }
 
-        private ObservableCollection<Test> tests;
         public ObservableCollection<Test> Tests
         {
             get
             {
-                return tests;
+                return Package.Tests;
             }
             set
             {
-                tests = value;
+                Package.Tests = value;
                 OnPropertyChanged("Tests");
             }
         }
@@ -76,7 +88,9 @@ namespace Tester.ViewModel
                     (removeTestCommand = new RelayCommand(obj =>
                     {
                         if (SelectedTest != null)
+                        {
                             Tests.Remove(SelectedTest);
+                        }
                     }));
             }
         }
@@ -102,16 +116,15 @@ namespace Tester.ViewModel
             }
         }
 
-        private ObservableCollection<Model.Group> groups;
-        public ObservableCollection<Model.Group> Groups
+       public ObservableCollection<Model.Group> Groups
         {
             get
             {
-                return groups;
+                return Package.Groups;
             }
             set
             {
-                groups = value;
+                Package.Groups = value;
                 OnPropertyChanged("Groups");
             }
         }
@@ -179,5 +192,19 @@ namespace Tester.ViewModel
             }
         }
 
+        private RelayCommand saveCommand;
+        public RelayCommand SaveCommand
+        {
+            get
+            {
+                return saveCommand ??
+                    (saveCommand = new RelayCommand(obj =>
+                    {
+                        Package.Tests = Tests;
+                        Package.Groups = Groups;
+                        Package.Save();
+                    }));
+            }
+        }
     }
 }
