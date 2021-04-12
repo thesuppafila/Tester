@@ -36,6 +36,33 @@ namespace Tester.Model
             Questions = questionsList;
         }
 
+        private int startIndex;
+        public int StartIndex {
+            get { return startIndex; }
+            set {
+                startIndex = value;
+                OnPropertyChanged("StartIndex");
+            }
+        }
+
+        private int endIndex;
+        public int EndIndex {
+            get { return endIndex; }
+            set {
+                endIndex = value;
+                OnPropertyChanged("EndIndex");
+            }
+        }
+
+        private int questionCount;
+        public int QuestionCount {
+            get { return questionCount; }
+            set {
+                questionCount = value;
+                OnPropertyChanged("QuestionCount");
+            }
+        }
+
         private string name;
         public string Name
         {
@@ -143,6 +170,15 @@ namespace Tester.Model
             if (Questions.Count == 0)
                 return false;
             return true;
+        }
+
+        public Ticket GetTicket()
+        {
+            Ticket ticket = new Ticket();
+            for (int i = 0; i < questionCount; i++)
+                ticket.Questions.Add(Questions[Randomizer.Next(startIndex, endIndex)]);
+            ticket.Variant = Randomizer.Next(0, 100);
+            return ticket;
         }
 
         public Ticket GetTicket(int countQuestion, int startIndex, int endIndex)
