@@ -203,6 +203,7 @@ namespace Tester.ViewModel
                         Package.Tests = Tests;
                         Package.Groups = Groups;
                         Package.Save();
+                        MessageBox.Show("Изменения успешно сохранены.");
                     }));
             }
         }

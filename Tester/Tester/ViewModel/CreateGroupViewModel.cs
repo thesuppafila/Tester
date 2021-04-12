@@ -4,8 +4,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using Tester.TestCreator;
 using Tester.Model;
+
 
 namespace Tester.ViewModel
 {
@@ -63,7 +65,6 @@ namespace Tester.ViewModel
             }
         }
 
-        private ObservableCollection<Student> students;
         public ObservableCollection<Student> Students
         {
             get
@@ -122,7 +123,6 @@ namespace Tester.ViewModel
             }
         }
 
-
         private RelayCommand loadStudentsFromFileCommand;
         public RelayCommand LoadStudentsFromFileCommand
         {
@@ -154,7 +154,6 @@ namespace Tester.ViewModel
             }
         }
 
-
         private RelayCommand removeStudentCommand;
         public RelayCommand RemoveStudentCommand
         {
@@ -179,6 +178,10 @@ namespace Tester.ViewModel
                     {
                         if (CurrentGroup.IsValid())
                             DialogResult = true;
+                        else
+                        {
+                            MessageBox.Show("Группа некорректна.");
+                        }
                     }));
             }
         }

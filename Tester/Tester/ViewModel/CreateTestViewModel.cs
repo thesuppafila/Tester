@@ -20,7 +20,6 @@ namespace Tester.ViewModel
     public class CreateTestViewModel : INotifyPropertyChanged
     {
         public CreateQuestionViewModel createQuestionViewModel = new CreateQuestionViewModel();
-        public CreateQuestionGroupViewModel createQuestionGroupViewModel = new CreateQuestionGroupViewModel();
 
         public CreateTestViewModel()
         {
@@ -229,6 +228,10 @@ namespace Tester.ViewModel
                     {
                         if (currentTest.IsValid())
                             DialogResult = true;
+                        else
+                        {
+                            MessageBox.Show("Введите все параметры.");
+                        }
                     }));
             }
         }
