@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows;
 using Tester.Model;
 
 namespace Tester.ViewModel
@@ -230,6 +231,10 @@ namespace Tester.ViewModel
                     { 
                         if (CurrentQuestion.IsValid())
                             DialogResult = true;
+                        else
+                        {
+                            MessageBox.Show("Вопрос некорректен.");
+                        }
                     }));
             }
         }
