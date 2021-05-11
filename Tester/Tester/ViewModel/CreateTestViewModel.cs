@@ -72,6 +72,19 @@ namespace Tester.ViewModel
             }
         }
 
+        public int QuestionCount
+        {
+            get
+            {
+                return CurrentTest.QuestionCount;
+            }
+            set
+            {
+                CurrentTest.QuestionCount = value;
+                OnPropertyChanged("QuestionCount");
+            }
+        }
+
         public ObservableCollection<IQuestion> Questions
         {
             get
@@ -168,6 +181,7 @@ namespace Tester.ViewModel
             }
         }
 
+        [field: NonSerialized]
         private RelayCommand removeQuestionCommand;
         public RelayCommand RemoveQuestionCommand
         {
@@ -182,6 +196,8 @@ namespace Tester.ViewModel
             }
         }
 
+
+        [field: NonSerialized]
         private RelayCommand editQuestionCommand;
         public RelayCommand EditQuestionCommand
         {
@@ -249,6 +265,7 @@ namespace Tester.ViewModel
             }
         }
 
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

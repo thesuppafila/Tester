@@ -20,6 +20,7 @@ namespace Tester.Model
         public Test()
         {
             Questions = new ObservableCollection<IQuestion>();
+            QuestionCount = 20;
         }
 
         public Test(Test test)
@@ -54,11 +55,11 @@ namespace Tester.Model
             }
         }
 
-        private int questionCount;
+        private int _questionCount;
         public int QuestionCount {
-            get { return questionCount; }
+            get { return _questionCount; }
             set {
-                questionCount = value;
+                _questionCount = value;
                 OnPropertyChanged("QuestionCount");
             }
         }
@@ -175,8 +176,8 @@ namespace Tester.Model
         public Ticket GetTicket()
         {
             Ticket ticket = new Ticket();
-            for (int i = 0; i < questionCount; i++)
-                ticket.Questions.Add(Questions[Randomizer.Next(startIndex, endIndex)]);
+            for (int i = 0; i < _questionCount; i++)
+                ticket.Questions.Add(Questions[Randomizer.Next(startIndex, Questions.Count)]);
             ticket.Variant = Randomizer.Next(0, 100);
             return ticket;
         }
@@ -190,6 +191,7 @@ namespace Tester.Model
             return ticket;
         }
 
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

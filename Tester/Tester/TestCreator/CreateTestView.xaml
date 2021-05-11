@@ -38,6 +38,10 @@
             <ListBox  Grid.Row="3"
                              ItemsSource="{Binding Questions}"
                              SelectedItem="{Binding SelectedQuestion}"/>
+            <StackPanel Grid.Row="4" Orientation="Vertical">
+                <Label Content="Количество вопросов:"/>
+                <TextBox x:Name="questionsCountTextBox" Text="{Binding QuestionCount, UpdateSourceTrigger=PropertyChanged}" PreviewTextInput="QuestionsCountTextBox_PreviewTextInput"/>
+            </StackPanel>
         </Grid>
         
         <Grid Grid.Row="1" Grid.Column="0" Margin="2">
@@ -103,7 +107,7 @@
             
             <Button x:Name="saveButton" Grid.Column="1" Content="Сохранить" 
                             Command="{Binding OkCommand}" 
-                            HorizontalAlignment="Right" MinWidth="100"/>
+                            HorizontalAlignment="Right" MinWidth="100" Height="30" VerticalAlignment="Top"/>
         </Grid>
     </Grid>
 </Window>

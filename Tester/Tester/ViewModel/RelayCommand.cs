@@ -9,6 +9,8 @@ namespace Tester.ViewModel
 {
     public class RelayCommand : ICommand
     {
+
+        [field: NonSerialized]
         private readonly Action<object> execute;
         private readonly Func<object, bool> canExecute;
 

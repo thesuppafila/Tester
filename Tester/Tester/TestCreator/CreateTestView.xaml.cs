@@ -33,5 +33,13 @@ namespace Tester
             CreateTestViewModel = createTestViewModel;
             this.DataContext = CreateTestViewModel;
         }
+
+        private void QuestionsCountTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!Char.IsDigit(e.Text, 0))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,10 +88,7 @@ namespace Tester.ViewModel
                 return removeTestCommand ??
                     (removeTestCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedTest != null)
-                        {
-                            Tests.Remove(SelectedTest);
-                        }
+                        Tests.Remove((Test)obj);
                     }));
             }
         }
@@ -103,20 +101,17 @@ namespace Tester.ViewModel
                 return editTestCommand ??
                     (editTestCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedTest != null)
+                        createTestViewModel = new CreateTestViewModel { CurrentTest = (Test)obj };
+                        CreateTestView createTestView = new CreateTestView(createTestViewModel);
+                        if (createTestView.ShowDialog() == true)
                         {
-                            createTestViewModel = new CreateTestViewModel { CurrentTest = new Test(SelectedTest) };
-                            CreateTestView createTestView = new CreateTestView(createTestViewModel);
-                            if (createTestView.ShowDialog() == true)
-                            {
-                                SelectedTest = createTestViewModel.CurrentTest;
-                            }
+                            SelectedTest = createTestViewModel.CurrentTest;
                         }
                     }));
             }
         }
 
-       public ObservableCollection<Model.Group> Groups
+        public ObservableCollection<Model.Group> Groups
         {
             get
             {
@@ -159,6 +154,8 @@ namespace Tester.ViewModel
             }
         }
 
+
+        [field: NonSerialized]
         private RelayCommand removeGroupCommand;
         public RelayCommand RemoveGroupCommand
         {
@@ -167,12 +164,12 @@ namespace Tester.ViewModel
                 return removeGroupCommand ??
                     (removeGroupCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedGroup != null)
-                            Groups.Remove(SelectedGroup);
+                        Groups.Remove((Group)obj);
                     }));
             }
         }
 
+        [field: NonSerialized]
         private RelayCommand editGroupCommand;
         public RelayCommand EditGroupCommand
         {
@@ -181,13 +178,10 @@ namespace Tester.ViewModel
                 return editGroupCommand ??
                     (editGroupCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedGroup != null)
-                        {
-                            createGroupViewModel = new CreateGroupViewModel { CurrentGroup = new Group(SelectedGroup) };
-                            CreateGroupView createGroupView = new CreateGroupView(createGroupViewModel);
-                            if (createGroupView.ShowDialog() == true)
-                                SelectedGroup = createGroupViewModel.CurrentGroup;
-                        }
+                        createGroupViewModel = new CreateGroupViewModel { CurrentGroup = (Group)obj };
+                        CreateGroupView createGroupView = new CreateGroupView(createGroupViewModel);
+                        if (createGroupView.ShowDialog() == true)
+                            SelectedGroup = createGroupViewModel.CurrentGroup;
                     }));
             }
         }
@@ -206,6 +200,13 @@ namespace Tester.ViewModel
                         MessageBox.Show("Изменения успешно сохранены.");
                     }));
             }
+        }
+
+        public async void OnMainViewClosing(object sender, CancelEventArgs e)
+        {
+            Package.Tests = Tests;
+            Package.Groups = Groups;
+            Package.Save();
         }
     }
 }

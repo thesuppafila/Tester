@@ -34,7 +34,18 @@
             <Label Content="Список студентов" Grid.Row="2" HorizontalAlignment="Center"/>
             <ListBox Grid.Row="3" 
                              ItemsSource="{Binding Students}"
-                             SelectedItem="{Binding SelectedStudent}"/>
+                             SelectedItem="{Binding SelectedStudent}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding Name}"/>
+                            <Button Margin="2,0,0,0" Command="{Binding Path=DataContext.RemoveStudentCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" Style="{StaticResource ImageButton}">
+                                <Image Source="/Tester;component/Images/delete.png"/>
+                            </Button>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Grid>
 
         <Grid Grid.Column="0" Grid.Row="1">
@@ -56,7 +67,6 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
                 <Label Grid.Row="0" Content="Студент" />
@@ -66,8 +76,6 @@
                             Command="{Binding LoadStudentsFromFileCommand}" />
                 <Button Grid.Column="3" Content="Редактировать" Margin="2"
                         Command="{Binding EditStudentCommand}" />
-                <Button Grid.Column="4" Content="Удалить" Margin="2"
-                        Command="{Binding RemoveStudentCommand}" />                
             </Grid>            
             
             <TextBox Grid.Row="1" Text="{Binding StudentName, UpdateSourceTrigger=PropertyChanged}" Margin="2"/>

@@ -28,6 +28,8 @@ namespace Tester.TestCreator
         {
             InitializeComponent();
             this.DataContext = new TestViewModel();
+            var vm = (TestViewModel)this.DataContext;
+            Closing += vm.OnMainViewClosing;
         }
     }
 }

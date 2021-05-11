@@ -62,6 +62,7 @@ namespace Tester.Model
             return "\t" + body;
         }
 
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +35,7 @@ namespace Tester.TestRunner
             curTicket = ticket;
             Name = name;
             Group = group;
-            testInfoLabel.Content = "Студент: " + name + ". Группа: " + group + ". Тип тестирования: проверочная работа.";
+            testInfoLabel.Content = "Студент: " + name + ". Группа: " + group + ".";
             testResult = new Dictionary<int, List<Answer>>();
             LoadQuestion(curTicket, 0);
         }
@@ -57,7 +58,7 @@ namespace Tester.TestRunner
                 {
                     foreach (var chBox in answersPanel.Children.OfType<CheckBox>())
                     {
-                        if (answers.Where(x => x.Body == chBox.Content).Count() > 0)
+                        if (answers.Where(x => x.Body == (string)chBox.Content).Count() > 0)
                             chBox.IsChecked = true;
                     }
                 }
@@ -100,11 +101,15 @@ namespace Tester.TestRunner
                         }
                         if (isRight)
                             balls++;
-                    }                    
+                    }
                 }
             }
 
             MessageBox.Show(string.Format("Группа: {0}\nФИО: {1}\nТест завершен на {2} баллов.", Group, Name, balls.ToString()));
+            using (StreamWriter writer = new StreamWriter("results.txt", true, Encoding.Default))
+            {
+                writer.WriteLine(string.Format("{3} {4} - Группа: {0}\nФИО: {1}\nТест завершен на {2} баллов.\n", Group, Name, balls.ToString(), DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString()));
+            }
             this.Close();
         }
 

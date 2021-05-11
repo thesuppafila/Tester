@@ -13,7 +13,7 @@ namespace Tester.ViewModel
 {
     public class CreateGroupViewModel : BaseViewModel
     {
-        
+
         public CreateGroupViewModel()
         {
             CurrentGroup = new Group();
@@ -117,8 +117,8 @@ namespace Tester.ViewModel
                 return addNewStudentCommand ??
                     (addNewStudentCommand = new RelayCommand(obj =>
                     {
-                    if (StudentName != null && StudentName != string.Empty)
-                        Students.Add(new Student(StudentName));
+                        if (StudentName != null && StudentName != string.Empty)
+                            Students.Add(new Student(StudentName));
                     }));
             }
         }
@@ -137,6 +137,7 @@ namespace Tester.ViewModel
             }
         }
 
+        [field: NonSerialized]
         private RelayCommand editStudentCommand;
         public RelayCommand EditStudentCommand
         {
@@ -153,7 +154,8 @@ namespace Tester.ViewModel
                     }));
             }
         }
-
+        
+        [field: NonSerialized]
         private RelayCommand removeStudentCommand;
         public RelayCommand RemoveStudentCommand
         {
@@ -162,8 +164,7 @@ namespace Tester.ViewModel
                 return removeStudentCommand ??
                     (removeStudentCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedStudent != null)
-                            Students.Remove(SelectedStudent);
+                        Students.Remove((Student)obj);
                     }));
             }
         }
