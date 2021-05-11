@@ -194,12 +194,12 @@ namespace Tester.ViewModel
                 return okCommand ??
                     (okCommand = new RelayCommand(obj =>
                     { 
-                        if (CurrentQuestion.IsValid())
+                        //if (CurrentQuestion.IsValid())
                             DialogResult = true;
-                        else
-                        {
-                            MessageBox.Show("Вопрос некорректен.");
-                        }
+                        //else
+                        //{
+                            //MessageBox.Show("Вопрос некорректен.");
+                        //}
                     }));
             }
         }

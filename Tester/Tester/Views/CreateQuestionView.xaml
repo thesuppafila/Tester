@@ -27,7 +27,6 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0"  Content="Варианты ответа"/>
-            <CheckBox Grid.Column="1" IsChecked="{Binding IsMultiple, Mode=TwoWay}" Content="Множественный ответ" Margin="5" />
         </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
@@ -43,13 +42,6 @@
                  ItemsSource="{Binding Answers}"
                  SelectedItem="{Binding SelectedAnswer}">
         </ListBox>
-        <Grid Grid.Row="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Отмена" Command="{Binding CancelCommand}" />
-            <Button Grid.Column="1" Content="Готово" Command="{Binding OkCommand}"/>
-        </Grid>
+        <Button Grid.Row="5" Content="Готово" Command="{Binding OkCommand}"/>
     </Grid>
 </Window>

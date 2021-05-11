@@ -81,6 +81,10 @@
     <Compile Include="ViewModel\DialogCloser.cs" />
     <Compile Include="ViewModel\CreateGroupViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Page Include="Theme\ListBoxItemTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\CreateGroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
