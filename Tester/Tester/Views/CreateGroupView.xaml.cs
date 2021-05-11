@@ -13,23 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Tester.ViewModel;
 
-namespace Tester.TestCreator
+namespace Tester.Views
 {
     /// <summary>
-    /// Логика взаимодействия для TestView.xaml
+    /// Логика взаимодействия для CreateGroupView.xaml
     /// </summary>
-    /// 
-
-
-    public partial class TestView : Window
+    public partial class CreateGroupView : Window
     {
-
-        public TestView()
+        public CreateGroupView(CreateGroupViewModel createGroupViewModel)
         {
             InitializeComponent();
-            this.DataContext = new TestViewModel();
-            var vm = (TestViewModel)this.DataContext;
-            Closing += vm.OnMainViewClosing;
+            DataContext = createGroupViewModel;
         }
     }
 }

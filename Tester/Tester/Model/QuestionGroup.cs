@@ -1,26 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace Tester.Model
 {
-    public class QuestionGroup : IQuestion
+    public class QuestionGroup : NotifyPropertyChanged, IQuestion
     {
-        public QuestionGroup()
-        {
-            qGroup = new ObservableCollection<Question>();
-        }
-
-        public QuestionGroup(string bones)
-        {
-
-        }
-
         private string body;
         public string Body
         {
@@ -33,17 +16,6 @@ namespace Tester.Model
             {
                 body = value;
                 OnPropertyChanged("Body");
-            }
-        }
-
-        private string bones;
-        public string Bones
-        {
-            get { return bones; }
-            set
-            {
-                bones = value;
-                OnPropertyChanged("Bones");
             }
         }
 
@@ -79,19 +51,9 @@ namespace Tester.Model
             }
         }
 
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        public QuestionGroup()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-        }
-
-        public override string ToString()
-        {
-            string output = "[Группа] ";
-            foreach (Question q in QGroup)
-                output += q.ToString() + "\n";
-            return output;
+            QGroup = new ObservableCollection<Question>();
         }
 
         public object Clone()
@@ -105,6 +67,14 @@ namespace Tester.Model
         public bool IsValid()
         {
             return false;
+        }
+
+        public override string ToString()
+        {
+            string output = "[Группа] ";
+            foreach (Question q in QGroup)
+                output += q.ToString() + "\n";
+            return output;
         }
     }
 }

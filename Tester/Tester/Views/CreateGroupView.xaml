@@ -1,12 +1,12 @@
-﻿<Window x:Class="Tester.TestCreator.CreateGroupView"
+﻿<Window x:Class="Tester.Views.CreateGroupView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Tester.TestCreator"
+        xmlns:local="clr-namespace:Tester.Views"
+        xmlns:xc="clr-namespace:Tester.ViewModel"
         mc:Ignorable="d"
         Title="Редактор группы" Height="450" Width="600"
-        xmlns:xc="clr-namespace:Tester.ViewModel"
         xc:DialogCloser.DialogResult="{Binding DialogResult}"
         FontSize="14" WindowStartupLocation="CenterScreen">
     <Grid MinWidth="400">

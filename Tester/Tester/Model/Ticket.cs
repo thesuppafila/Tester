@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tester.Model
 {
     [Serializable]
-    public class Ticket : INotifyPropertyChanged
+    public class Ticket : NotifyPropertyChanged
     {
         private List<IQuestion> questions;
         public List<IQuestion> Questions
         {
-            get { return questions; }
+            get => questions;
             set
             {
                 questions = value;
@@ -26,7 +22,7 @@ namespace Tester.Model
         private int variant;
         public int Variant
         {
-            get { return variant; }
+            get => variant; 
             set
             {
                 variant = value;
@@ -34,12 +30,9 @@ namespace Tester.Model
             }
         }
 
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        public Ticket()
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+            questions = new List<IQuestion>();
         }
 
         public void SaveToFile(string path)
@@ -48,11 +41,6 @@ namespace Tester.Model
             {
                 writer.Write(this.ToString());
             }
-        }
-
-        public Ticket()
-        {
-            questions = new List<IQuestion>();
         }
 
         public override string ToString()

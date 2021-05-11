@@ -26,7 +26,7 @@ namespace Tester.TestRunner
         Ticket curTicket;
         int curIndex = 0;
         public Test CurrentTest;
-        string Name { get; set; }
+        new string Name { get; set; }
         string Group { get; set; }
 
         public TestView(string group, string name, Ticket ticket)

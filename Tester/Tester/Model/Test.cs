@@ -1,45 +1,21 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Tester.Views;
+using System.Windows.Forms;
 
 namespace Tester.Model
 {
     [Serializable]
-    public class Test : INotifyPropertyChanged
+    public class Test : NotifyPropertyChanged
     {
-        public Test()
-        {
-            Questions = new ObservableCollection<IQuestion>();
-            QuestionCount = 20;
-        }
-
-        public Test(Test test)
-        {
-            Name = new string(test.Name.ToCharArray());
-            Questions = new ObservableCollection<IQuestion>();
-            foreach (IQuestion q in test.Questions)
-                Questions.Add((IQuestion)q.Clone());
-        }
-
-        public Test(string name, ObservableCollection<IQuestion> questionsList)
-        {
-            Name = name;
-            Questions = questionsList;
-        }
-
         private int startIndex;
-        public int StartIndex {
-            get { return startIndex; }
+        public int StartIndex
+        {
+            get => startIndex;
             set {
                 startIndex = value;
                 OnPropertyChanged("StartIndex");
@@ -47,8 +23,9 @@ namespace Tester.Model
         }
 
         private int endIndex;
-        public int EndIndex {
-            get { return endIndex; }
+        public int EndIndex
+        {
+            get => endIndex;
             set {
                 endIndex = value;
                 OnPropertyChanged("EndIndex");
@@ -56,8 +33,9 @@ namespace Tester.Model
         }
 
         private int _questionCount;
-        public int QuestionCount {
-            get { return _questionCount; }
+        public int QuestionCount
+        {
+            get => _questionCount;
             set {
                 _questionCount = value;
                 OnPropertyChanged("QuestionCount");
@@ -67,7 +45,7 @@ namespace Tester.Model
         private string name;
         public string Name
         {
-            get { return name; }
+            get => name;
             set
             {
                 name = value;
@@ -78,10 +56,7 @@ namespace Tester.Model
         private ObservableCollection<IQuestion> questions;
         public ObservableCollection<IQuestion> Questions
         {
-            get
-            {
-                return questions;
-            }
+            get => questions;
             set
             {
                 questions = value;
@@ -89,10 +64,29 @@ namespace Tester.Model
             }
         }
 
+        public Test()
+        {
+            Questions = new ObservableCollection<IQuestion>();
+            QuestionCount = 20;
+        }
+
+        public Test(Test test) : this()
+        {
+            Name = new string(test.Name.ToCharArray());
+            foreach (IQuestion q in test.Questions)
+                Questions.Add((IQuestion)q.Clone());
+        }
+
+        public Test(string name, ObservableCollection<IQuestion> questionsList) : this()
+        {
+            Name = name;
+            Questions = questionsList;
+        }
+
         public void LoadFromFile()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
+            var openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
                 if (fileInfo.Extension.ToLower() == ".txt")
@@ -135,7 +129,7 @@ namespace Tester.Model
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             saveFileDialog.Filter = "XML-File | *.xml";
-            if (saveFileDialog.ShowDialog() == true)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 XmlSerializer formatter = new XmlSerializer(typeof(Test));
 
@@ -189,13 +183,6 @@ namespace Tester.Model
                 ticket.Questions.Add(Questions[Randomizer.Next(startIndex, endIndex)]);
             ticket.Variant = Randomizer.Next(0, 100);
             return ticket;
-        }
-
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
 
         public override string ToString()

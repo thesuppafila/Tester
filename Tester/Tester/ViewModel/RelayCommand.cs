@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Tester.ViewModel
 {
     public class RelayCommand : ICommand
     {
-
-        [field: NonSerialized]
         private readonly Action<object> execute;
         private readonly Func<object, bool> canExecute;
 

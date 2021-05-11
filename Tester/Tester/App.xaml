@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:Tester"
              xmlns:viewModel="clr-namespace:Tester.ViewModel"
              xmlns:view="clr-namespace:Tester.Views"
-            StartupUri="TestCreator/TestView.xaml">
+             StartupUri="Views/TestView.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Tester.Model;
 
 namespace Tester.ViewModel
 {
-    public class CreateQuestionViewModel : INotifyPropertyChanged
+    public class CreateQuestionViewModel : NotifyPropertyChanged
     {
         private bool? dialogResult;
         public bool? DialogResult
         {
-            get
-            {
-                return dialogResult;
-            }
+            get => dialogResult;
             set
             {
                 dialogResult = value;
@@ -31,10 +20,7 @@ namespace Tester.ViewModel
         private Question currentQuestion;
         public Question CurrentQuestion
         {
-            get
-            {
-                return currentQuestion;
-            }
+            get => currentQuestion;
             set
             {
                 currentQuestion = value;
@@ -42,41 +28,10 @@ namespace Tester.ViewModel
             }
         }
 
-        public string Body
-        {
-            get
-            {
-                return CurrentQuestion.Body;
-            }
-            set
-            {
-                CurrentQuestion.Body = value;
-                OnPropertyChanged("Body");
-            }
-        }
-
-        public bool IsMultiple
-        {
-            get
-            {
-                return CurrentQuestion.IsMultiple;
-            }
-            set
-            {
-                CurrentQuestion.IsMultiple = value;
-                if (!CurrentQuestion.IsMultiple && TrueAnswers != null)
-                    TrueAnswers.Clear();
-                OnPropertyChanged("IsMultiple");
-            }
-        }
-
         private string newAnswerBody;
         public string NewAnswerBody
         {
-            get
-            {
-                return newAnswerBody;
-            }
+            get => newAnswerBody;
             set
             {
                 newAnswerBody = value;
@@ -87,10 +42,7 @@ namespace Tester.ViewModel
         private Answer selectedAnswer;
         public Answer SelectedAnswer
         {
-            get
-            {
-                return selectedAnswer;
-            }
+            get => selectedAnswer;
             set
             {
                 selectedAnswer = value;
@@ -101,10 +53,7 @@ namespace Tester.ViewModel
         private Answer selectedTrueAnswer;
         public Answer SelectedTrueAnswer
         {
-            get
-            {
-                return selectedTrueAnswer;
-            }
+            get => selectedTrueAnswer;
             set
             {
                 selectedTrueAnswer = value;
@@ -112,12 +61,31 @@ namespace Tester.ViewModel
             }
         }
 
+        public string Body
+        {
+            get => CurrentQuestion.Body;
+            set
+            {
+                CurrentQuestion.Body = value;
+                OnPropertyChanged("Body");
+            }
+        }
+
+        public bool IsMultiple
+        {
+            get => CurrentQuestion.IsMultiple;
+            set
+            {
+                CurrentQuestion.IsMultiple = value;
+                if (!CurrentQuestion.IsMultiple && TrueAnswers != null)
+                    TrueAnswers.Clear();
+                OnPropertyChanged("IsMultiple");
+            }
+        }
+
         public ObservableCollection<Answer> Answers
         {
-            get
-            {
-                return CurrentQuestion.Answers;
-            }
+            get => CurrentQuestion.Answers;
             set
             {
                 CurrentQuestion.Answers = value;
@@ -127,10 +95,7 @@ namespace Tester.ViewModel
 
         public ObservableCollection<Answer> TrueAnswers
         {
-            get
-            {
-                return CurrentQuestion.TrueAnswers;
-            }
+            get => CurrentQuestion.TrueAnswers;
             set
             {
                 CurrentQuestion.TrueAnswers = value;
@@ -242,13 +207,6 @@ namespace Tester.ViewModel
         public bool IsValidQuestion()
         {
             return CurrentQuestion.IsValid();
-        }
-
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }

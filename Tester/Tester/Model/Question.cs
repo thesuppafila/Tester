@@ -1,39 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Collections.ObjectModel;
 
 namespace Tester.Model
 {
     [Serializable]
-    public class Question : ICloneable, INotifyPropertyChanged, IQuestion
+    public class Question : NotifyPropertyChanged, ICloneable, IQuestion
     {
-        public Question()
-        {
-            Answers = new ObservableCollection<Answer>();
-            TrueAnswers = new ObservableCollection<Answer>();
-        }
-
-        public Question(Question question)
-        {
-            Answers = new ObservableCollection<Answer>();
-            TrueAnswers = new ObservableCollection<Answer>();
-
-            Body = new string(question.Body.ToCharArray());
-
-            foreach (Answer answer in question.Answers)
-                Answers.Add(new Answer(answer));
-            foreach (Answer answer in Answers)
-                if (answer.IsRight)
-                    TrueAnswers.Add(answer);
-        }
-
         private string body;
         public string Body
         {
@@ -95,12 +69,33 @@ namespace Tester.Model
             }
         }
 
-        public Question(string bones)
+        public Question()
+        {
+            Answers = new ObservableCollection<Answer>();
+            TrueAnswers = new ObservableCollection<Answer>();
+        }
+
+        public Question(Question question) : this()
+        {
+            Body = new string(question.Body.ToCharArray());
+            foreach (Answer answer in question.Answers)
+            {
+                Answers.Add(new Answer(answer));
+            }
+
+            foreach (Answer answer in Answers)
+            {
+                if (answer.IsRight)
+                {
+                    TrueAnswers.Add(answer);
+                }
+            }
+        }
+
+        public Question(string bones) : this()
         {
             Bones = bones;
             Body = Regex.Match(bones, @".*?(?=\r\n)").ToString();
-            Answers = new ObservableCollection<Answer>();
-            TrueAnswers = new ObservableCollection<Answer>();
             var answerBones = Regex.Matches(bones, @"(?<=#).*?(?=\r\n)");
             foreach (var answer in answerBones)
             {
@@ -109,14 +104,10 @@ namespace Tester.Model
                     TrueAnswers.Add(ans);
                 Answers.Add(ans);
             }
+
             int countTrueAnswer = Answers.Where(a => a.IsRight == true).Count();
             if (countTrueAnswer > 1)
                 IsMultiple = true;
-        }
-
-        public override string ToString()
-        {
-            return Body;
         }
 
         public object Clone()
@@ -140,11 +131,9 @@ namespace Tester.Model
             return false;
         }
 
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        public override string ToString()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            return Body;
         }
     }
 }

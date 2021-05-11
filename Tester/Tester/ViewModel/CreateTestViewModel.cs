@@ -1,43 +1,16 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Xml.Serialization;
 using Tester.Model;
-using Tester.TestCreator;
-using Tester.ViewModel;
 
 namespace Tester.ViewModel
 {
-    public class CreateTestViewModel : INotifyPropertyChanged
+    public class CreateTestViewModel : NotifyPropertyChanged
     {
-        public CreateQuestionViewModel createQuestionViewModel = new CreateQuestionViewModel();
-
-        public CreateTestViewModel()
-        {
-            CurrentTest = new Test();
-        }
-
-        public CreateTestViewModel(Test currentTest)
-        {
-            CurrentTest = currentTest;
-        }
-
         private bool? dialogResult;
         public bool? DialogResult
         {
-            get
-            {
-                return dialogResult;
-            }
+            get => dialogResult;
             set
             {
                 dialogResult = value;
@@ -48,10 +21,7 @@ namespace Tester.ViewModel
         private Test currentTest;
         public Test CurrentTest
         {
-            get
-            {
-                return currentTest;
-            }
+            get => currentTest;
             set
             {
                 currentTest = value;
@@ -59,52 +29,10 @@ namespace Tester.ViewModel
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                return CurrentTest.Name;
-            }
-            set
-            {
-                CurrentTest.Name = value;
-                OnPropertyChanged("Name");
-            }
-        }
-
-        public int QuestionCount
-        {
-            get
-            {
-                return CurrentTest.QuestionCount;
-            }
-            set
-            {
-                CurrentTest.QuestionCount = value;
-                OnPropertyChanged("QuestionCount");
-            }
-        }
-
-        public ObservableCollection<IQuestion> Questions
-        {
-            get
-            {
-                return CurrentTest.Questions;
-            }
-            set
-            {
-                CurrentTest.Questions = value;
-                OnPropertyChanged("Questions");
-            }
-        }
-
         private IQuestion selectedQuestion;
         public IQuestion SelectedQuestion
         {
-            get
-            {
-                return selectedQuestion;
-            }
+            get => selectedQuestion;
             set
             {
                 if (value is Question)
@@ -122,10 +50,7 @@ namespace Tester.ViewModel
         private IQuestion selectedGroupQuestion;
         public IQuestion SelectedGroupQuestion
         {
-            get
-            {
-                return selectedGroupQuestion;
-            }
+            get => selectedGroupQuestion;
             set
             {
                 selectedGroupQuestion = value;
@@ -136,10 +61,7 @@ namespace Tester.ViewModel
         private bool isGroupQuestion;
         public bool IsGroupQuestion
         {
-            get
-            {
-                return isGroupQuestion;
-            }
+            get => isGroupQuestion;
             set
             {
                 if (SelectedQuestion is QuestionGroup)
@@ -149,18 +71,50 @@ namespace Tester.ViewModel
             }
         }
 
-        private Model.Group selectedGroup;
-        public Model.Group SelectedGroup
+        private Group selectedGroup;
+        public Group SelectedGroup
         {
-            get
-            {
-                return selectedGroup;
-            }
+            get => selectedGroup;
             set
             {
                 selectedGroup = value;
                 OnPropertyChanged("SelectedGroup");
             }
+        }
+
+        public string Name
+        {
+            get => CurrentTest.Name;
+            set
+            {
+                CurrentTest.Name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        public int QuestionCount
+        {
+            get => CurrentTest.QuestionCount;
+            set
+            {
+                CurrentTest.QuestionCount = value;
+                OnPropertyChanged("QuestionCount");
+            }
+        }
+
+        public ObservableCollection<IQuestion> Questions
+        {
+            get => CurrentTest.Questions;
+            set
+            {
+                CurrentTest.Questions = value;
+                OnPropertyChanged("Questions");
+            }
+        }
+
+        public CreateTestViewModel(Test currentTest = null)
+        {
+            CurrentTest = currentTest ?? new Test();
         }
 
         private RelayCommand addNewQuestionCommand;
@@ -171,7 +125,7 @@ namespace Tester.ViewModel
                 return addNewQuestionCommand ??
                     (addNewQuestionCommand = new RelayCommand(obj =>
                     {
-                        createQuestionViewModel = new CreateQuestionViewModel() { CurrentQuestion = new Question() };
+                        var createQuestionViewModel = new CreateQuestionViewModel() { CurrentQuestion = new Question() };
                         CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
                         if (createQuestionView.ShowDialog() == true)
                         {
@@ -181,7 +135,6 @@ namespace Tester.ViewModel
             }
         }
 
-        [field: NonSerialized]
         private RelayCommand removeQuestionCommand;
         public RelayCommand RemoveQuestionCommand
         {
@@ -196,8 +149,6 @@ namespace Tester.ViewModel
             }
         }
 
-
-        [field: NonSerialized]
         private RelayCommand editQuestionCommand;
         public RelayCommand EditQuestionCommand
         {
@@ -208,7 +159,7 @@ namespace Tester.ViewModel
                     {
                         if (SelectedQuestion != null)
                         {
-                            createQuestionViewModel = new CreateQuestionViewModel { CurrentQuestion = (Question)SelectedQuestion.Clone() };
+                            var createQuestionViewModel = new CreateQuestionViewModel { CurrentQuestion = (Question)SelectedQuestion };
                             CreateQuestionView createQuestionView = new CreateQuestionView(createQuestionViewModel);
                             if (createQuestionView.ShowDialog() == true)
                             {
@@ -263,13 +214,6 @@ namespace Tester.ViewModel
                         DialogResult = false;
                     }));
             }
-        }
-
-        [field: NonSerialized]
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         }
     }
 }
