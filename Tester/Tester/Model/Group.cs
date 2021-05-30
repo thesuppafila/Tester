@@ -1,9 +1,9 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace Tester.Model
@@ -61,7 +61,7 @@ namespace Tester.Model
         public void LoadFromFile()
         {
             var openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
                 if (fileInfo.Extension.ToLower() == ".txt")
