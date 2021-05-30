@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Tester.ViewModel
+namespace Tester.Model
 {
-    public class BaseViewModel: INotifyPropertyChanged
+    [Serializable]
+    public class NotifyPropertyChanged : INotifyPropertyChanged
     {
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName = "")

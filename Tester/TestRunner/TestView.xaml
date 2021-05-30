@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester.TestRunner"
         mc:Ignorable="d"
-        Title="TestView" Height="450" Width="800">
+        Title="TestView" Height="450" Width="800" WindowState="Maximized" ResizeMode="NoResize" FontSize="18" WindowStyle="None">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Label x:Name="testInfoLabel" Grid.Column="0" Content="Студент: Иванов Иван Иванович. Группа: 220281. Тип тестирования: проверочная работа." FontSize="13"/>
-            <Label x:Name="timeLeftLabel" Grid.Column="1" Content="Оставшееся время: 00:00" FontSize="13"/>
+            <Label Visibility="Hidden" x:Name="timeLeftLabel" Grid.Column="1" Content="Оставшееся время: 00:00" FontSize="13"/>
             <Button x:Name="endTestButton" Grid.Column="2" Content="Завершить тестирование" Click="endTestButton_Click" FontSize="13"/>
         </Grid>
 

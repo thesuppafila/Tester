@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace Tester.TestRunner
         Ticket curTicket;
         int curIndex = 0;
         public Test CurrentTest;
-        string Name { get; set; }
+        new string Name { get; set; }
         string Group { get; set; }
 
         public TestView(string group, string name, Ticket ticket)
@@ -34,7 +35,7 @@ namespace Tester.TestRunner
             curTicket = ticket;
             Name = name;
             Group = group;
-            testInfoLabel.Content = "Студент: " + name + ". Группа: " + group + ". Тип тестирования: проверочная работа.";
+            testInfoLabel.Content = "Студент: " + name + ". Группа: " + group + ".";
             testResult = new Dictionary<int, List<Answer>>();
             LoadQuestion(curTicket, 0);
         }
@@ -45,7 +46,7 @@ namespace Tester.TestRunner
                 return;
 
             currentQuestionLabel.Content = "Вопрос " + (curIndex + 1) + " из " + ticket.Questions.Count();
-            curQuestion = ticket.Questions[index];
+            curQuestion = (Question)ticket.Questions[index];
             questionText.Content = curQuestion.Body;
             answersPanel.Children.Clear();
             foreach (var v in curQuestion.Answers)
@@ -57,7 +58,7 @@ namespace Tester.TestRunner
                 {
                     foreach (var chBox in answersPanel.Children.OfType<CheckBox>())
                     {
-                        if (answers.Where(x => x.Body == chBox.Content).Count() > 0)
+                        if (answers.Where(x => x.Body == (string)chBox.Content).Count() > 0)
                             chBox.IsChecked = true;
                     }
                 }
@@ -92,7 +93,7 @@ namespace Tester.TestRunner
                 {
                     if (answers != null && answers.Count() > 0)
                     {
-                        var trueAns = curTicket.Questions[i].Answers.Where(x => x.IsRight = true);
+                        var trueAns = ((Question)curTicket.Questions[i]).Answers.Where(x => x.IsRight == true);
                         foreach (var v in answers)
                         {
                             if (!v.IsRight)
@@ -100,11 +101,15 @@ namespace Tester.TestRunner
                         }
                         if (isRight)
                             balls++;
-                    }                    
+                    }
                 }
             }
 
             MessageBox.Show(string.Format("Группа: {0}\nФИО: {1}\nТест завершен на {2} баллов.", Group, Name, balls.ToString()));
+            using (StreamWriter writer = new StreamWriter("results.txt", true, Encoding.Default))
+            {
+                writer.WriteLine(string.Format("{3} {4} - Группа: {0}\nФИО: {1}\nТест завершен на {2} баллов.\n", Group, Name, balls.ToString(), DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString()));
+            }
             this.Close();
         }
 

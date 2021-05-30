@@ -4,17 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestRunner"
+        xmlns:viewModel="clr-namespace:TestRunner.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="500">
+        Title="Выберите тип тестирования" Width="400" MinWidth="400" ResizeMode="NoResize" SizeToContent="Height">
+
+    <Window.DataContext>
+        <viewModel:MainWindowViewModel/>
+    </Window.DataContext>
+    
     <Grid>
         <StackPanel>
             <Label Content="Группа"/>
-            <ComboBox />
+            <ComboBox x:Name="groupComboBox" SelectionChanged="GroupComboBox_SelectionChanged"/>
             <Label Content="ФИО"/>
-            <ComboBox />
+            <ComboBox x:Name="nameComboBox"/>
             <Label Content="Аттестация"/>
-            <ComboBox />
-            <Button Content="Начать тестирование" Click="Button_Click"/>
+            <ComboBox x:Name="testTypeComboBox"/>
+            <Button Content="Начать тестирование" Click="Button_Click" Height="25" Margin="0, 5, 0, 0"/>
+            <Button Content="Последние результаты" Click="LastResultClicked" Height="25" Margin="0, 5, 0, 0"/>
         </StackPanel>
     </Grid>
 </Window>

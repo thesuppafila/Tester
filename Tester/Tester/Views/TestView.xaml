@@ -1,12 +1,16 @@
-﻿<Window x:Class="Tester.TestCreator.TestView"
+﻿<Window x:Class="Tester.Views.TestView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Tester.TestCreator"
+        xmlns:local="clr-namespace:Tester.Views"
+        xmlns:viewModel="clr-namespace:Tester.ViewModel"
         mc:Ignorable="d"
         Title="TestGroupCreator" Height="450" Width="800"
         FontSize="14" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <viewModel:TestViewModel/>
+    </Window.DataContext>
     <Grid>
         <TabControl>
             <TabItem Header="Тест">
@@ -26,18 +30,28 @@
                         <Label Content="Список тестов" Grid.Row="0" HorizontalAlignment="Center"/>
                         <ListBox x:Name="testListBox" Grid.Row="1" 
                                  ItemsSource="{Binding Tests}"
-                                 SelectedItem="{Binding SelectedTest}"/>
-                        <Grid Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Button x:Name="addNewTestButton" Grid.Column="0" Command="{Binding AddNewTestCommand}" Content="Добавить"/>
-                            <Button x:Name="removeTestButton" Grid.Column="1" Command="{Binding RemoveTestCommand}" Content="Удалить"/>
-                            <Button x:Name="editTestButton" Grid.Column="2" Command="{Binding EditTestCommand}" Content="Редактировать"/>
-
-                        </Grid>
+                                 SelectedItem="{Binding SelectedTest}"
+                                 ItemContainerStyle="{StaticResource ListItem}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}" Padding="0,0,0,0"/>
+                                        <Button Grid.Column="1" Margin="3,0,3,0" Command="{Binding Path=DataContext.EditTestCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" Style="{StaticResource ImageButton}">
+                                            <Image Source="/Tester;component/Images/edit.png"/>
+                                        </Button>
+                                        <Button Grid.Column="2" Command="{Binding Path=DataContext.RemoveTestCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" Style="{StaticResource ImageButton}">
+                                            <Image Source="/Tester;component/Images/delete.png"/>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button x:Name="addNewTestButton" Grid.Row="2" Command="{Binding AddNewTestCommand}" Content="Добавить"/>
                     </Grid>
 
                     <Grid Grid.Column="1">
@@ -76,18 +90,28 @@
                         <Label Content="Список групп" Grid.Row="0" HorizontalAlignment="Center"/>
                         <ListBox x:Name="groupListBox" Grid.Row="1" 
                                  ItemsSource="{Binding Groups}"
-                                 SelectedItem="{Binding SelectedGroup}"/>
-                        <Grid Grid.Row="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Button Grid.Column="0" Content="Добавить" Command="{Binding AddNewGroupCommand}"/>
-                            <Button Grid.Column="1" Content="Удалить" Command="{Binding RemoveGroupCommand}" />
-                            <Button Grid.Column="2" Content="Редактировать" Command="{Binding EditGroupCommand}"/>
-                        </Grid>
+                                 SelectedItem="{Binding SelectedGroup}"
+                                 ItemContainerStyle="{StaticResource ListItem}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Id}"/>
+                                        <Button Grid.Column="1" Margin="3,0,3,0" Command="{Binding Path=DataContext.EditGroupCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" Style="{StaticResource ImageButton}">
+                                            <Image Source="/Tester;component/Images/edit.png"/>
+                                        </Button>
+                                        <Button Grid.Column="2" Command="{Binding Path=DataContext.RemoveGroupCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" Style="{StaticResource ImageButton}">
+                                            <Image Source="/Tester;component/Images/delete.png"/>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Grid.Row="2" Content="Добавить" Command="{Binding AddNewGroupCommand}"/>
                     </Grid>
                     <Grid Grid.Column="1">
                         <Grid.RowDefinitions>

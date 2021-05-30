@@ -1,45 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using Tester.Model;
-using Tester.TestCreator;
+using Tester.Views;
 
 namespace Tester.ViewModel
 {
-    class TestViewModel : BaseViewModel
+    class TestViewModel : NotifyPropertyChanged
     {
-        CreateTestViewModel createTestViewModel = new CreateTestViewModel();
-        CreateGroupViewModel createGroupViewModel = new CreateGroupViewModel();
+        public Package Package { get; set; }
 
-        public TestViewModel()
+        private Test selectedTest;
+        public Test SelectedTest
         {
-            Package = new Package();
-            Package.Load();
-        }
-
-        private Package package;
-        public Package Package
-        {
-            get
-            {
-                return package;
-            }
+            get => selectedTest;
             set
             {
-                package = value;
+                selectedTest = value;
+                OnPropertyChanged("SelectedTest");
+            }
+        }
+
+        private Group selectedGroup;
+        public Group SelectedGroup
+        {
+            get => selectedGroup;
+            set
+            {
+                selectedGroup = value;
+                OnPropertyChanged("SelectedGroup");
             }
         }
 
         public ObservableCollection<Test> Tests
         {
-            get
-            {
-                return Package.Tests;
-            }
+            get => Package.Tests;
             set
             {
                 Package.Tests = value;
@@ -47,18 +42,20 @@ namespace Tester.ViewModel
             }
         }
 
-        private Test selectedTest;
-        public Test SelectedTest
+        public ObservableCollection<Group> Groups
         {
-            get
-            {
-                return selectedTest;
-            }
+            get => Package.Groups;
             set
             {
-                selectedTest = value;
-                OnPropertyChanged("SelectedTest");
+                Package.Groups = value;
+                OnPropertyChanged("Groups");
             }
+        }
+
+        public TestViewModel()
+        {
+            Package = new Package();
+            Package.Load();
         }
 
         private RelayCommand addNewTestCommand;
@@ -69,7 +66,7 @@ namespace Tester.ViewModel
                 return addNewTestCommand ??
                     (addNewTestCommand = new RelayCommand(obj =>
                     {
-                        createTestViewModel = new CreateTestViewModel();
+                        var createTestViewModel = new CreateTestViewModel();
                         CreateTestView createTestView = new CreateTestView(createTestViewModel);
                         if (createTestView.ShowDialog() == true)
                         {
@@ -87,10 +84,8 @@ namespace Tester.ViewModel
                 return removeTestCommand ??
                     (removeTestCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedTest != null)
-                        {
-                            Tests.Remove(SelectedTest);
-                        }
+                        if (MessageBox.Show("Удалить тест?", "Удаление...", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            Tests.Remove((Test)obj);
                     }));
             }
         }
@@ -103,43 +98,13 @@ namespace Tester.ViewModel
                 return editTestCommand ??
                     (editTestCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedTest != null)
+                        var createTestViewModel = new CreateTestViewModel { CurrentTest = (Test)obj };
+                        CreateTestView createTestView = new CreateTestView(createTestViewModel);
+                        if (createTestView.ShowDialog() == true)
                         {
-                            createTestViewModel = new CreateTestViewModel { CurrentTest = new Test(SelectedTest) };
-                            CreateTestView createTestView = new CreateTestView(createTestViewModel);
-                            if (createTestView.ShowDialog() == true)
-                            {
-                                SelectedTest = createTestViewModel.CurrentTest;
-                            }
+                            SelectedTest = createTestViewModel.CurrentTest;
                         }
                     }));
-            }
-        }
-
-       public ObservableCollection<Model.Group> Groups
-        {
-            get
-            {
-                return Package.Groups;
-            }
-            set
-            {
-                Package.Groups = value;
-                OnPropertyChanged("Groups");
-            }
-        }
-
-        private Model.Group selectedGroup;
-        public Model.Group SelectedGroup
-        {
-            get
-            {
-                return selectedGroup;
-            }
-            set
-            {
-                selectedGroup = value;
-                OnPropertyChanged("SelectedGroup");
             }
         }
 
@@ -151,7 +116,7 @@ namespace Tester.ViewModel
                 return addNewGroupCommand ??
                     (addNewGroupCommand = new RelayCommand(obj =>
                     {
-                        createGroupViewModel = new CreateGroupViewModel();
+                        var createGroupViewModel = new CreateGroupViewModel();
                         CreateGroupView createGroupView = new CreateGroupView(createGroupViewModel);
                         if (createGroupView.ShowDialog() == true)
                             Groups.Add(createGroupViewModel.CurrentGroup);
@@ -167,8 +132,8 @@ namespace Tester.ViewModel
                 return removeGroupCommand ??
                     (removeGroupCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedGroup != null)
-                            Groups.Remove(SelectedGroup);
+                        if (MessageBox.Show("Удалить группу?", "Удаление...", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            Groups.Remove((Group)obj);
                     }));
             }
         }
@@ -181,13 +146,10 @@ namespace Tester.ViewModel
                 return editGroupCommand ??
                     (editGroupCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedGroup != null)
-                        {
-                            createGroupViewModel = new CreateGroupViewModel { CurrentGroup = new Group(SelectedGroup) };
-                            CreateGroupView createGroupView = new CreateGroupView(createGroupViewModel);
-                            if (createGroupView.ShowDialog() == true)
-                                SelectedGroup = createGroupViewModel.CurrentGroup;
-                        }
+                        var createGroupViewModel = new CreateGroupViewModel { CurrentGroup = (Group)obj };
+                        CreateGroupView createGroupView = new CreateGroupView(createGroupViewModel);
+                        if (createGroupView.ShowDialog() == true)
+                            SelectedGroup = createGroupViewModel.CurrentGroup;
                     }));
             }
         }
@@ -206,6 +168,13 @@ namespace Tester.ViewModel
                         MessageBox.Show("Изменения успешно сохранены.");
                     }));
             }
+        }
+
+        public void OnMainViewClosing(object sender, CancelEventArgs e)
+        {
+            Package.Tests = Tests;
+            Package.Groups = Groups;
+            Package.Save();
         }
     }
 }

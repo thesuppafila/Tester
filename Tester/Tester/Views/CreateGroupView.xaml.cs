@@ -10,22 +10,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Tester.Model;
-using Tester.TestRunner;
 using Tester.ViewModel;
 
-namespace Tester
+namespace Tester.Views
 {
     /// <summary>
-    /// Логика взаимодействия для MainView.xaml
+    /// Логика взаимодействия для CreateGroupView.xaml
     /// </summary>
-    public partial class MainView : Window
+    public partial class CreateGroupView : Window
     {
-        public MainView()
+        public CreateGroupView(CreateGroupViewModel createGroupViewModel)
         {
             InitializeComponent();
+            DataContext = createGroupViewModel;
         }
     }
 }

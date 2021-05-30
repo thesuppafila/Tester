@@ -1,51 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-
 
 namespace Tester.Model
 {
     [Serializable]
     public class Package
     {
+        public ObservableCollection<Test> Tests { get; set; }
+
+        public ObservableCollection<Group> Groups { get; set; }
 
         public Package()
         {
             Tests = new ObservableCollection<Test>();
             Groups = new ObservableCollection<Group>();
-        }
-
-        private ObservableCollection<Test> tests;
-        public ObservableCollection<Test> Tests
-        {
-            get
-            {
-                return tests;
-            }
-            set
-            {
-                tests = value;
-            }
-        }
-
-
-        private ObservableCollection<Model.Group> groups;
-        public ObservableCollection<Model.Group> Groups
-        {
-            get
-            {
-                return groups;
-            }
-            set
-            {
-                groups = value;
-            }
         }
 
         public void Save()
@@ -69,7 +40,7 @@ namespace Tester.Model
                     Package package = (Package)bf.Deserialize(fs);
                     foreach (Test t in package.Tests)
                         Tests.Add(t);
-                    foreach (Model.Group g in package.Groups)
+                    foreach (Group g in package.Groups)
                         Groups.Add(g);
                 }
                 catch

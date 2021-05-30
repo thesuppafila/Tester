@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -59,56 +60,54 @@
     <Compile Include="Model\Package.cs" />
     <Compile Include="Model\QuestionGroup.cs" />
     <Compile Include="Model\Randomizer.cs" />
-    <Compile Include="TestCreator\CreateGroupView.xaml.cs">
+    <Compile Include="Views\CreateGroupView.xaml.cs">
       <DependentUpon>CreateGroupView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestCreator\CreateQuestionView.xaml.cs">
+    <Compile Include="Views\CreateQuestionView.xaml.cs">
       <DependentUpon>CreateQuestionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestCreator\CreateTestView.xaml.cs">
+    <Compile Include="Views\CreateTestView.xaml.cs">
       <DependentUpon>CreateTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\Student.cs" />
     <Compile Include="Model\Test.cs" />
-    <Compile Include="TestCreator\TestView.xaml.cs">
+    <Compile Include="Views\TestView.xaml.cs">
       <DependentUpon>TestView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestRunner\StartTestView.xaml.cs">
-      <DependentUpon>StartTestView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TestRunner\TestView.xaml.cs">
-      <DependentUpon>TestView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModel\BaseViewModel.cs" />
+    <Compile Include="Model\NotifyPropertyChanged.cs" />
     <Compile Include="ViewModel\CreateTestViewModel.cs" />
     <Compile Include="ViewModel\CreateQuestionViewModel.cs" />
     <Compile Include="ViewModel\DialogCloser.cs" />
     <Compile Include="ViewModel\CreateGroupViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
-    <Page Include="TestCreator\CreateGroupView.xaml">
+    <Page Include="Theme\ListBoxItemTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CreateGroupView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestCreator\CreateQuestionView.xaml">
+    <Page Include="Views\CreateQuestionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestCreator\CreateTestView.xaml">
+    <Page Include="Views\CreateTestView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestCreator\TestView.xaml">
+    <Page Include="Views\TestView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Theme\ImageButtonTheme.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ExceptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -118,18 +117,6 @@
     <Compile Include="Views\ExceptionView.xaml.cs">
       <DependentUpon>ExceptionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Page Include="TestRunner\StartTestView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TestRunner\TestView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Model\Answer.cs" />
@@ -159,6 +146,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

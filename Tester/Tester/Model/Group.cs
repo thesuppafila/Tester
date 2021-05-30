@@ -1,55 +1,40 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace Tester.Model
 {
     [Serializable]
-    public class Group : INotifyPropertyChanged
+    public class Group : NotifyPropertyChanged
     {
-        public Group (Group group)
-        {
-            Id = new string(group.Id.ToCharArray());
-            Students = new ObservableCollection<Student>();
-            foreach (Student student in group.Students)
-                Students.Add(new Student(student.Name));
-        }
-
-
-        private string id;
+        private string _id;
         public string Id
         {
             get
             {
-                return id;
+                return _id;
             }
             set
             {
-                id = value;
+                _id = value;
                 OnPropertyChanged("Id");
             }
         }
 
-        private ObservableCollection<Student> students;
+        private ObservableCollection<Student> _students;
         public ObservableCollection<Student> Students
         {
             get
             {
-                return students;
+                return _students;
             }
             set
             {
-                students = new ObservableCollection<Student>(value.OrderBy(i => i));
+                _students = new ObservableCollection<Student>(value.OrderBy(i => i));
                 OnPropertyChanged("Students");
             }
         }
@@ -59,26 +44,23 @@ namespace Tester.Model
             Students = new ObservableCollection<Student>();
         }
 
-        public Group(string id)
+        public Group(string id) : this()
         {
-            Students = new ObservableCollection<Student>();
             Id = id;
         }
 
-        public override string ToString()
+        public Group(Group group) : this()
         {
-            return this.Id;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            Id = new string(group.Id.ToCharArray());
+            foreach (Student student in group.Students)
+            {
+                Students.Add(new Student(student.Name));
+            }
         }
 
         public void LoadFromFile()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
                 FileInfo fileInfo = new FileInfo(openFileDialog.FileName);
@@ -95,7 +77,7 @@ namespace Tester.Model
 
                     using (FileStream fs = new FileStream(fileInfo.FullName, FileMode.OpenOrCreate))
                     {
-                        Model.Group group = (Model.Group)formatter.Deserialize(fs);
+                        Group group = (Group)formatter.Deserialize(fs);
                         this.Id = group.Id;
                         foreach (Student s in group.Students)
                             Students.Add(s);
@@ -106,11 +88,16 @@ namespace Tester.Model
 
         public bool IsValid()
         {
-            if (Id == null || Id == null)
+            if (Id == null)
                 return false;
             if (Students.Count < 1)
                 return false;
             return true;
+        }
+
+        public override string ToString()
+        {
+            return Id;
         }
     }
 }

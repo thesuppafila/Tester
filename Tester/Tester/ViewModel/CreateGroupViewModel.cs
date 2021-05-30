@@ -1,36 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
-using Tester.TestCreator;
 using Tester.Model;
-
 
 namespace Tester.ViewModel
 {
-    public class CreateGroupViewModel : BaseViewModel
+    public class CreateGroupViewModel : NotifyPropertyChanged
     {
-        
-        public CreateGroupViewModel()
-        {
-            CurrentGroup = new Group();
-        }
-
-        public CreateGroupViewModel(Model.Group currentGroup)
-        {
-            CurrentGroup = currentGroup;
-        }
-
         private bool? dialogResult;
         public bool? DialogResult
         {
-            get
-            {
-                return dialogResult;
-            }
+            get => dialogResult;
             set
             {
                 dialogResult = value;
@@ -38,26 +17,10 @@ namespace Tester.ViewModel
             }
         }
 
-        public string Id
+        private Group currentGroup;
+        public Group CurrentGroup
         {
-            get
-            {
-                return CurrentGroup.Id;
-            }
-            set
-            {
-                CurrentGroup.Id = value;
-                OnPropertyChanged("Id");
-            }
-        }
-
-        private Model.Group currentGroup;
-        public Model.Group CurrentGroup
-        {
-            get
-            {
-                return currentGroup;
-            }
+            get => currentGroup;
             set
             {
                 currentGroup = value;
@@ -65,26 +28,10 @@ namespace Tester.ViewModel
             }
         }
 
-        public ObservableCollection<Student> Students
-        {
-            get
-            {
-                return CurrentGroup.Students;
-            }
-            set
-            {
-                CurrentGroup.Students = value;
-                OnPropertyChanged("Students");
-            }
-        }
-
         private Student selectedStudent;
         public Student SelectedStudent
         {
-            get
-            {
-                return selectedStudent;
-            }
+            get => selectedStudent;
             set
             {
                 selectedStudent = value;
@@ -98,15 +45,37 @@ namespace Tester.ViewModel
         private string studentName;
         public string StudentName
         {
-            get
-            {
-                return studentName;
-            }
+            get => studentName;
             set
             {
                 studentName = value;
                 OnPropertyChanged("StudentName");
             }
+        }
+
+        public string Id
+        {
+            get => CurrentGroup.Id;
+            set
+            {
+                CurrentGroup.Id = value;
+                OnPropertyChanged("Id");
+            }
+        }
+
+        public ObservableCollection<Student> Students
+        {
+            get => CurrentGroup.Students;
+            set
+            {
+                CurrentGroup.Students = value;
+                OnPropertyChanged("Students");
+            }
+        }
+
+        public CreateGroupViewModel(Group currentGroup = null)
+        {
+            CurrentGroup = currentGroup??new Group();
         }
 
         private RelayCommand addNewStudentCommand;
@@ -117,8 +86,8 @@ namespace Tester.ViewModel
                 return addNewStudentCommand ??
                     (addNewStudentCommand = new RelayCommand(obj =>
                     {
-                    if (StudentName != null && StudentName != string.Empty)
-                        Students.Add(new Student(StudentName));
+                        if (StudentName != null && StudentName != string.Empty)
+                            Students.Add(new Student(StudentName));
                     }));
             }
         }
@@ -153,7 +122,7 @@ namespace Tester.ViewModel
                     }));
             }
         }
-
+        
         private RelayCommand removeStudentCommand;
         public RelayCommand RemoveStudentCommand
         {
@@ -162,8 +131,7 @@ namespace Tester.ViewModel
                 return removeStudentCommand ??
                     (removeStudentCommand = new RelayCommand(obj =>
                     {
-                        if (SelectedStudent != null)
-                            Students.Remove(SelectedStudent);
+                        Students.Remove((Student)obj);
                     }));
             }
         }

@@ -1,40 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tester.Model
 {
     [Serializable]
-    public class Answer : INotifyPropertyChanged
+    public class Answer : NotifyPropertyChanged
     {
-        private string body;
-
-        private bool isRight;
-
+        private string _body;
         public string Body
         {
-            get { return body; }
+            get { return _body; }
             set
             {
-                body = value;
+                _body = value;
                 OnPropertyChanged("Body");
             }
         }
 
+        private bool _isRight;
         public bool IsRight
         {
-            get { return isRight; }
+            get { return _isRight; }
             set
             {
-                isRight = value;
+                _isRight = value;
                 OnPropertyChanged("IsRight");
             }
         }
-
 
         public Answer()
         {
@@ -54,18 +45,12 @@ namespace Tester.Model
                 IsRight = true;
                 bone = bone.Substring(1);
             }
-            body = bone;
+            Body = bone;
         }
 
         public override string ToString()
         {
-            return "\t" + body;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            return "\t" + Body;
         }
     }
 }
