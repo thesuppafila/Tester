@@ -24,33 +24,9 @@ namespace TestRunner
     /// </summary>
     public partial class MainWindow : Window
     {
-        Package package;
-
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Test test = package.Tests.Where(t => t.Name == testTypeComboBox.SelectedValue.ToString()).Single();
-                TestView tView = new TestView(groupComboBox.SelectedValue.ToString(), nameComboBox.SelectedValue.ToString(), test.GetTicket()); //
-                tView.ShowDialog();
-            }
-            catch (Exception ex)
-            {
-                System.Windows.Forms.MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void GroupComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            /*var students = package.Groups.Where(g => g.Id == groupComboBox.SelectedValue.ToString()).Single().Students;
-            nameComboBox.Items.Clear();
-            foreach (var s in students)
-                nameComboBox.Items.Add(s.Name);*/
         }
 
         private void LastResultClicked(object sender, RoutedEventArgs e)

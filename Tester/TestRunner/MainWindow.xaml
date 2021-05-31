@@ -15,12 +15,12 @@
     <Grid>
         <StackPanel>
             <Label Content="Группа"/>
-            <ComboBox x:Name="groupComboBox" ItemsSource="{Binding Groups}" SelectionChanged="GroupComboBox_SelectionChanged"/>
+            <ComboBox x:Name="groupComboBox" ItemsSource="{Binding Groups}" SelectedItem="{Binding CurrentGroup}"/>
             <Label Content="ФИО"/>
-            <ComboBox x:Name="nameComboBox" ItemsSource="{Binding Path=SelectedItem.Students, ElementName=groupComboBox}"/>
+            <ComboBox x:Name="nameComboBox" ItemsSource="{Binding Path=SelectedItem.Students, ElementName=groupComboBox}"  SelectedItem="{Binding CurrentStudent}"/>
             <Label Content="Аттестация"/>
-            <ComboBox x:Name="testTypeComboBox" ItemsSource="{Binding Tests}"/>
-            <Button Content="Начать тестирование" Click="Button_Click" Height="25" Margin="0, 5, 0, 0"/>
+            <ComboBox x:Name="testTypeComboBox" ItemsSource="{Binding Tests}" SelectedItem="{Binding CurrentTest}"/>
+            <Button Content="Начать тестирование" Height="25" Margin="0, 5, 0, 0" Command="{Binding StartTest}"/>
             <Button Content="Последние результаты" Click="LastResultClicked" Height="25" Margin="0, 5, 0, 0"/>
         </StackPanel>
     </Grid>

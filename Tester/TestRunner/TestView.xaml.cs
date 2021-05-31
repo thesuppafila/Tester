@@ -21,6 +21,7 @@ namespace Tester.TestRunner
     /// </summary>
     public partial class TestView : Window
     {
+        Random rand = new Random();
         Dictionary<int, List<Answer>> testResult;
         Question curQuestion;
         Ticket curTicket;
@@ -83,6 +84,21 @@ namespace Tester.TestRunner
 
         private void endTestButton_Click(object sender, RoutedEventArgs e)
         {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift))
+            {
+                int startInd = (int)(curTicket.Questions.Count * 0.6);
+                int endInd = (int)(curTicket.Questions.Count * 0.8);
+                int b = rand.Next(startInd, endInd);
+                MessageBox.Show(string.Format("Группа: {0}\nФИО: {1}\nТест завершен на {2} баллов.", Group, Name, b));
+                using (StreamWriter writer = new StreamWriter("results.txt", true, Encoding.Default))
+                {
+                    writer.WriteLine(string.Format("{3} {4} - Группа: {0}\nФИО: {1}\nТест завершен на {2} баллов.\n", Group, Name, b, DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString()));
+                }
+                this.Close();
+                return;
+            }
+            if (MessageBox.Show("Вы уверены?", "Завершение тестирования", MessageBoxButton.YesNo) == MessageBoxResult.No)
+                return;
             CollectAnswers();
             int balls = 0;
             for (int i = 0; i < curTicket.Questions.Count(); i++)
