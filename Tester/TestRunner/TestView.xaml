@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Tester.TestRunner"
         mc:Ignorable="d"
-        Title="TestView" Height="450" Width="800" WindowState="Maximized" ResizeMode="NoResize" FontSize="18" WindowStyle="None">
+        Title="TestView" FontSize="14pt" Height="450" Width="800" WindowState="Maximized" ResizeMode="NoResize" WindowStyle="None">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -18,19 +18,37 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="testInfoLabel" Grid.Column="0" Content="Студент: Иванов Иван Иванович. Группа: 220281. Тип тестирования: проверочная работа." FontSize="13"/>
+            <TextBlock x:Name="testInfoLabel" Grid.Column="0">                
+                <Run Text="Студент: "/>
+                <Run Text="{Binding CurrentStudent.Name}"/>
+                <Run Text=" Группа: "/>
+                <Run Text="{Binding CurrentGroup.Id}"/>
+                <Run Text=" Тип тестирования: "/>
+                <Run Text="{Binding CurrentTest.Name}"/>
+            </TextBlock>
             <Label Visibility="Hidden" x:Name="timeLeftLabel" Grid.Column="1" Content="Оставшееся время: 00:00" FontSize="13"/>
-            <Button x:Name="endTestButton" Grid.Column="2" Content="Завершить тестирование" Click="endTestButton_Click" FontSize="13"/>
+            <Button x:Name="endTestButton" Grid.Column="2" 
+                    Content="Завершить тестирование" Command="{Binding FinishTest}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
         </Grid>
 
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-
-            <Label x:Name="questionText" Grid.Row="0"/>
-            <StackPanel x:Name="answersPanel" Grid.Row="1"/>
+            <Separator Grid.Row="0"/>
+            <Label x:Name="questionText" Content="{Binding CurrentQuestion.Body}" Grid.Row="1" Margin="0, 20, 0, 20"/>
+            <StackPanel x:Name="answersPanel" Grid.Row="2" Margin="5, 0, 5, 0">
+                <ListBox ItemsSource="{Binding CurrentQuestion.Answers}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox VerticalContentAlignment="Center" IsChecked="{Binding Path=IsRight, Mode=TwoWay}" Content="{Binding Body}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="2">
@@ -39,9 +57,14 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Label x:Name="currentQuestionLabel" Grid.Column="0" Content="Вопрос n из N" FontSize="13"/>
-            <Button x:Name="nextQuestionButton" Grid.Column="1" Content="Следующий вопрос" FontSize="13" Click="nextQuestionButton_Click"/>
-            <Button x:Name="beforeQuestionButton" Grid.Column="2" Content="Предудыщий вопрос" FontSize="13" Click="beforeQuestionButton_Click"/>
+            <TextBlock x:Name="currentQuestionLabel" Grid.Column="0">
+                <Run Text="Вопрос "/>
+                <Run Text="{Binding CurrentIndex}"/>
+                <Run Text=" из "/>
+                <Run Text="{Binding CurrentTicket.Questions.Count, Mode=OneWay}"/>
+            </TextBlock>
+            <Button x:Name="beforeQuestionButton" Grid.Column="1" Content="Предудыщий вопрос" Command="{Binding PreviousQuestion}"/>
+            <Button x:Name="nextQuestionButton" Grid.Column="2" Content="Следующий вопрос" Command="{Binding NextQuestion}"/>
         </Grid>
     </Grid>
 </Window>

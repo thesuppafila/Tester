@@ -28,13 +28,5 @@ namespace TestRunner
         {
             InitializeComponent();
         }
-
-        private void LastResultClicked(object sender, RoutedEventArgs e)
-        {
-            if (File.Exists("results.txt"))
-            {
-                System.Windows.Forms.MessageBox.Show(File.ReadAllText("results.txt", Encoding.Default));
-            }
-        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -80,17 +81,34 @@ namespace TestRunner.ViewModel
             get
             {
                 return new RelayCommand(obj =>
+                {
+                    try
                     {
-                        try
-                        {
-                            TestView tView = new TestView(CurrentGroup.Id, CurrentStudent.Name, CurrentTest.GetTicket()); //
-                            tView.ShowDialog();
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Windows.Forms.MessageBox.Show(ex.Message);
-                        }
-                    });
+                        var tvVM = new TestViewViewModel(CurrentGroup, CurrentStudent, CurrentTest);
+                        var tView = new TestView(tvVM);
+                        tView.ShowDialog();
+                        /*TestView tView = new TestView(CurrentGroup.Id, CurrentStudent.Name, CurrentTest.GetTicket());
+                        tView.ShowDialog();*/
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Windows.Forms.MessageBox.Show(ex.Message);
+                    }
+                });
+            }
+        }
+
+        public RelayCommand ShowLastResult
+        {
+            get
+            {
+                return new RelayCommand(obj =>
+                {
+                    if (File.Exists("results.txt"))
+                    {
+                        System.Windows.Forms.MessageBox.Show(File.ReadAllText("results.txt", Encoding.Default));
+                    }
+                });
             }
         }
     }
