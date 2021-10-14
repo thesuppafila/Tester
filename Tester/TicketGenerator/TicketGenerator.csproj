@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{078ED298-4931-46C9-83F4-33051D897C47}</ProjectGuid>
+    <ProjectGuid>{C4B9678F-DDFB-4C33-94AE-FD5E6FA39DA8}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Tester</RootNamespace>
-    <AssemblyName>Tester</AssemblyName>
+    <RootNamespace>TicketGenerator</RootNamespace>
+    <AssemblyName>TicketGenerator</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -37,7 +37,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,79 +55,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\IQuestion.cs" />
-    <Compile Include="Model\Package.cs" />
-    <Compile Include="Model\QuestionGroup.cs" />
-    <Compile Include="Model\Randomizer.cs" />
-    <Compile Include="Views\CreateGroupView.xaml.cs">
-      <DependentUpon>CreateGroupView.xaml</DependentUpon>
+    <Compile Include="ViewModel\ExpressionsViewModel.cs" />
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="View\ExpressionsView.xaml.cs">
+      <DependentUpon>ExpressionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CreateQuestionView.xaml.cs">
-      <DependentUpon>CreateQuestionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CreateTestView.xaml.cs">
-      <DependentUpon>CreateTestView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Model\Group.cs" />
-    <Compile Include="Model\Student.cs" />
-    <Compile Include="Model\Test.cs" />
-    <Compile Include="Views\DemoView.xaml.cs">
-      <DependentUpon>DemoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\TestView.xaml.cs">
-      <DependentUpon>TestView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Model\NotifyPropertyChanged.cs" />
-    <Compile Include="ViewModel\CreateTestViewModel.cs" />
-    <Compile Include="ViewModel\CreateQuestionViewModel.cs" />
-    <Compile Include="ViewModel\DialogCloser.cs" />
-    <Compile Include="ViewModel\CreateGroupViewModel.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
-    <Page Include="Theme\ListBoxItemTheme.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\CreateGroupView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CreateQuestionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CreateTestView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DemoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\TestView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Theme\ImageButtonTheme.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ExceptionView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModel\TestViewModel.cs" />
-    <Compile Include="Views\ExceptionView.xaml.cs">
-      <DependentUpon>ExceptionView.xaml</DependentUpon>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
+    <Page Include="Theme\MenuButtonTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ExpressionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Answer.cs" />
-    <Compile Include="Model\Question.cs" />
-    <Compile Include="Model\Ticket.cs" />
+    <Compile Include="Model\Expression.cs" />
+    <Compile Include="Model\Node.cs" />
+    <Compile Include="Model\RPN.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -154,14 +110,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Images\delete.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
+    <ProjectReference Include="..\Tester\Tester.csproj">
+      <Project>{078ed298-4931-46c9-83f4-33051d897c47}</Project>
+      <Name>Tester</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

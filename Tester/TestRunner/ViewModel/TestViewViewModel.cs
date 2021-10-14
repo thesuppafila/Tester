@@ -1,22 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using Tester.Model;
-using Tester.TestRunner;
 using Tester.ViewModel;
 
 namespace TestRunner.ViewModel
 {
     public class TestViewViewModel : NotifyPropertyChanged
     {
-        Random rand;
         private Group _currentGroup;
         public Group CurrentGroup
         {
@@ -96,7 +90,6 @@ namespace TestRunner.ViewModel
 
         public TestViewViewModel(Group group, Student student, Test test)
         {
-            rand = new Random();
             CurrentGroup = group;
             CurrentStudent = student;
             CurrentTest = test;
@@ -155,24 +148,6 @@ namespace TestRunner.ViewModel
             {
                 return new RelayCommand(obj =>
                 {
-                    //debug only
-                    if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.LeftShift))
-                    {
-                        int startInd = (int)(NativeQuestions.Count * 0.6);
-                        int endInd = (int)(NativeQuestions.Count * 0.8);
-                        double c = rand.Next(startInd, endInd);
-
-                        var b = Math.Round(c / NativeQuestions.Count * 100);
-                        MessageBox.Show(string.Format("Группа: {0}\nФИО: {1}\nТест завершен на {2} / 100 баллов.", CurrentGroup.Id, CurrentStudent.Name, b.ToString()));
-                        using (StreamWriter writer = new StreamWriter("results.txt", true, Encoding.Default))
-                        {
-                            writer.Write(string.Format("{3} {4} - Группа: {0}\nФИО: {1}\nТест завершен на {2} / 100 баллов.\n\n", CurrentGroup.Id, CurrentStudent.Name, b.ToString(), DateTime.Now.ToShortDateString(), DateTime.Now.ToShortTimeString()));
-                        }
-
-                        ((Window)obj).Close();
-                        return;
-                    }
-
                     if (MessageBox.Show("Вы уверены?", "Завершение тестирования", MessageBoxButton.YesNo) == MessageBoxResult.No)
                         return;
 

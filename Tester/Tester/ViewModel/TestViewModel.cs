@@ -166,6 +166,8 @@ namespace Tester.ViewModel
                         Package.Groups = Groups;
                         Package.Save();
                         MessageBox.Show("Изменения успешно сохранены.");
+                        var v = new DemoView();
+                        v.Show();
                     }));
             }
         }

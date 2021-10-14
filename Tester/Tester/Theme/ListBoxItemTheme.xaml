@@ -2,32 +2,33 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:Tester.Theme">
     <Style TargetType="{x:Type ListBoxItem}" x:Key="ListItem">
-        <Setter Property="Padding" Value="1,1,5,1"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border Background="{TemplateBinding Background}" 
+        <Style.Setters>
+            <Setter Property="Padding" Value="1,1,5,1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border Background="{TemplateBinding Background}" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Padding="{TemplateBinding Padding}"
                                 Width="{Binding ViewportWidth, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ScrollViewer}}}">
-                        <ContentPresenter/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" Value="#E5F3FB"/>
-                            <Setter Property="BorderBrush" Value="#70C0E7"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                        </Trigger>
-                        <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" Value="#CBE8F6"/>
-                            <Setter Property="BorderBrush" Value="#26A0DA"/>
-                            <Setter Property="BorderThickness" Value="1"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="#E5F3FB"/>
+                                <Setter Property="BorderBrush" Value="#70C0E7"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" Value="#CBE8F6"/>
+                                <Setter Property="BorderBrush" Value="#26A0DA"/>
+                                <Setter Property="BorderThickness" Value="1"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
     </Style>
-
 </ResourceDictionary>
