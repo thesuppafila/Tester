@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TestRunner"
         xmlns:viewModel="clr-namespace:TestRunner.ViewModel"
         mc:Ignorable="d"
-        Title="Выберите тип тестирования" Width="400" MinWidth="400" ResizeMode="NoResize" SizeToContent="Height">
+        Title="Выберите тип тестирования" Width="600" MinWidth="500" ResizeMode="NoResize" SizeToContent="Height" FontSize="14pt">
 
     <Window.DataContext>
         <viewModel:MainWindowViewModel/>
@@ -15,13 +15,13 @@
     <Grid>
         <StackPanel>
             <Label Content="Группа"/>
-            <ComboBox x:Name="groupComboBox" SelectionChanged="GroupComboBox_SelectionChanged"/>
+            <ComboBox x:Name="groupComboBox" ItemsSource="{Binding Groups}" SelectedItem="{Binding CurrentGroup}"/>
             <Label Content="ФИО"/>
-            <ComboBox x:Name="nameComboBox"/>
+            <ComboBox x:Name="nameComboBox" ItemsSource="{Binding Path=SelectedItem.Students, ElementName=groupComboBox}"  SelectedItem="{Binding CurrentStudent}"/>
             <Label Content="Аттестация"/>
-            <ComboBox x:Name="testTypeComboBox"/>
-            <Button Content="Начать тестирование" Click="Button_Click" Height="25" Margin="0, 5, 0, 0"/>
-            <Button Content="Последние результаты" Click="LastResultClicked" Height="25" Margin="0, 5, 0, 0"/>
+            <ComboBox x:Name="testTypeComboBox" ItemsSource="{Binding Tests}" SelectedItem="{Binding CurrentTest}"/>
+            <Button Content="Начать тестирование" Height="30" Margin="0, 5, 0, 0" Command="{Binding StartTest}"/>
+            <Button Content="Последние результаты" Command="{Binding ShowLastResult}" Height="30" Margin="0, 5, 0, 0"/>
         </StackPanel>
     </Grid>
 </Window>

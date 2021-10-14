@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Tester.Views"
         xmlns:viewModel="clr-namespace:Tester.ViewModel"
         mc:Ignorable="d"
-        Title="TestGroupCreator" Height="450" Width="800"
+        Title="Управление тестами и группами" Height="450" Width="800"
         FontSize="14" WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <viewModel:TestViewModel/>
@@ -68,7 +68,7 @@
                             <Label Content="Список вопросов"  Grid.Row="0" HorizontalAlignment="Center"/>
                             <ListBox Grid.Row="1" ItemsSource="{Binding Questions}"/>
                         </Grid>
-                        <Button  Grid.Row="1" Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Width="100"/>
+                        <Button Grid.Row="1" Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Width="100"/>
                     </Grid>
 
                 </Grid>
