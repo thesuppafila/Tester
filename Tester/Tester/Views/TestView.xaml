@@ -1,0 +1,136 @@
+﻿<Window x:Class="Tester.Views.TestView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Tester.Views"
+        xmlns:viewModel="clr-namespace:Tester.ViewModel"
+        mc:Ignorable="d"
+        Title="Управление тестами и группами" Height="450" Width="800"
+        FontSize="14" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <viewModel:TestViewModel/>
+    </Window.DataContext>
+    <Grid>
+        <TabControl>
+            <TabItem Header="Тест">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Список тестов" Grid.Row="0" HorizontalAlignment="Center"/>
+                        <ListBox x:Name="testListBox" Grid.Row="1" 
+                                 ItemsSource="{Binding Tests}"
+                                 SelectedItem="{Binding SelectedTest}"
+                                 ItemContainerStyle="{StaticResource ListItem}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}" Padding="0,0,0,0"/>
+                                        <Button Grid.Column="1" Margin="3,0,3,0" Command="{Binding Path=DataContext.EditTestCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" Style="{StaticResource ImageButton}">
+                                            <Image Source="/Tester;component/Images/edit.png"/>
+                                        </Button>
+                                        <Button Grid.Column="2" Command="{Binding Path=DataContext.RemoveTestCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" Style="{StaticResource ImageButton}">
+                                            <Image Source="/Tester;component/Images/delete.png"/>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button x:Name="addNewTestButton" Grid.Row="2" Command="{Binding AddNewTestCommand}" Content="Добавить"/>
+                    </Grid>
+
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid DataContext="{Binding SelectedTest}" Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Список вопросов"  Grid.Row="0" HorizontalAlignment="Center"/>
+                            <ListBox Grid.Row="1" ItemsSource="{Binding Questions}"/>
+                        </Grid>
+                        <Button Grid.Row="1" Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Width="100"/>
+                    </Grid>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Группа">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Список групп" Grid.Row="0" HorizontalAlignment="Center"/>
+                        <ListBox x:Name="groupListBox" Grid.Row="1" 
+                                 ItemsSource="{Binding Groups}"
+                                 SelectedItem="{Binding SelectedGroup}"
+                                 ItemContainerStyle="{StaticResource ListItem}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding Id}"/>
+                                        <Button Grid.Column="1" Margin="3,0,3,0" Command="{Binding Path=DataContext.EditGroupCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" Style="{StaticResource ImageButton}">
+                                            <Image Source="/Tester;component/Images/edit.png"/>
+                                        </Button>
+                                        <Button Grid.Column="2" Command="{Binding Path=DataContext.RemoveGroupCommand,RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" CommandParameter="{Binding}" Style="{StaticResource ImageButton}">
+                                            <Image Source="/Tester;component/Images/delete.png"/>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button Grid.Row="2" Content="Добавить" Command="{Binding AddNewGroupCommand}"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" DataContext="{Binding SelectedGroup}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Список студентов" Grid.Row="0" HorizontalAlignment="Center"/>
+                            <ListBox ItemsSource="{Binding Students}" Grid.Row="1"/>
+                        </Grid>
+                        <Button  Grid.Row="1" Content="Сохранить" Command="{Binding SaveCommand}" HorizontalAlignment="Right" Width="100"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
