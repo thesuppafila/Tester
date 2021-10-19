@@ -21,6 +21,8 @@ namespace MatrixTestGenerator
 
             Task task = generator.Generate(int.Parse(Console.ReadLine()));
 
+            Console.Write(task.FullToString());
+
             Console.ReadKey();
         }
     }
