@@ -18,8 +18,8 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Margin="5">
-            <RadioButton Content="Логические уравнения" Height="40" FontSize="16" Style="{StaticResource MenuButtonTheme}"/>
-            <RadioButton Content="Билеты" Height="40" FontSize="16" Style="{StaticResource MenuButtonTheme}"/>
+            <RadioButton Content="Логические уравнения" Height="40" FontSize="16" Style="{StaticResource MenuButtonTheme}" IsChecked="True" Command="{Binding ExpViewOpen}"/>
+            <RadioButton Content="Билеты" Height="40" FontSize="16" Style="{StaticResource MenuButtonTheme}" Command="{Binding TicketViewOpen}"/>
         </StackPanel>
 
         <ContentControl Grid.Column="1" Content="{Binding CurrentView}"/>
