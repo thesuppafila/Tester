@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicketGenerator
 {
-    class Node
+     public class Node
     {
         public enum Type
         {

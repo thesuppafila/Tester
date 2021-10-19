@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="TicketGenerator.View.TicketBuilderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TicketGenerator.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="LightGray">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200px"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Button Content="Печатать билеты" Command="{Binding PrintTickets}"/>
+            <Button Content="Печатать ключи"/>
+        </StackPanel>
+        <DocumentViewer Grid.Column="1" Document="{Binding Path=DocumentViewer1, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</UserControl>

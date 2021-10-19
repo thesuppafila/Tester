@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicketGenerator
 {
-    class Expression
+    public class Expression
     {
         static Random random = new Random();
 
@@ -59,13 +59,11 @@ namespace TicketGenerator
             if (curPoint.type == Node.Type.Operator)
             {
                 curPoint.value = RandomLogicOperator();
-                /*if (curPoint.value == "<<" || curPoint.value == ">>")
-                {
-                    curPoint.Children[1] = new Node(Node.Type.Const) { value = RandomConst() };
-                }*/
             }
             else if (curPoint.type == Node.Type.Variable)
+            {
                 curPoint.value = RandomVariable(CountOfRanks);
+            }
         }
 
         public override string ToString()
@@ -81,10 +79,7 @@ namespace TicketGenerator
 
         static string RandomVariable(int rankCount)
         {
-            var newConst = new StringBuilder(rankCount);
-            for (int i = 0; i < rankCount; i++)
-                newConst.Append(random.Next(0, 2).ToString());
-            return newConst.ToString();
+            return ((char)random.Next(97, 123)).ToString();
         }
 
         static string RandomConst()
