@@ -1,20 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MatrixTestGenerator
 {
     class Program
     {
-        static Random rand = new Random();
+        static Dictionary<int, TaskType> taskTypeDictionary = new Dictionary<int, TaskType>();
 
         static void Main(string[] args)
         {
-            Task task = new Task("Задание:", 3);
-            for (int i = 0; i < task.value.GetLength(0); i++)
-                for (int j = 0; j < task.value.GetLength(1); j++)
-                {
-                    task.value[i, j] = rand.Next(0, 10);
-                }
-            Console.WriteLine(task.ToString());
+            int index = 0;
+            foreach (TaskType type in Enum.GetValues(typeof(TaskType)))
+                taskTypeDictionary.Add(index++, type);
+
+
+            foreach (int key in taskTypeDictionary.Keys)
+                Console.WriteLine(String.Format("{0} -> {1}", key, taskTypeDictionary[key]));
+
+            Generator generator = new Generator();
+
+            Task task = generator.Generate(int.Parse(Console.ReadLine()));
+
             Console.ReadKey();
         }
     }

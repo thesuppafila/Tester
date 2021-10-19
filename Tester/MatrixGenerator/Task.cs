@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MatrixTestGenerator
+﻿namespace MatrixTestGenerator
 {
-    class Task
+    public class Task
     {
         public string body;
 
-        public int[,] value;
+        public int[,] value = new int[3, 3];
 
-        public Task(string body, int matrixSize)
-        {
-            this.body = body;
-            this.value = new int[matrixSize, matrixSize];
-        }
+        public int answer;
 
         public override string ToString()
         {
