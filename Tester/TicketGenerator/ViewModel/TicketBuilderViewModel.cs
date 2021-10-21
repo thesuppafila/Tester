@@ -109,6 +109,7 @@ namespace TicketGenerator.ViewModel
                 mainDoc.SaveAs(FileName: Environment.CurrentDirectory + "\\" + GroupNumber + "_tickets.docx");
                 mainDoc.Close();
                 oWord.Quit();
+                MessageBox.Show("Файлы билетов сгенерированы в папке с программой.");
             });
         }
 

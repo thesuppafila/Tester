@@ -39,6 +39,7 @@ namespace TicketGenerator.ViewModel
 
         public ExpressionsViewModel()
         {
+            CurPattern = "a + a + a";
             Expressions = new ObservableCollection<Expression>();
 
             AddExp = new RelayCommand(obj => {
