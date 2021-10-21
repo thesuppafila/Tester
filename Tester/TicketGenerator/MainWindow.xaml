@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:TicketGenerator"
         xmlns:viewModel="clr-namespace:TicketGenerator.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" FontSize="14pt">
+        Title="MainWindow" Height="450" Width="800" FontSize="14pt" Background="#c7d0cc">
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
@@ -17,7 +17,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" Margin="5">
+        <StackPanel Grid.Column="0" Margin="5, 5, 0, 0">
             <RadioButton Content="Логические уравнения" Height="40" FontSize="16" Style="{StaticResource MenuButtonTheme}" IsChecked="True" Command="{Binding ExpViewOpen}"/>
             <RadioButton Content="Билеты" Height="40" FontSize="16" Style="{StaticResource MenuButtonTheme}" Command="{Binding TicketViewOpen}"/>
         </StackPanel>

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TicketGenerator.ViewModel;
 
 namespace TicketGenerator
 {
@@ -23,6 +24,8 @@ namespace TicketGenerator
         public MainWindow()
         {
             InitializeComponent();
+            var vm = (MainViewModel)this.DataContext;
+            Closing += vm.OnMainViewClosing;
         }
     }
 }

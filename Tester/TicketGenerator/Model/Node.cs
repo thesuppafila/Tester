@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TicketGenerator
 {
-     public class Node
+    [Serializable]
+    public class Node
     {
         public enum Type
         {

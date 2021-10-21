@@ -6,11 +6,7 @@
              xmlns:local="clr-namespace:TicketGenerator.View"
              xmlns:viewModel="clr-namespace:TicketGenerator.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <viewModel:ExpressionsViewModel/>
-    </UserControl.DataContext>
-    
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300px"/>
@@ -20,10 +16,26 @@
             <RowDefinition/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <ListBox Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Expressions}"/>
+        <ListBox Grid.Column="0" Grid.Row="0" x:Name="ExpListBox" ItemsSource="{Binding Expressions}"/>
         <StackPanel Grid.Column="0" Grid.Row="1" Margin="0, 5, 0, 0">
             <TextBox Text="{Binding CurPattern}" />
             <Button Content="Сгенерировать" Command="{Binding AddExp}"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="0" >
+            <StackPanel DataContext="{Binding SelectedItem, ElementName=ExpListBox}">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Разрядность: "/>
+                    <Label Content="{Binding CountOfRanks}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Выражение: "/>
+                    <Label Content="{Binding Text}"/>
+                    <Label Content=" = "/>
+                    <Label Content="{Binding Solve}"/>
+                </StackPanel>
+                <TextBlock Text="{Binding TaskText}"/>
+            </StackPanel>
+            <Button Grid.Column="1" Content="Удалить" Command="{Binding DeleteExp}" CommandParameter="{Binding SelectedItem, ElementName=ExpListBox}"/>
         </StackPanel>
     </Grid>
 </UserControl>

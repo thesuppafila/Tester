@@ -5,16 +5,26 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TicketGenerator.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="LightGray">
+             d:DesignHeight="450" d:DesignWidth="800" Background="White">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200px"/>
             <ColumnDefinition/>
+            <ColumnDefinition Width="200px"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <Button Content="Печатать билеты" Command="{Binding PrintTickets}"/>
-            <Button Content="Печатать ключи"/>
-        </StackPanel>
-        <DocumentViewer Grid.Column="1" Document="{Binding Path=DocumentViewer1, UpdateSourceTrigger=PropertyChanged}"/>
+        <Grid Grid.Column="0">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Количество билетов"/>
+                    <TextBox MinWidth="50" Text="{Binding CountOfTickets}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <Label Content="Номер группы"/>
+                    <TextBox MinWidth="150" Text="{Binding GroupNumber}"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Column="1">
+            <Button Content="Сгенерировать билеты" FontSize="16" Command="{Binding PrintTicket}"/>
+        </StackPanel>        
     </Grid>
 </UserControl>

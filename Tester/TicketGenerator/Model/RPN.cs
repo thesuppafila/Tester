@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace TicketGenerator
 {
+    [Serializable]
     class RPN
     {
         static public string Calculate(string input, int rankCount)
@@ -27,7 +28,7 @@ namespace TicketGenerator
                     string tmp = input[i].ToString() + input[++i].ToString();
                     int a = int.Parse(temp.Pop()); //Берем 2 последних значения из стека
                     string s = temp.Pop().ToString();
-                    uint b = Convert.ToUInt32(s, 2);
+                    uint b = Convert.ToUInt32(s);
                     b <<= 32 - rankCount;
                     uint res = 0;
                     switch (tmp) //И производим над ними действие, согласно оператору
@@ -36,7 +37,7 @@ namespace TicketGenerator
                         case ">>": res = b >> a; break;
                     }
                     res >>= 32 - rankCount;
-                    temp.Push(Convert.ToString(res, 2)); //Результат вычисления записываем обратно в стек
+                    temp.Push(Convert.ToString(res)); //Результат вычисления записываем обратно в стек
                 }
                 //Если символ - цифра, то читаем все число и записываем на вершину стека
                 else if (Char.IsDigit(input[i]))
@@ -55,16 +56,16 @@ namespace TicketGenerator
                 else if (IsOperator(input[i].ToString())) //Если символ - оператор
                 {
                     string aa = temp.Pop().ToString();
-                    int a = Convert.ToInt32(aa, 2); //Берем 2 последних значения из стека
+                    int a = Convert.ToInt32(aa); //Берем 2 последних значения из стека
                     string bb = temp.Pop().ToString();
-                    int b = Convert.ToInt32(bb, 2);
+                    int b = Convert.ToInt32(bb);
                     switch (input[i].ToString()) //И производим над ними действие, согласно оператору
                     {
                         case "&": result = a & b; break;
                         case "^": result = a ^ b; break;
                         case "|": result = a | b; break;
                     }
-                    temp.Push(Convert.ToString(result, 2)); //Результат вычисления записываем обратно в стек
+                    temp.Push(Convert.ToString(result)); //Результат вычисления записываем обратно в стек
                 }
             }
 

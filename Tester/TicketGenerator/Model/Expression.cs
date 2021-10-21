@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace TicketGenerator
 {
+    [Serializable]
     public class Expression
     {
         static Random random = new Random();
+
+        public Dictionary<string, int> Variables;
 
         private string _pattern;
         public string Pattern
@@ -20,6 +23,11 @@ namespace TicketGenerator
         public Node Tree
         {
             get { return _tree; }
+        }
+
+        public string TaskText
+        {
+            get { return GetTask(); }
         }
 
         private int _countOfRanks;
@@ -40,15 +48,27 @@ namespace TicketGenerator
 
         public string Solve
         {
-            get { return RPN.Calculate(Text, CountOfRanks); }
+            get { return GetSolve(); }
         }
 
-        public Expression(string pattern, int countOfRanks)
+        public Expression(string pattern)
         {
+            Variables = new Dictionary<string, int>();
             _pattern = pattern;
             _tree = FromPattern(RPNExpression);
-            _countOfRanks = countOfRanks;
+            _countOfRanks = random.Next(3, 6);
             Generate(Tree);
+        }
+
+        private string GetSolve()
+        {
+            string text = Text;
+            foreach (var v in Variables)
+            {
+                text = text.Replace(v.Key, v.Value.ToString());
+            }
+            var solve = RPN.Calculate(text, CountOfRanks);
+            return solve;
         }
 
         private void Generate(Node curPoint)
@@ -62,7 +82,9 @@ namespace TicketGenerator
             }
             else if (curPoint.type == Node.Type.Variable)
             {
-                curPoint.value = RandomVariable(CountOfRanks);
+                curPoint.value = RandomVariable();
+                if (!Variables.ContainsKey(curPoint.value))
+                    Variables.Add(curPoint.value, RandomConst());
             }
         }
 
@@ -77,14 +99,19 @@ namespace TicketGenerator
             return operators[random.Next(0, operators.Length)];
         }
 
-        static string RandomVariable(int rankCount)
+        static string RandomVariable()
         {
             return ((char)random.Next(97, 123)).ToString();
         }
 
-        static string RandomConst()
+        private int RandomConst()
         {
-            return random.Next(1, 5).ToString();
+            return random.Next(0, (int)Math.Pow(2, CountOfRanks));
+        }
+
+        private string GetTask()
+        {
+            return string.Format("{0}\nt = {1}", string.Join("\n", Variables.Select(x => x.Key + " = " + x.Value)), ToString());
         }
 
         private Node FromPattern(string pattern)
