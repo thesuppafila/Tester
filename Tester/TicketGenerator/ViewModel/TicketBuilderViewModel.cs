@@ -125,7 +125,7 @@ namespace TicketGenerator.ViewModel
             Microsoft.Office.Interop.Word.Paragraph para2 = document.Content.Paragraphs.Add();
             para2.Range.Font.Name = "times new roman";
             para2.Range.Font.Size = 16;
-            para2.Range.Text = "Вычислить значение t, используя тип операндов byte и операции языка C#. Ответ представить в двоичном виде со всеми ведущими нулями.";
+            para2.Range.Text = "Вычислить значение t, используя тип операндов byte и операции языка C#. Ответ представить в виде десятичного числа.";
             para2.Range.InsertParagraphAfter();
 
             Word.Table taskTable = document.Tables.Add(para1.Range, 1, 1);
@@ -147,7 +147,7 @@ namespace TicketGenerator.ViewModel
             Microsoft.Office.Interop.Word.Paragraph para2 = document.Content.Paragraphs.Add();
             para2.Range.Font.Name = "times new roman";
             para2.Range.Font.Size = 16;
-            para2.Range.Text = "Вычислить значение t, используя тип операндов " + exp.CountOfRanks + " и операции языка C#. Ответ представить в двоичном виде со всеми ведущими нулями.";
+            para2.Range.Text = "Вычислить значение t, используя " + exp.CountOfRanks + "-разрядный тип операндов и операции языка C#. Ответ представить в виде десятичного числа.";
             para2.Range.InsertParagraphAfter();
 
             Word.Table taskTable = document.Tables.Add(para1.Range, 1, 1);
