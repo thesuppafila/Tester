@@ -22,16 +22,22 @@ namespace MatrixGenerator
                 for (int j = 0; j < m; j++)
                     matrix[i, j] = int.Parse(str[j]);
             }
-
             Console.WriteLine("Прочитано");
             for (int i = 0; i < n; i++, Console.WriteLine())
                 for (int j = 0; j < m; j++)
                     Console.Write(matrix[i, j] + "\t");
 
-            List<Task> tasks = new List<Task>();
+            int index = 0;
+            foreach (TaskType type in Enum.GetValues(typeof(TaskType)))
+            {
+                taskTypes[index] = type;
+                Console.WriteLine(String.Format("{0} -> {1}", index, taskTypes[index]));
+                index++;
+            }
 
-            for (int i = 0; i < 30; i++)
-                tasks.Add(GetTask(i));
+            int taskNumber = int.Parse(Console.ReadLine());
+            Console.WriteLine(GetTask(taskNumber));
+
         }
 
         static Task GetTask(int taskNumber)
