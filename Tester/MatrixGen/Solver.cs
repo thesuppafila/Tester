@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MatrixTestGenerator
+namespace MatrixGenerator
 {
     class Solver
     {

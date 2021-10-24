@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="400" Width="400">
     <Grid>
-        
+        <TextBlock x:Name="taskTextBlock">
+            
+        </TextBlock>
     </Grid>
 </Window>

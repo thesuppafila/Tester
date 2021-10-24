@@ -1,29 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MatrixTestGenerator
+namespace MatrixGenerator
 {
     class Program
     {
-        static Dictionary<int, TaskType> taskTypeDictionary = new Dictionary<int, TaskType>();
+        static Dictionary<int, TaskType> taskTypes = new Dictionary<int, TaskType>();
 
         static void Main(string[] args)
         {
-            int index = 0;
-            foreach (TaskType type in Enum.GetValues(typeof(TaskType)))
-                taskTypeDictionary.Add(index++, type);
+            string[] size = Console.ReadLine().Split(" ");
 
+            int n = int.Parse(size[0]);
+            int m = int.Parse(size[1]);
 
-            foreach (int key in taskTypeDictionary.Keys)
-                Console.WriteLine(String.Format("{0} -> {1}", key, taskTypeDictionary[key]));
+            int[,] matrix = new int[n, m];
 
+            for (int i = 0; i < n; i++)
+            {
+                string[] str = Console.ReadLine().Split(" ");
+                for (int j = 0; j < m; j++)
+                    matrix[i, j] = int.Parse(str[j]);
+            }
+
+            Console.WriteLine("Прочитано");
+            for (int i = 0; i < n; i++, Console.WriteLine())
+                for (int j = 0; j < m; j++)
+                    Console.Write(matrix[i, j] + "\t");
+
+            List<Task> tasks = new List<Task>();
+
+            for (int i = 0; i < 30; i++)
+                tasks.Add(GetTask(i));
+        }
+
+        static Task GetTask(int taskNumber)
+        {
             Generator generator = new Generator();
-
-            Task task = generator.Generate(int.Parse(Console.ReadLine()));
-
-            Console.Write(task.FullToString());
-
-            Console.ReadKey();
+            return generator.Generate(taskNumber);
         }
     }
 }

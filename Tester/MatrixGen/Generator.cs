@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Resources;
 
-namespace MatrixTestGenerator
+namespace MatrixGenerator
 {
     public class Generator
     {
@@ -40,7 +40,7 @@ namespace MatrixTestGenerator
 
         public string GetBody(int taskNumber)
         {
-            ResourceManager rm = new ResourceManager("MatrixGenerator.Resources.TaskResources", Assembly.GetExecutingAssembly());
+            ResourceManager rm = new ResourceManager("MatrixGen.Resources.TaskResources", Assembly.GetExecutingAssembly());
             return rm.GetString(((TaskType)taskNumber).ToString());
         }
 

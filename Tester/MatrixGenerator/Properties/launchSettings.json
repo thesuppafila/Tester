@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MatrixGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "< 1.txt"
+    }
+  }
+}

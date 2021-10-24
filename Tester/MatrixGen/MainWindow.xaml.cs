@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MatrixGenerator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,21 @@ namespace MatrixGen
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Dictionary<int, TaskType> taskTypes = new Dictionary<int, TaskType>();
+
+        private Random random = new Random();
+
         public MainWindow()
         {
             InitializeComponent();
+            //int i = 0;
+            //foreach(TaskType type in Enum.GetValues(typeof(TaskType)))
+            //{
+            //    taskTypes.Add(i++, type);
+            //}
+            Generator generator = new Generator();
+            generator.Generate(0);
+            taskTextBlock.Text = generator.task.ToString();
         }
     }
 }

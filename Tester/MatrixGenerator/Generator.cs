@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Resources;
 
-namespace MatrixTestGenerator
+namespace MatrixGenerator
 {
     public class Generator
     {
         static Random random = new Random();
-
-        static Dictionary<string, MethodInfo> methodDictionary = new Dictionary<string, MethodInfo>();
 
         public Task task;
 
@@ -21,11 +20,35 @@ namespace MatrixTestGenerator
         {
             task = new Task();
             task.body = GetBody(taskNumber);
-            task.value = GetMatrix();
-            task.answer = GetAnswer(taskNumber, task.value);
+            task.matrix = GetMatrix();
+            task.answer = GetAnswer(taskNumber, task.matrix);
             return task;
         }
-        
+
+        public Task Generate(int taskNumber, int[,] matrix)
+        {
+            task = new Task();
+            task.body = GetBody(taskNumber);
+            task.matrix = matrix;
+            task.answer = GetAnswer(taskNumber, task.matrix);
+            return task;
+        }
+
+        //public int[,] GetMatrixFromFile()
+        //{
+        //    string[] input = File.ReadAllLines("input.in");
+        //    string[] size = input[0].Split(' ');
+
+        //    int n = int.Parse(size[0]);
+        //    int m = int.Parse(size[1]);
+
+        //    int[,] matrix = new int[n, m];
+        //    for (int i = 0; i < n; i++)
+        //    {
+        //        stringinput[i+1]
+        //    }
+
+        //}
 
         public int[,] GetMatrix()
         {
@@ -49,7 +72,7 @@ namespace MatrixTestGenerator
             Solver solver = new Solver(matrix);
             MethodInfo method = solver.GetType().GetMethod(((TaskType)taskNumber).ToString());
             var result = method.Invoke(solver, null);
-            return int.Parse(result.ToString());            
+            return int.Parse(result.ToString());
         }
     }
 

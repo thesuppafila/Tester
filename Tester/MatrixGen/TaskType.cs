@@ -1,16 +1,36 @@
-﻿namespace MatrixTestGenerator
+﻿namespace MatrixGenerator
 {
     enum TaskType
     {
+        BytesEvenCount,
+        BytesLess3,
         EvenCount,
-        EvenCountEvenRows,
-        EvenCountOddRows,
         EvenCountEvenColumns,
+        EvenCountEvenRows,
         EvenCountOddColumns,
-        SumXRow,
-        SumYColumn,
-        SideDiagonalSum,
+        EvenCountOddRows,
         MainDiagonalSum,
-        Scalar
+        MinMainDiagonal,
+        MinSideDiagonal,
+        Mul3Unmul2,
+        Mul3Unmul5,
+        MulEvenDiagonalNumbers,
+        MulMainAndSideDiagonal,
+        MulOddDiagonalNumbers,
+        MulPrimeDiagonalNumbers,
+        MulSumEvenSumOdd,
+        NumberRowMinSum,
+        OddCount,
+        PrimeNumberCount,
+        Scalar,
+        SideDiagonalSum,
+        SumIndexMaxNumber,
+        SumIndexMinNumber,
+        SumMaxInColumn,
+        SumMaxInRow,
+        SumMinInColumn,
+        SumMinInRow,
+        SumMul4Unmul6,
+        SumPrimeNumbers
     }
 }
