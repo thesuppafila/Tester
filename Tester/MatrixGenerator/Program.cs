@@ -9,7 +9,7 @@ namespace MatrixGenerator
 
         static void Main(string[] args)
         {
-            string[] size = Console.ReadLine().Split(" ");
+            string[] size = Console.ReadLine().Split(' ');
 
             int n = int.Parse(size[0]);
             int m = int.Parse(size[1]);
@@ -18,7 +18,7 @@ namespace MatrixGenerator
 
             for (int i = 0; i < n; i++)
             {
-                string[] str = Console.ReadLine().Split(" ");
+                string[] str = Console.ReadLine().Split(' ');
                 for (int j = 0; j < m; j++)
                     matrix[i, j] = int.Parse(str[j]);
             }

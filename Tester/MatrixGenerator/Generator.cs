@@ -63,7 +63,7 @@ namespace MatrixGenerator
 
         public string GetBody(int taskNumber)
         {
-            ResourceManager rm = new ResourceManager("MatrixGenerator.Resources.TaskResources", Assembly.GetExecutingAssembly());
+            ResourceManager rm = new ResourceManager("MatrixGenerator.Properties.Resources", Assembly.GetExecutingAssembly());
             return rm.GetString(((TaskType)taskNumber).ToString());
         }
 
