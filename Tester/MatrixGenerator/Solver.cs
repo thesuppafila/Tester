@@ -187,30 +187,43 @@ namespace MatrixGenerator
         {
             int main = 0;
             int side = 0;
-
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            bool mainPrime = true;
+            bool sidePrime = true;
+            for (int i = 0; i < matrix.GetLength(0); i++, mainPrime = true, sidePrime = true)
             {
+                if (matrix[i, i] == 0)
+                    mainPrime = false;
                 for (int j = 2; j < matrix[i, i]; j++)
                 {
-                    if(matrix[i,i] == 1 || matrix[i,i] == 2)
+                    if (matrix[i, i] == 1 || matrix[i, i] == 2)
                     {
-                        main += matrix[i, i];
                         break;
                     }
                     if (matrix[i, i] % j == 0)
-                        break;
-                }
-                for (int j = 2; j < matrix[i, matrix.GetLength(0) - 1 - i] - 1; j++)
-                {
-                    if (matrix[i, matrix.GetLength(0) - 1 - i] % j == 0)
                     {
-                        side += matrix[i, matrix.GetLength(0) - 1 - i];
+                        mainPrime = false;
                         break;
                     }
-                    if (matrix[i, matrix.GetLength(0) - 1 - i] % j == 0)
-                        break;
-                    side += matrix[i, matrix.GetLength(0) - 1 - i];
                 }
+                if (matrix[i, matrix.GetLength(0) - 1 - i] == 0)
+                    sidePrime = false;
+                for (int j = 2; j < matrix[i, matrix.GetLength(0) - 1 - i] - 1; j++)
+                {
+                    if (matrix[i, matrix.GetLength(0) - 1 - i] == 1 ||
+                        matrix[i, matrix.GetLength(0) - 1 - i] == 2)
+                    {
+                        break;
+                    }
+                    if (matrix[i, matrix.GetLength(0) - 1 - i] % j == 0 || matrix[i, matrix.GetLength(0) - 1 - i] == 0)
+                    {
+                        sidePrime = false;
+                        break;
+                    }
+                }
+                if (mainPrime)
+                    main += matrix[i, i];
+                if (sidePrime)
+                    side += matrix[i, matrix.GetLength(0) - 1 - i];
             }
             return main * side;
         }
@@ -262,14 +275,27 @@ namespace MatrixGenerator
         public int PrimeNumberCount()
         {
             int count = 0;
-            for (int i = 0; i < matrix.GetLength(0); i++)
-                for (int j = 0; j < matrix.GetLength(1); j++)
+            bool isPrime = true;
+            for (int i = 0; i < matrix.GetLength(0); i++, isPrime = true)
+                for (int j = 0; j < matrix.GetLength(1); j++, isPrime = true)
+                {
+                    if (matrix[i, j] == 0)
+                        continue;
                     for (int k = 2; k < matrix[i, j]; k++)
                     {
-                        if (matrix[i, j] % k == 0)
+                        if (matrix[i, j] == 1 || matrix[i, j] == 2)
+                        {
                             break;
-                        count++;
+                        }
+                        if (matrix[i, j] % k == 0)
+                        {
+                            isPrime = false;
+                            break;
+                        }
                     }
+                    if (isPrime)
+                        count++;
+                }
             return count;
         }
 
@@ -392,14 +418,27 @@ namespace MatrixGenerator
         public int SumPrimeNumbers()
         {
             int sum = 0;
-            for (int i = 0; i < matrix.GetLength(0); i++)
-                for (int j = 0; j < matrix.GetLength(1); j++)
+            bool isPrime = true;
+            for (int i = 0; i < matrix.GetLength(0); i++, isPrime = true)
+                for (int j = 0; j < matrix.GetLength(1); j++, isPrime = true)
+                {
+                    if (matrix[i, j] == 0)
+                        continue;
                     for (int k = 2; k < matrix[i, j]; k++)
                     {
-                        if (matrix[i, j] % k == 0)
+                        if (matrix[i, j] == 1 || matrix[i, j] == 2)
+                        {
                             break;
-                        sum += matrix[i, j];
+                        }
+                        if (matrix[i, j] % k == 0)
+                        {
+                            isPrime = false;
+                            break;
+                        }
                     }
+                    if (isPrime)
+                        sum += matrix[i, j];
+                }
             return sum;
         }
 

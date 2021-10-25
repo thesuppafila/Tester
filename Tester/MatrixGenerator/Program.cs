@@ -15,6 +15,7 @@ namespace MatrixGenerator
             LoadTaskTypes();
             LoadMatrix();
             Output();
+            OutputTasks();
         }
 
         static void LoadTaskTypes()
@@ -23,7 +24,6 @@ namespace MatrixGenerator
             foreach (TaskType type in Enum.GetValues(typeof(TaskType)))
             {
                 taskTypes[index] = type;
-                Console.WriteLine(String.Format("{0} -> {1}", index, taskTypes[index]));
                 index++;
             }
         }
@@ -54,11 +54,25 @@ namespace MatrixGenerator
 
         static void OutputTasks()
         {
-            DirectoryInfo directoryInfo = Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\output\");
+            List<Task> tasks = new List<Task>();
+
             for (int i = 0; i < taskTypes.Count; i++)
-                using (StreamWriter sw = new StreamWriter(directoryInfo.FullName + (i + 1).ToString() + ".out"))
+                tasks.Add(GetTask(i));
+
+            DirectoryInfo taskAnswersDirInfo = Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\output\answers\");
+            for (int i = 0; i < tasks.Count; i++)
+                using (StreamWriter sw = new StreamWriter(taskAnswersDirInfo.FullName + (i + 1).ToString() + ".out"))
                 {
-                    sw.WriteLine(GetTask(i).answer);
+                    sw.WriteLine(tasks[i].answer);
+                    sw.Close();
+                }
+
+
+            DirectoryInfo tasksTextDirInfo = Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\output\tasks\");
+            for (int i = 0; i < tasks.Count; i++)
+                using (StreamWriter sw = new StreamWriter(tasksTextDirInfo.FullName + (i + 1).ToString() + ".out"))
+                {
+                    sw.WriteLine(tasks[i]);
                     sw.Close();
                 }
         }
@@ -74,5 +88,6 @@ namespace MatrixGenerator
                 sw.Close();
             }
         }
+
     }
 }
