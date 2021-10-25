@@ -32,6 +32,12 @@ namespace MatrixGenerator
             return rm.GetString(((TaskType)taskNumber).ToString());
         }
 
+        public string GetBody(int taskNumber)
+        {
+            ResourceManager rm = new ResourceManager("MatrixGenerator.Properties.Resources", Assembly.GetExecutingAssembly());
+            return rm.GetString(((TaskType)taskNumber).ToString());
+        }
+
         public int GetAnswer()
         {
             Solver solver = new Solver(matrix);
