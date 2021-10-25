@@ -78,7 +78,7 @@ namespace TicketGenerator
 
             if (curPoint.type == Node.Type.Operator)
             {
-                curPoint.value = RandomLogicOperator();
+                curPoint.value = RandomOperator();
             }
             else if (curPoint.type == Node.Type.Variable)
             {
@@ -93,9 +93,9 @@ namespace TicketGenerator
             return Tree.GetValue();
         }
 
-        static string RandomLogicOperator()
+        static string RandomOperator()
         {
-            string[] operators = new string[] { "<<", ">>", "&", "^", "|" };
+            string[] operators = new string[] { "<<", ">>", "&", "^", "|", "+", "-"};
             return operators[random.Next(0, operators.Length)];
         }
 

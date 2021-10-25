@@ -58,9 +58,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Model\Package.cs" />
+    <Compile Include="ViewModel\ExpEditViewModel.cs" />
     <Compile Include="ViewModel\ExpressionsViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\TicketBuilderViewModel.cs" />
+    <Compile Include="View\ExpEditView.xaml.cs">
+      <DependentUpon>ExpEditView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ExpressionsView.xaml.cs">
       <DependentUpon>ExpressionsView.xaml</DependentUpon>
     </Compile>
@@ -82,6 +86,10 @@
     <Page Include="Theme\MenuButtonTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ExpEditView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ExpressionsView.xaml">
       <SubType>Designer</SubType>
@@ -151,6 +159,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\MatrixGenerator\MatrixGenerator.csproj">
+      <Project>{E9C9B2DA-CB3F-4F9F-9FC4-5153F6AB7D0C}</Project>
+      <Name>MatrixGenerator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Tester\Tester.csproj">
       <Project>{078ed298-4931-46c9-83f4-33051d897c47}</Project>
       <Name>Tester</Name>

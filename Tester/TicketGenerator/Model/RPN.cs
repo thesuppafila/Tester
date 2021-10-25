@@ -64,6 +64,10 @@ namespace TicketGenerator
                         case "&": result = a & b; break;
                         case "^": result = a ^ b; break;
                         case "|": result = a | b; break;
+                        case "+": result = a + b; break;
+                        case "-": result = a - b; break;
+                        case "/": result = a / b; break;
+                        case "*": result = a * b; break;
                     }
                     temp.Push(Convert.ToString(result)); //Результат вычисления записываем обратно в стек
                 }

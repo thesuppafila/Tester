@@ -16,6 +16,7 @@ using Word = Microsoft.Office.Interop.Word;
 using Microsoft.Office.Interop.Word;
 using Section = Microsoft.Office.Interop.Word.Section;
 using System.Collections.ObjectModel;
+using MatrixGenerator;
 
 namespace TicketGenerator.ViewModel
 {
@@ -82,13 +83,16 @@ namespace TicketGenerator.ViewModel
                     var expNumber = random.Next(0, Expressions.Count);
                     Microsoft.Office.Interop.Word.Paragraph para1 = mainDoc.Content.Paragraphs.Add();
                     para1.Range.Font.Name = "times new roman";
-                    para1.Range.Font.Size = 16;
+                    para1.Range.Font.Size = 12;
                     para1.Range.Text = "Вариант " + i.ToString();
                     para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphCenter;
                     para1.Range.InsertParagraphAfter();
+                    para1.Space1();
+                    para1.SpaceAfter = 0;
 
-                    AddExample(ref mainDoc);
+                    //AddExample(ref mainDoc);
                     AddTask(ref mainDoc, Expressions[expNumber]);
+                    AddMatrix(ref mainDoc, Generator.GetBody(random.Next(0, 30)));                    
                     mainDoc.Words.Last.InsertBreak(Word.WdBreakType.wdPageBreak);
 
                     Microsoft.Office.Interop.Word.Paragraph para2 = keyDoc.Content.Paragraphs.Add();
@@ -100,7 +104,7 @@ namespace TicketGenerator.ViewModel
                     Microsoft.Office.Interop.Word.Paragraph para3 = keyDoc.Content.Paragraphs.Add();
                     para3.Range.Font.Name = "times new roman";
                     para3.Range.Font.Size = 14;
-                    para3.Range.Text = "Задание 2: " + Expressions[expNumber].Solve;
+                    para3.Range.Text = "Задание 1: " + Expressions[expNumber].Solve;
                     para3.Range.InsertParagraphAfter();
                 }
 
@@ -117,21 +121,21 @@ namespace TicketGenerator.ViewModel
         {
             Microsoft.Office.Interop.Word.Paragraph para1 = document.Content.Paragraphs.Add();
             para1.Range.Font.Name = "times new roman";
-            para1.Range.Font.Size = 16;
+            para1.Range.Font.Size = 12;
             para1.Range.Text = "Задание 1.";
             para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphJustify;
             para1.Range.InsertParagraphAfter();
 
             Microsoft.Office.Interop.Word.Paragraph para2 = document.Content.Paragraphs.Add();
             para2.Range.Font.Name = "times new roman";
-            para2.Range.Font.Size = 16;
+            para2.Range.Font.Size = 12;
             para2.Range.Text = "Вычислить значение t, используя тип операндов byte и операции языка C#. Ответ представить в виде десятичного числа.";
             para2.Range.InsertParagraphAfter();
 
             Word.Table taskTable = document.Tables.Add(para1.Range, 1, 1);
             taskTable.Borders.Enable = 1;
             taskTable.Range.Font.Name = "Consolas";
-            taskTable.Range.Font.Size = 16;
+            taskTable.Range.Font.Size = 12;
             taskTable.Range.Text = "x = 8\ny = 2\nz = 1\nt = x | y << (z ^ x)";
         }
 
@@ -139,22 +143,38 @@ namespace TicketGenerator.ViewModel
         {
             Microsoft.Office.Interop.Word.Paragraph para1 = document.Content.Paragraphs.Add();
             para1.Range.Font.Name = "times new roman";
-            para1.Range.Font.Size = 16;
-            para1.Range.Text = "\nЗадание 2.";
+            para1.Range.Font.Size = 12;
+            para1.Range.Text = "Задание 1.";
             para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphJustify;
             para1.Range.InsertParagraphAfter();
 
             Microsoft.Office.Interop.Word.Paragraph para2 = document.Content.Paragraphs.Add();
             para2.Range.Font.Name = "times new roman";
-            para2.Range.Font.Size = 16;
+            para2.Range.Font.Size = 12;
             para2.Range.Text = "Вычислить значение t, используя " + exp.CountOfRanks + "-разрядный тип операндов и операции языка C#. Ответ представить в виде десятичного числа.";
             para2.Range.InsertParagraphAfter();
 
             Word.Table taskTable = document.Tables.Add(para1.Range, 1, 1);
             taskTable.Borders.Enable = 1;
             taskTable.Range.Font.Name = "Consolas";
-            taskTable.Range.Font.Size = 16;
+            taskTable.Range.Font.Size = 12;
             taskTable.Range.Text = exp.TaskText;
+        }
+
+        private void AddMatrix(ref _Document document, string matrixText)
+        {
+            Microsoft.Office.Interop.Word.Paragraph para1 = document.Content.Paragraphs.Add();
+            para1.Range.Font.Name = "times new roman";
+            para1.Range.Font.Size = 12;
+            para1.Range.Text = "\nЗадание 2.";
+            para1.Range.ParagraphFormat.Alignment = Microsoft.Office.Interop.Word.WdParagraphAlignment.wdAlignParagraphJustify;
+            para1.Range.InsertParagraphAfter();
+
+            Microsoft.Office.Interop.Word.Paragraph para2 = document.Content.Paragraphs.Add();
+            para2.Range.Font.Name = "times new roman";
+            para2.Range.Font.Size = 12;
+            para2.Range.Text = matrixText;
+            para2.Range.InsertParagraphAfter();
         }
     }
 }
