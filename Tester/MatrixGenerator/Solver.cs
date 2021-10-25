@@ -69,7 +69,7 @@ namespace MatrixGenerator
         {
             int counter = 0;
             for (int i = 0; i < matrix.GetLength(0); i++)
-                for (int j = 1; j < matrix.GetLength(1); j += 2)
+                for (int j = 0; j < matrix.GetLength(1); j += 2)
                     if (matrix[i, j] % 2 == 0)
                         counter++;
             return counter;
@@ -110,7 +110,7 @@ namespace MatrixGenerator
             int min = int.MaxValue;
             for (int i = 0; i < matrix.GetLength(0); i++)
                 if (matrix[i, matrix.GetLength(0) - 1 - i] < min)
-                    min = matrix[i, i];
+                    min = matrix[i, matrix.GetLength(0) - 1 - i];
             return min;
         }
 
@@ -190,14 +190,23 @@ namespace MatrixGenerator
 
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
-                for (int j = 2; j < matrix[i, i] - 1; j++)
+                for (int j = 2; j < matrix[i, i]; j++)
                 {
+                    if(matrix[i,i] == 1 || matrix[i,i] == 2)
+                    {
+                        main += matrix[i, i];
+                        break;
+                    }
                     if (matrix[i, i] % j == 0)
                         break;
-                    main += matrix[i, i];
                 }
                 for (int j = 2; j < matrix[i, matrix.GetLength(0) - 1 - i] - 1; j++)
                 {
+                    if (matrix[i, matrix.GetLength(0) - 1 - i] % j == 0)
+                    {
+                        side += matrix[i, matrix.GetLength(0) - 1 - i];
+                        break;
+                    }
                     if (matrix[i, matrix.GetLength(0) - 1 - i] % j == 0)
                         break;
                     side += matrix[i, matrix.GetLength(0) - 1 - i];
@@ -304,7 +313,7 @@ namespace MatrixGenerator
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
                 int max = int.MinValue;
-                for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+                for (int j = 0; j < matrix.GetLength(1); j++)
                     if (matrix[j, i] > max)
                     {
                         max = matrix[j, i];
@@ -339,13 +348,13 @@ namespace MatrixGenerator
 
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
-                int min = int.MaxValue;
-                for (int j = 0; j < matrix.GetLength(1) - 1; j++)
-                    if (matrix[i, j] < min)
+                int max = int.MinValue;
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                    if (matrix[i, j] > max)
                     {
-                        min = matrix[i, j];
+                        max = matrix[i, j];
                     }
-                sum += min;
+                sum += max;
             }
             return sum;
         }
@@ -413,7 +422,7 @@ namespace MatrixGenerator
         {
             int count = 0;
             int element;
-            for (int i = 1; i < matrix.GetLength(0); i++)
+            for (int i = 0; i < matrix.GetLength(0); i++)
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
                     int oneCount = 0;
@@ -424,7 +433,7 @@ namespace MatrixGenerator
                             oneCount++;
                         element /= 2;
                     }
-                    if (oneCount < 4)
+                    if (oneCount < 3)
                         count++;
                 }
             return count;
@@ -435,7 +444,7 @@ namespace MatrixGenerator
         {
             int count = 0;
             int element;
-            for (int i = 1; i < matrix.GetLength(0); i++)
+            for (int i = 0; i < matrix.GetLength(0); i++)
                 for (int j = 0; j < matrix.GetLength(1); j++)
                 {
                     int oneCount = 0;
