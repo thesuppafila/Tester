@@ -64,7 +64,7 @@ namespace TicketGenerator
                         case "&": result = a & b; break;
                         case "^": result = a ^ b; break;
                         case "|": result = a | b; break;
-                        case "+": result = a + b; break;
+                        case "+": if ((a + b) >= Math.Pow(2, rankCount)) result =(int)Math.Pow(2, rankCount) - 1; else result = a + b; break;
                         case "-": result = a - b; break;
                         case "/": result = a / b; break;
                         case "*": result = a * b; break;

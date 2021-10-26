@@ -92,7 +92,7 @@ namespace TicketGenerator.ViewModel
 
                     //AddExample(ref mainDoc);
                     AddTask(ref mainDoc, Expressions[expNumber]);
-                    AddMatrix(ref mainDoc, Generator.GetBody(random.Next(0, 30)));                    
+                    AddMatrix(ref mainDoc, Generator.GetBody((i - 1) % 30));
                     mainDoc.Words.Last.InsertBreak(Word.WdBreakType.wdPageBreak);
 
                     Microsoft.Office.Interop.Word.Paragraph para2 = keyDoc.Content.Paragraphs.Add();
